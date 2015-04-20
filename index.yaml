@@ -1,0 +1,11 @@
+indexes:
+
+- kind: Email
+  ancestor: yes
+  properties:
+  - name: email
+    direction: asc
+  - name: campaign_id
+    direction: asc
+  - name: input_date
+    direction: asc
