@@ -6,11 +6,11 @@ import webapp2
 import urllib2
 
 
-from google.appengine.api import mail
+from google.appengine.api.mail import Attachment
 
 
 from app.models.email_model import Email
-from app.mailers.email import MailingTool
+from app.mailers.mail_client import EmailClient
 
 
 class Formulario(webapp2.RequestHandler):
@@ -33,13 +33,11 @@ class Formulario(webapp2.RequestHandler):
         subject = self.request.get('subject')
         htmlBody = self.request.get('htmlBody')
         attach = self.request.POST.get('attach', None)
-        att = mail.Attachment(attach.filename, attach.file.read())
-        # self.response.write(attach.file.read())
-        mail.send_mail(
-            sender='crojas@azurian.com',
+        att = Attachment(attach.filename, attach.file.read())
+        new_mail = EmailClient()
+        new_mail.create_mail(
             to=email,
             subject=subject,
-            body='',
             html=htmlBody,
             attachments=att
         )
@@ -57,8 +55,8 @@ class InputEmailHandler(webapp2.RequestHandler):
         attach = self.request.POST.getall('attach')
         files = []
         for att in attach:
-            files.append(mail.Attachment(att.filename, att.file.read()))
-        
+            files.append(Attachment(att.filename, att.file.read()))
+
         if (campaign_id and email and subject and htmlBody):
             o_mail = Email()
             o_mail.campaign_id = campaign_id
@@ -66,11 +64,10 @@ class InputEmailHandler(webapp2.RequestHandler):
             o_mail.subject = subject
             o_mail.htmlBody = htmlBody
             o_mail.put()
-            mail.send_mail(
-                sender='crojas@azurian.com',
+            new_mail = EmailClient()
+            new_mail.create_mail(
                 to=o_mail.email,
                 subject=o_mail.subject,
-                body='',
                 html=o_mail.htmlBody,
                 attachments=files
             )
