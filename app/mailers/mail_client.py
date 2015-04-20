@@ -5,7 +5,7 @@
 from google.appengine.api import mail
 
 
-class MailingTool(object):
+class EmailClient(object):
 
     def create_mail(self, to, subject, htmlBody, attachments):
 
