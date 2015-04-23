@@ -19,4 +19,4 @@ class EmailTrackHandler(webapp2.RequestHandler):
 		if result:
 			o_email.email_add_count(result)
 		else:
-			self.response.write('Datos no existe')
+			self.response.write('Datos no existentes')
