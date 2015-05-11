@@ -2,12 +2,11 @@
 #!/usr/bin/env python
 
 
-from google.appengine.api import mail
+from sendgrid import SendGridClient
+from sendgrid import Mail
 
 
 class EmailClient(object):
 
     def create_mail(self, to, subject, html, attachments):
-
-        mail.send_mail(sender='crojas@azurian.com', to=to,
-                       subject=subject, body='', html=html, attachments=attachments)
+    	pass
