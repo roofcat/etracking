@@ -5,12 +5,13 @@
 from google.appengine.ext import ndb
 
 
-class Email(ndb.Model):
+class EmailModel(ndb.Model):
 
     # campos basicos
     input_date = ndb.DateTimeProperty(auto_now_add=True)
     campaign_id = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
+    full_name = ndb.StringProperty(required=False)
     subject = ndb.StringProperty(required=True)
     htmlBody = ndb.TextProperty(required=True)
     # capos de processed
@@ -24,7 +25,7 @@ class Email(ndb.Model):
     delivered_event = ndb.StringProperty()
     delivered_sg_event_id = ndb.StringProperty()
     delivered_sg_message_id = ndb.StringProperty()
-    delivered_response = ndb.StringProperty()
+    delivered_response = ndb.TextProperty()
     # campos open
     opened_date = ndb.DateTimeProperty()
     opened_event = ndb.StringProperty()
@@ -54,7 +55,7 @@ class Email(ndb.Model):
         Retorna el objeto deseado en base a id campaña y el email
         para su posterior manipulación
         """
-        return Email.query(ndb.AND(Email.email == email, Email.campaign_id == campaign_id)).get()
+        return EmailModel.query(ndb.AND(EmailModel.email == email, EmailModel.campaign_id == campaign_id)).get()
 
     def email_add_count(self, data):
         """
