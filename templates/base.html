@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/styles.css">
+	{% block stylesheets %}{% endblock %}
+	<title>Azurian - {% block title %}{% endblock %}</title>
+</head>
+<body>
+
+	<div class="header">
+	    <div class="navbar navbar-default" role="navigation">
+	        <div class="container">
+	          	<div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="/" style="color:#FFFFFF">Azurian DTE</a>
+	          	</div>
+				<div class="collapse navbar-collapse" id="js-navbar-collapse">
+					<ul class="nav navbar-nav">
+					  	<li><a href="/">Inicio</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ data.email }}<b class="caret"></b></a>
+					        <ul class="dropdown-menu">
+					          	<li><a href="/revoke"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+					        </ul>
+					  	</li>
+					</ul>
+				</div>
+	        </div>
+	    </div>
+    </div>
+
+	<div class="container">
+		{% block content %} {% endblock %}
+	</div>
+
+	<div class="footer">
+		<footer>
+			<p align="center"><span class="glyphicon glyphicon-copyright-mark" ></span><a href="http://www.azurian.com" target="_blank" style="color:#FFFFFF"> Azurian Tecnología Ltda 2015</a></p>
+		</footer>
+	</div>
+
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	{% block javascript %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,68 @@
+html, body {
+	font-family: 'Open Sans', sans-serif;
+}
+.navbar-default {
+	background: #548;
+	border: 0;
+}
+.navbar-default .navbar-nav>li>a {
+	color: #fff;
+	font-size: 16px;
+}
+.navbar-default .navbar-nav>li>a:hover {
+	background: #6652A3;
+	color: #fff;
+}
+
+.btn-success {
+	background: #548;
+	border-color: #548;
+}
+
+.btn-right {
+	float: right;
+	position: relative;
+	bottom: 3em;
+	right: 3em;
+	margin-bottom: 20px;
+}
+
+.responsive-table {
+	display: block;
+	height: 500px;
+	overflow-y: auto;
+}
+
+th {
+	background: #548;
+	color: #fff;
+}
+
+tbody {
+	odd: #A9A9F5;
+	color: #548;
+}
+
+h2 {
+	color: #548;
+}
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding-top: 20px;
+	padding-bottom: 30px;
+	background: #548;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.sidebar {
+	position: fixed;
+	top: 51px;
+	left: 0;
+	bottom: 0;
+	display: block;
+	overflow-x; hidden;
+	overflow-y; auto;
+	background-color: #f1f1f1;
+}

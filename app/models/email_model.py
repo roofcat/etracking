@@ -8,7 +8,9 @@ from google.appengine.ext import ndb
 class EmailModel(ndb.Model):
 
     # campos basicos
-    input_date = ndb.DateTimeProperty(auto_now_add=True)
+    input_datetime = ndb.DateTimeProperty(auto_now_add=True)
+    input_date = ndb.DateProperty(auto_now_add=True)
+    input_time = ndb.TimeProperty(auto_now_add=True)
     campaign_id = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     full_name = ndb.StringProperty(required=False)
@@ -27,7 +29,8 @@ class EmailModel(ndb.Model):
     delivered_sg_message_id = ndb.StringProperty()
     delivered_response = ndb.TextProperty()
     # campos open
-    opened_date = ndb.DateTimeProperty()
+    opened_first_date = ndb.DateTimeProperty()
+    opened_last_date = ndb.DateTimeProperty()
     opened_event = ndb.StringProperty()
     opened_ip = ndb.StringProperty()
     opened_user_agent = ndb.StringProperty()
@@ -63,3 +66,7 @@ class EmailModel(ndb.Model):
         """
         data.opened_count = data.opened_count + 1
         data.put()
+
+    def get_all_emails(self):
+
+        return EmailModel.query().fetch()
