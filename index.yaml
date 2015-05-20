@@ -9,5 +9,3 @@ indexes:
     direction: asc
   - name: input_date
     direction: asc
-  - name: smtp_id
-    direction: asc

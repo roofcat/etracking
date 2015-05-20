@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
 
@@ -22,5 +22,5 @@ class HomePanelHandler(webapp2.RequestHandler):
 		    }
 		    template = JINJA_ENVIRONMENT.get_template('panel/index.html')
 		    self.response.write(template.render(context))
-		except Exception:
+		except:
 			self.redirect('/')

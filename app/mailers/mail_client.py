@@ -1,4 +1,4 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
 
@@ -32,6 +32,12 @@ class EmailClient(object):
         self.message.set_subject(subject)
         self.message.set_html(html)
         self.message.add_unique_arg('campaign_id', campaign_id)
+        if not file1 == None:
+            self.message.add_attachment_stream(file1['name'], file1['data'])
+        if not file2 == None:
+            self.message.add_attachment_stream(file2['name'], file2['data'])
+        if not file3 == None:
+            self.message.add_attachment_stream(file3['name'], file3['data'])
         # enviando el mail
         status, msg = self.sg.send(self.message)
         # imprimiendo respuesta
