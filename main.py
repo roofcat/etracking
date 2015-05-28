@@ -7,7 +7,7 @@ import webapp2
 
 from app.controllers.dteinput_controller import InputEmailHandler
 from app.controllers.dteinput_controller import InputEmailQueueHandler
-from app.controllers.sendgrid_webhook import SendrigWebhookHandler
+from app.controllers.webhook_controller import SendrigWebhookHandler
 from app.controllers.test import TestHandler
 from app.controllers.oauth_controller import AuthHandler
 from app.controllers.oauth_controller import RevokeHandler

@@ -6,7 +6,6 @@ from google.appengine.ext import ndb
 
 
 class EmailModel(ndb.Model):
-
     # campos basicos
     input_datetime = ndb.DateTimeProperty(auto_now_add=True)
     input_date = ndb.DateProperty(auto_now_add=True)
@@ -16,6 +15,10 @@ class EmailModel(ndb.Model):
     full_name = ndb.StringProperty(required=False)
     subject = ndb.StringProperty(required=True)
     htmlBody = ndb.TextProperty(required=True)
+    # adjuntos
+    attach1 = ndb.BlobProperty(default=None)
+    attach2 = ndb.BlobProperty(default=None)
+    attach3 = ndb.BlobProperty(default=None)
     # capos de processed
     smtp_id = ndb.StringProperty()
     procesed_date = ndb.DateTimeProperty()
@@ -39,7 +42,6 @@ class EmailModel(ndb.Model):
     opened_count = ndb.IntegerProperty(default=0)
     # campos dropped
     dropped_date = ndb.DateTimeProperty()
-    dropped_status = ndb.StringProperty()
     dropped_sg_event_id = ndb.StringProperty()
     dropped_sg_message_id = ndb.StringProperty()
     dropped_reason = ndb.StringProperty()
@@ -52,6 +54,12 @@ class EmailModel(ndb.Model):
     bounce_reason = ndb.TextProperty()
     bounce_status = ndb.StringProperty()
     bounce_type = ndb.StringProperty()
+    # campos unscribes
+    unsubscribe_date = ndb.DateTimeProperty()
+    unsubscribe_uid = ndb.StringProperty()
+    unsubscribe_purchase = ndb.StringProperty()
+    unsubscribe_id = ndb.StringProperty()
+    unsubscribe_event = ndb.StringProperty()
 
     def search_email(self, email, campaign_id):
         """ 
@@ -66,7 +74,3 @@ class EmailModel(ndb.Model):
         """
         data.opened_count = data.opened_count + 1
         data.put()
-
-    def get_all_emails(self):
-
-        return EmailModel.query().fetch()

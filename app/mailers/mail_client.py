@@ -25,7 +25,6 @@ class EmailClient(object):
         self.message.set_from_name(SG_FROM_NAME)
 
     def send_sg_email(self, to, to_name, subject, html, campaign_id, file1=None, file2=None, file3=None):
-
         # valores de envío
         self.message.add_to(to)
         self.message.add_to_name(to_name)
@@ -41,5 +40,5 @@ class EmailClient(object):
         # enviando el mail
         status, msg = self.sg.send(self.message)
         # imprimiendo respuesta
-        # logging.info(status)
-        # logging.info(msg)
+        logging.info(status)
+        logging.info(msg)

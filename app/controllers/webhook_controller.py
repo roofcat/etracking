@@ -28,9 +28,9 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
             """
             logging.info(request_body)
 
-            event = body['event']
-            email = body['email']
-            campaign_id = body['campaign_id']
+            event = str(body['event'])
+            email = str(body['email'])
+            campaign_id = str(body['campaign_id'])
 
             logging.info(event)
 
@@ -95,7 +95,6 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                         email_model.smtp_id = body['smtp-id']
                         email_model.dropped_date = datetime.datetime.fromtimestamp(
                             body['timestamp'])
-                        email_model.dropped_status = body['status']
                         email_model.dropped_sg_event_id = body['sg_event_id']
                         email_model.dropped_sg_message_id = body[
                             'sg_message_id']
@@ -120,6 +119,16 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                         email_model.bounce_status = body['status']
                         email_model.bounce_type = body['type']
                         email_model.put()
+                elif event == 'unsubscribe':
+                    e = EmailModel()
+                    email_model = e.search_email(email, campaign_id)
 
+                    if not email_model == None:
+                        email_model.unsubscribe_date = body['timestamp']
+                        email_model.unsubscribe_uid = body['uid']
+                        email_model.unsubscribe_purchase = body['purchase']
+                        email_model.unsubscribe_id = body['id']
+                        email_model.unsubscribe_event = body['event']
+                        email_model.put()
             else:
                 logging.info('body con campos vacios')
