@@ -5,20 +5,24 @@
 from google.appengine.ext import ndb
 
 
+class AttachModel(ndb.Model):
+    name = ndb.StringProperty()
+    attach = ndb.BlobProperty()
+
+
 class EmailModel(ndb.Model):
     # campos basicos
     input_datetime = ndb.DateTimeProperty(auto_now_add=True)
     input_date = ndb.DateProperty(auto_now_add=True)
     input_time = ndb.TimeProperty(auto_now_add=True)
+    enterprise = ndb.StringProperty(required=True)
     campaign_id = ndb.StringProperty(required=True)
     email = ndb.StringProperty(required=True)
     full_name = ndb.StringProperty(required=False)
     subject = ndb.StringProperty(required=True)
     htmlBody = ndb.TextProperty(required=True)
     # adjuntos
-    attach1 = ndb.BlobProperty(default=None)
-    attach2 = ndb.BlobProperty(default=None)
-    attach3 = ndb.BlobProperty(default=None)
+    attachs = ndb.StructuredProperty(AttachModel, repeated=True)
     # capos de processed
     smtp_id = ndb.StringProperty()
     procesed_date = ndb.DateTimeProperty()
@@ -61,12 +65,16 @@ class EmailModel(ndb.Model):
     unsubscribe_id = ndb.StringProperty()
     unsubscribe_event = ndb.StringProperty()
 
-    def search_email(self, email, campaign_id):
+    def search_email(self, enterprise, email, campaign_id):
         """ 
         Retorna el objeto deseado en base a id campaña y el email
         para su posterior manipulación
         """
-        return EmailModel.query(ndb.AND(EmailModel.email == email, EmailModel.campaign_id == campaign_id)).get()
+        return EmailModel.query(ndb.AND(
+                EmailModel.enterprise == enterprise,
+                EmailModel.email == email,
+                EmailModel.campaign_id == campaign_id
+            )).get()
 
     def email_add_count(self, data):
         """

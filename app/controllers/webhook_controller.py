@@ -31,6 +31,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
             event = str(body['event'])
             email = str(body['email'])
             campaign_id = str(body['campaign_id'])
+            enterprise = str(body['enterprise'])
 
             logging.info(event)
 
@@ -39,7 +40,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                 if event == 'processed':
                     # instanciar objeto EmailModel
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         email_model.smtp_id = body['smtp-id']
@@ -54,7 +55,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                 elif event == 'delivered':
                     # instanciar objeto EmailModel
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         email_model.smtp_id = body['smtp-id']
@@ -70,7 +71,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                 elif event == 'open':
                     # instanciar objeto EmailModel
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         if email_model.opened_first_date == None:
@@ -89,7 +90,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                 elif event == 'dropped':
                     # instanciar objeto EmailModel
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         email_model.smtp_id = body['smtp-id']
@@ -105,7 +106,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                 elif event == 'bounce':
                     # instanciar objeto EmailModel
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         email_model.smtp_id = body['smtp-id']
@@ -121,7 +122,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                         email_model.put()
                 elif event == 'unsubscribe':
                     e = EmailModel()
-                    email_model = e.search_email(email, campaign_id)
+                    email_model = e.search_email(enterprise, email, campaign_id)
 
                     if not email_model == None:
                         email_model.unsubscribe_date = body['timestamp']

@@ -24,19 +24,18 @@ class EmailClient(object):
         self.message.set_from(SG_FROM)
         self.message.set_from_name(SG_FROM_NAME)
 
-    def send_sg_email(self, to, to_name, subject, html, campaign_id, file1=None, file2=None, file3=None):
+    def send_sg_email(self, to, to_name, subject, html, campaign_id, enterprise, attachs=None):
         # valores de envío
         self.message.add_to(to)
         self.message.add_to_name(to_name)
         self.message.set_subject(subject)
         self.message.set_html(html)
-        self.message.add_unique_arg('campaign_id', campaign_id)
-        if not file1 == None:
-            self.message.add_attachment_stream(file1['name'], file1['data'])
-        if not file2 == None:
-            self.message.add_attachment_stream(file2['name'], file2['data'])
-        if not file3 == None:
-            self.message.add_attachment_stream(file3['name'], file3['data'])
+        #self.message.add_unique_arg('campaign_id', campaign_id)
+        self.message.set_unique_args({'campaign_id': campaign_id, 'enterprise': enterprise})
+        # Validacion de adjuntos
+        if not attachs == None:
+            for att in attachs:
+                self.message.add_attachment_stream(att.name, att.attach)
         # enviando el mail
         status, msg = self.sg.send(self.message)
         # imprimiendo respuesta
