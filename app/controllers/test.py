@@ -4,6 +4,9 @@
 
 import webapp2
 import json
+import logging
+import base64
+import re
 
 
 from app.models.email_model import EmailModel
@@ -27,3 +30,17 @@ class TestHandler(webapp2.RequestHandler):
 			'total_bounce': total_bounce,
 		}
 		self.response.write(json.dumps(context))
+
+
+class TestInputWithUserAndPassword(webapp2.RequestHandler):
+
+	def get(self):
+		logging.info(self.request.headers)
+		logging.info(self.request.body)
+		headers = self.request.headers
+		auth = headers['Authorization']
+		logging.info(auth)
+		auth = re.sub('^Basic ', '', auth)
+		user, password = base64.decodestring(auth).split(':')
+		logging.info(user)
+		logging.info(password)

@@ -8,12 +8,13 @@ import webapp2
 from app.controllers.dteinput_controller import InputEmailHandler
 from app.controllers.dteinput_controller import InputEmailQueueHandler
 from app.controllers.webhook_controller import SendrigWebhookHandler
-from app.controllers.test import TestHandler
 from app.controllers.oauth_controller import AuthHandler
 from app.controllers.oauth_controller import RevokeHandler
 from app.controllers.panel_controller import HomePanelHandler
 from app.controllers.errorhandler_controller import handle_404
 from app.controllers.errorhandler_controller import handle_500
+from app.controllers.test import TestHandler
+from app.controllers.test import TestInputWithUserAndPassword
 from config.oauth2_utils import decorator
 
 
@@ -25,6 +26,7 @@ app = webapp2.WSGIApplication([
     ('/inputqueue', InputEmailQueueHandler),
     ('/webhook', SendrigWebhookHandler),
     ('/test', TestHandler),
+    ('/testpass', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], debug=True)
 
