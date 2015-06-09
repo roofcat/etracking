@@ -26,7 +26,7 @@ app = webapp2.WSGIApplication([
     ('/inputqueue', InputEmailQueueHandler),
     ('/webhook', SendrigWebhookHandler),
     ('/test', TestHandler),
-    ('/testpass', TestInputWithUserAndPassword),
+    ('/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], debug=True)
 

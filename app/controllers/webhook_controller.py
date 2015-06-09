@@ -8,7 +8,7 @@ import json
 import datetime
 
 
-from app.models.email_model import EmailModel
+from app.models.email import EmailModel
 
 
 class SendrigWebhookHandler(webapp2.RequestHandler):

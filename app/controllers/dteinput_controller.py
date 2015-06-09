@@ -11,8 +11,8 @@ from google.appengine.api import taskqueue
 from google.appengine.ext import blobstore
 
 
-from app.models.email_model import EmailModel
-from app.models.email_model import AttachModel
+from app.models.email import EmailModel
+from app.models.email import AttachModel
 from app.mailers.mail_client import EmailClient
 
 
