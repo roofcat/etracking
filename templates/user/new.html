@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Nuevo Usuario{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-xs-5 col-md-3">
+		<ul class="nav nav-pills nav-stacked sidebar">
+			<li><a href="">Crear nuevo</a></li>
+		</ul>
+	</div>
+	<div class="col-xs-7 col-md-9">
+		<h3>Nuevo usuario</h3>
+		<form method="POST">
+			<div class="form-group">
+				<input type="text" class="form-control" name="first_name" id="first_name" autofocus placeholder="Nombres" required>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellidos" required>
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" name="email" id="email" placeholder="Correo Electrónico" required>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" name="password1" id="password1" placeholder="Contraseña" required>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" name="password2" id="password2" placeholder="Repetir contraseña" required>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="enterprise" id="enterprise" placeholder="Empresa" required>
+			</div>
+			<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Crear</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+	<script src="/static/js/users/new.js"></script>
+{% endblock %}

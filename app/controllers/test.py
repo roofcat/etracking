@@ -9,7 +9,7 @@ import base64
 import re
 
 
-from app.models.email_model import EmailModel
+from app.models.email import EmailModel
 
 
 class TestHandler(webapp2.RequestHandler):

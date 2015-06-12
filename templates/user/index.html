@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-xs-5 col-md-3">
+		<ul class="nav nav-pills nav-stacked sidebar">
+			<li><a href="/admin/users/new">Crear nuevo usuario</a></li>
+		</ul>
+	</div>
+	<div class="col-xs-7 col-md-9">
+		<div id="piechart"></div>
+	</div>
+</div>
+{% endblock %}
+{% block javascript %}
+	<script src="/static/js/users/index.js"></script>
+{% endblock %}

@@ -9,7 +9,6 @@
 	<title>Azurian - {% block title %}{% endblock %}</title>
 </head>
 <body>
-
 	<div class="header">
 	    <div class="navbar navbar-default" role="navigation">
 	        <div class="container">
@@ -24,7 +23,9 @@
 	          	</div>
 				<div class="collapse navbar-collapse" id="js-navbar-collapse">
 					<ul class="nav navbar-nav">
-					  	<li><a href="/">Inicio</a></li>
+					  	<li><a href="/admin">Inicio</a></li>
+					  	<li><a href="/admin/statistics">Estadísticas</a></li>
+					  	<li><a href="/admin/users">Usuarios</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
@@ -38,17 +39,14 @@
 	        </div>
 	    </div>
     </div>
-
 	<div class="container">
-		{% block content %} {% endblock %}
+		{% block content %}{% endblock %}
 	</div>
-
 	<div class="footer">
 		<footer>
 			<p align="center"><span class="glyphicon glyphicon-copyright-mark" ></span><a href="http://www.azurian.com" target="_blank" style="color:#FFFFFF"> Azurian Tecnología Ltda 2015</a></p>
 		</footer>
 	</div>
-
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>

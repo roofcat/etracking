@@ -23,7 +23,7 @@ class AuthHandler(webapp2.RequestHandler):
 		    template = JINJA_ENVIRONMENT.get_template('auth.html')
 		    self.response.write(template.render(context))
 		else:
-			self.redirect('/home')
+			self.redirect('/admin')
 
 
 class RevokeHandler(webapp2.RequestHandler):
