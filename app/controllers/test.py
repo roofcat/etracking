@@ -16,7 +16,7 @@ class TestHandler(webapp2.RequestHandler):
 
 	def get(self):
 		total_count = len(EmailModel.query().fetch())
-		total_processed = len(EmailModel.query(EmailModel.procesed_event == 'processed').fetch())
+		total_processed = len(EmailModel.query(EmailModel.processed_event == 'processed').fetch())
 		total_delivered = len(EmailModel.query(EmailModel.delivered_event == 'delivered').fetch())
 		total_opened = len(EmailModel.query(EmailModel.opened_event == 'open').fetch())
 		total_dropped = len(EmailModel.query(EmailModel.dropped_event == 'dropped').fetch())

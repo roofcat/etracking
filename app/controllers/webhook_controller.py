@@ -44,11 +44,11 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
 
                     if not email_model == None:
                         email_model.smtp_id = body['smtp-id']
-                        email_model.procesed_date = datetime.datetime.fromtimestamp(
+                        email_model.processed_date = datetime.datetime.fromtimestamp(
                             body['timestamp'])
-                        email_model.procesed_event = event
-                        email_model.procesed_sg_event_id = body['sg_event_id']
-                        email_model.procesed_sg_message_id = body[
+                        email_model.processed_event = event
+                        email_model.processed_sg_event_id = body['sg_event_id']
+                        email_model.processed_sg_message_id = body[
                             'sg_message_id']
                         email_model.put()
 

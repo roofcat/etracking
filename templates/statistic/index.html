@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Estadisticas{% endblock %}
+
+{% block content %}
+<div class="row" id="tabs">
+	<div class="col-xs-5 col-md-3">
+		<ul class="nav nav-pills nav-stacked sidebar" role="tablist">
+			<li><a href="#daily">Datos del día</a></li>
+			<li><a href="#weekly">Datos de la última semana</a></li>
+			<li><a href="#biweekly">Datos de los últimos 15 días</a></li>
+			<li><a href="#monthly">Datos de los últimos 30 días</a></li>
+			<li><a href="#custom">Datos personalizados</a></li>
+		</ul>
+	</div>
+	<div class="col-xs-7 col-md-9">
+		<div id="daily">
+			<h3>Estadísticas del día</h3>
+			<div id="dailyGraph"></div>
+		</div>
+		<div id="weekly">
+			<h3>Estadísticas de los últimos 7 días</h3>
+			<div id="weeklyGraph"></div>
+		</div>
+		<div id="biweekly">
+			<h3>Estadísticas de los últimos 15 días</h3>
+			<div id="biweeklyGraph"></div>
+		</div>
+		<div id="monthly">
+			<h3>Estadísticas de los últimos 30 días</h3>
+			<div id="monthlyGraph"></div>
+		</div>
+		<div id="custom">
+			<h3>Estadísticas personalizadas</h3>
+			<div id="customGraph"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block javascript %}
+	<script src="/static/js/statistics/index.js"></script>
+{% endblock %}

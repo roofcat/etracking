@@ -1,5 +1,5 @@
 var today = new Date();
-var url = "http://rastreo-azurian.appspot.com";
+var url = "https://rastreo-azurian.appspot.com";
 
 google.load('visualization', '1.0', {'packages': ['corechart', 'table'], 'language': 'es'});
 

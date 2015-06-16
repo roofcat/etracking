@@ -14,6 +14,8 @@ from app.controllers.webhook_controller import SendrigWebhookHandler
 from app.controllers.oauth_controller import AuthHandler
 from app.controllers.oauth_controller import RevokeHandler
 from app.controllers.admin_controller import AdminHandler
+from app.controllers.statistic_controller import IndexStatisticHandler
+from app.controllers.statistic_controller import GraphStatisticHandler
 from app.controllers.user_controller import UserAdminHandler
 from app.controllers.user_controller import ListUserAdminHandler
 from app.controllers.user_controller import NewUserAdminHandler
@@ -34,20 +36,22 @@ from config.oauth2_utils import decorator
 
 
 app = webapp2.WSGIApplication([
-	('/', HomePanelHandler),
-	('/admin', AdminHandler),
-	('/admin/users', UserAdminHandler),
-	('/admin/users/list', ListUserAdminHandler),
-	('/admin/users/new', NewUserAdminHandler),
+	(r'/', HomePanelHandler),
+	(r'/admin', AdminHandler),
+	(r'/admin/statistics', IndexStatisticHandler),
+	(r'/admin/statistics/stats', GraphStatisticHandler),
+	(r'/admin/users', UserAdminHandler),
+	(r'/admin/users/list', ListUserAdminHandler),
+	(r'/admin/users/new', NewUserAdminHandler),
 
 	#Eliminar token para el admin azurian
-	('/revoke', RevokeHandler),
-	('/home', HomePanelHandler),
-    ('/input', InputEmailHandler),
-    ('/inputqueue', InputEmailQueueHandler),
-    ('/webhook', SendrigWebhookHandler),
-    ('/test', TestHandler),
-    ('/testauth', TestInputWithUserAndPassword),
+	(r'/revoke', RevokeHandler),
+	(r'/home', HomePanelHandler),
+    (r'/input', InputEmailHandler),
+    (r'/inputqueue', InputEmailQueueHandler),
+    (r'/webhook', SendrigWebhookHandler),
+    (r'/test', TestHandler),
+    (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], debug=True)
 
