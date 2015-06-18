@@ -33,7 +33,6 @@ class EmailClient(object):
         self.message.add_to_name(to_name)
         self.message.set_subject(subject)
         self.message.set_html(html)
-        #self.message.add_unique_arg('campaign_id', campaign_id)
         self.message.set_unique_args({'campaign_id': campaign_id, 'enterprise': enterprise})
         # Validacion de adjuntos
         if not attachs == None:
