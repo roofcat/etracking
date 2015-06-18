@@ -28,6 +28,7 @@ from app.controllers.errorhandler_controller import handle_500
 
 # imports para pruebas
 from app.controllers.test import TestHandler
+from app.controllers.test import Test2Handler
 from app.controllers.test import TestInputWithUserAndPassword
 
 
@@ -51,6 +52,7 @@ app = webapp2.WSGIApplication([
     (r'/inputqueue', InputEmailQueueHandler),
     (r'/webhook', SendrigWebhookHandler),
     (r'/test', TestHandler),
+    (r'/test2', Test2Handler),
     (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], debug=True)

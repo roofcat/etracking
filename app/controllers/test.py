@@ -32,6 +32,14 @@ class TestHandler(webapp2.RequestHandler):
 		self.response.write(json.dumps(context))
 
 
+class Test2Handler(webapp2.RequestHandler):
+	def get(self):
+		fallidos = EmailModel.query(EmailModel.processed_event == None).fetch()
+		for f in fallidos:
+			self.response.write(f)
+			self.response.write("<br>----------------------------------------------<br>")
+
+
 class TestInputWithUserAndPassword(webapp2.RequestHandler):
 
 	def get(self):

@@ -16,6 +16,9 @@ from config.sendgrid import SG_FROM
 from config.sendgrid import SG_FROM_NAME
 
 
+from app.models.email import AttachModel
+
+
 class EmailClient(object):
 
     def __init__(self):
@@ -34,7 +37,9 @@ class EmailClient(object):
         self.message.set_unique_args({'campaign_id': campaign_id, 'enterprise': enterprise})
         # Validacion de adjuntos
         if not attachs == None:
-            for att in attachs:
+            for attach in attachs:
+                att = AttachModel.query(ancestor=attach).get()
+                logging.info(att)
                 self.message.add_attachment_stream(att.name, att.attach)
         # enviando el mail
         status, msg = self.sg.send(self.message)

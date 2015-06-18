@@ -4,7 +4,6 @@
 
 import webapp2
 import logging
-import cgi
 
 
 from google.appengine.api import taskqueue
@@ -17,12 +16,10 @@ from app.mailers.mail_client import EmailClient
 
 
 class InputEmailHandler(webapp2.RequestHandler):
-
     """
-    Entrada receptora de datos de email para enviar desde 
+    Entrada receptora de datos de email para enviar desde
     el DTE de Azurian
     """
-
     def post(self):
         enterprise = self.request.get('enterprise')
         campaign_id = self.request.get('campaign_id')
@@ -33,13 +30,10 @@ class InputEmailHandler(webapp2.RequestHandler):
         file1 = self.request.POST.get('file1', None)
         file2 = self.request.POST.get('file2', None)
         file3 = self.request.POST.get('file3', None)
-        logging.info(self.request.headers)
-        logging.info(self.request.body)
         if (enterprise and campaign_id and email and subject and htmlBody):
             # Proceso de creación del objeto email
             my_email = EmailModel()
-            email_result = my_email.search_email(
-                enterprise, email, campaign_id)
+            email_result = my_email.search_email(enterprise, email, campaign_id)
             if email_result == None:
                 try:
                     my_email.enterprise = enterprise
@@ -50,14 +44,14 @@ class InputEmailHandler(webapp2.RequestHandler):
                     my_email.htmlBody = htmlBody
                     # Evaluar adjuntos
                     if not file1 == None:
-                        my_email.attachs.append(
-                            AttachModel(name=file1.filename, attach=file1.file.read()))
+                        att = AttachModel(name=file1.filename, attach=file1.file.read()).put()
+                        my_email.attachs.append(att)
                     if not file2 == None:
-                        my_email.attachs.append(
-                            AttachModel(name=file2.filename, attach=file2.file.read()))
+                        att = AttachModel(name=file2.filename, attach=file2.file.read()).put()
+                        my_email.attachs.append(att)
                     if not file3 == None:
-                        my_email.attachs.append(
-                            AttachModel(name=file3.filename, attach=file3.file.read()))
+                        att = AttachModel(name=file3.filename, attach=file3.file.read()).put()
+                        my_email.attachs.append(att)
                     my_email.put()
                     context = {
                         'enterprise': enterprise,
@@ -69,7 +63,7 @@ class InputEmailHandler(webapp2.RequestHandler):
                     t = taskqueue.Task(url='/inputqueue', params=context)
                     q.add(t)
                     self.response.write({'message': 'success'})
-                except e:
+                except Exception, e:
                     logging.error(e)
             else:
                 logging.info('objeto ya existe')
@@ -85,8 +79,6 @@ class InputEmailQueueHandler(webapp2.RequestHandler):
     """
 
     def post(self):
-        self.response.write("Imprimiendo BODY desde la cola...")
-        logging.info(self.request.body)
         enterprise = self.request.get('enterprise')
         campaign_id = self.request.get('campaign_id')
         email = self.request.get('email')
@@ -94,11 +86,8 @@ class InputEmailQueueHandler(webapp2.RequestHandler):
         if (enterprise, campaign_id, email):
             # Proceso de creación del objeto email
             my_email = EmailModel()
-            email_result = my_email.search_email(
-                enterprise, email, campaign_id)
+            email_result = my_email.search_email(enterprise, email, campaign_id)
             if not email_result == None:
-                logging.info("Imprimiendo email_result... ")
-                logging.info(email_result)
                 # Iniciando el proceso de envío de correo
                 sg_email = EmailClient()
                 sg_email.send_sg_email(
@@ -113,4 +102,4 @@ class InputEmailQueueHandler(webapp2.RequestHandler):
             else:
                 logging.info('Correo no existe')
         else:
-            logging.info("")
+            logging.error("PARAMETROS INCORRECTOS")

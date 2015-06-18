@@ -22,7 +22,8 @@ class EmailModel(ndb.Model):
     subject = ndb.StringProperty(required=True)
     htmlBody = ndb.TextProperty(required=True)
     # adjuntos
-    attachs = ndb.StructuredProperty(AttachModel, repeated=True)
+    #attachs = ndb.StructuredProperty(AttachModel, repeated=True)
+    attachs = ndb.KeyProperty(kind='AttachModel', repeated=True)
     # capos de processed
     smtp_id = ndb.StringProperty()
     processed_date = ndb.DateTimeProperty()
