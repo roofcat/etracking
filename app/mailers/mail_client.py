@@ -38,7 +38,6 @@ class EmailClient(object):
         if not attachs == None:
             for attach in attachs:
                 att = AttachModel.query(ancestor=attach).get()
-                logging.info(att)
                 self.message.add_attachment_stream(att.name, att.attach)
         # enviando el mail
         status, msg = self.sg.send(self.message)
