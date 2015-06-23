@@ -2,7 +2,7 @@ html, body {
 	font-family: 'Open Sans', sans-serif;
 }
 .navbar-default {
-	background: #548;
+	background: #0053A0;
 	border: 0;
 }
 .navbar-default .navbar-nav>li>a {
@@ -10,13 +10,13 @@ html, body {
 	font-size: 16px;
 }
 .navbar-default .navbar-nav>li>a:hover {
-	background: #6652A3;
+	background: #1B22AA;
 	color: #fff;
 }
 
 .btn-success {
-	background: #548;
-	border-color: #548;
+	background: #0053A0;
+	border-color: #0053A0;
 }
 
 .btn-right {
@@ -34,17 +34,17 @@ html, body {
 }
 
 th {
-	background: #548;
+	background: #0053A0;
 	color: #fff;
 }
 
 tbody {
 	odd: #A9A9F5;
-	color: #548;
+	color: #0053A0;
 }
 
 h1, h2, h3 {
-	color: #548;
+	color: #0053A0;
 }
 .footer {
 	position: fixed;
@@ -52,7 +52,7 @@ h1, h2, h3 {
 	width: 100%;
 	padding-top: 20px;
 	padding-bottom: 30px;
-	background: #548;
+	background: #0053A0;
 	color: #FFFFFF;
 	text-decoration: none;
 }

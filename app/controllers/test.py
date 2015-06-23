@@ -35,6 +35,8 @@ class TestHandler(webapp2.RequestHandler):
 class Test2Handler(webapp2.RequestHandler):
 	def get(self):
 		fallidos = EmailModel.query(EmailModel.processed_event == None).fetch()
+		self.response.write(len(fallidos))
+		self.response.write("<br>----------------------------------------------<br>")
 		for f in fallidos:
 			self.response.write(f)
 			self.response.write("<br>----------------------------------------------<br>")

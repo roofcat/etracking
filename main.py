@@ -3,6 +3,7 @@
 
 
 import webapp2
+import webapp2_extras
 
 
 # imports para servicios rest DTE
@@ -20,6 +21,9 @@ from app.controllers.user_controller import UserAdminHandler
 from app.controllers.user_controller import ListUserAdminHandler
 from app.controllers.user_controller import NewUserAdminHandler
 
+# imports para usuarios normales
+from app.controllers.panel_controller import LoginPanelHandler
+from app.controllers.panel_controller import LogoutPanelHandler
 from app.controllers.panel_controller import HomePanelHandler
 
 # manejo de errores
@@ -36,18 +40,27 @@ from app.controllers.test import TestInputWithUserAndPassword
 from config.oauth2_utils import decorator
 
 
-app = webapp2.WSGIApplication([
-	(r'/', HomePanelHandler),
-	(r'/admin', AdminHandler),
-	(r'/admin/statistics', IndexStatisticHandler),
-	(r'/admin/statistics/stats', GraphStatisticHandler),
-	(r'/admin/users', UserAdminHandler),
-	(r'/admin/users/list', ListUserAdminHandler),
-	(r'/admin/users/new', NewUserAdminHandler),
+config = {}
+config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 
-	#Eliminar token para el admin azurian
-	(r'/revoke', RevokeHandler),
-	(r'/home', HomePanelHandler),
+
+app = webapp2.WSGIApplication([
+    # panel usuario clientes
+    (r'/', HomePanelHandler),
+    (r'/login', LoginPanelHandler),
+    (r'/logout', LogoutPanelHandler),
+
+    # panel admin azurian
+    (r'/admin', AdminHandler),
+    (r'/admin/statistics', IndexStatisticHandler),
+    (r'/admin/statistics/stats', GraphStatisticHandler),
+    (r'/admin/users', UserAdminHandler),
+    (r'/admin/users/list', ListUserAdminHandler),
+    (r'/admin/users/new', NewUserAdminHandler),
+
+    # Eliminar token para el admin azurian
+    (r'/revoke', RevokeHandler),
+    (r'/home', HomePanelHandler),
     (r'/input', InputEmailHandler),
     (r'/inputqueue', InputEmailQueueHandler),
     (r'/webhook', SendrigWebhookHandler),
@@ -55,7 +68,7 @@ app = webapp2.WSGIApplication([
     (r'/test2', Test2Handler),
     (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
-], debug=True)
+], config=config, debug=True)
 
-#app.error_handlers[404] = handle_404
-#app.error_handlers[500] = handle_500
+app.error_handlers[404] = handle_404
+app.error_handlers[500] = handle_500

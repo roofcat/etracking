@@ -1,16 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Principal{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+{% endblock %}
+
+{% block title %}Panel Principal{% endblock %}
 
 {% block content %}
 <div class="row">
 	<div class="col-xs-5 col-md-3">
 		<ul class="nav nav-pills nav-stacked sidebar">
-			<li><a href="">Menu con mucho texto escrito</a></li>
+		<li>Panel - {{ data.enterprise | capitalize }}</li>
+			<span class="label label-default">Usuario - {{ data.first_name | capitalize }}</span>
 		</ul>
 	</div>
 	<div class="col-xs-7 col-md-9">
-		
+	<h3>Bienvenido</h3>
+		<div class="form-inline">
+			<div class="form-group has-feedback">
+				<label for="">Desde:</label>
+				<input class="form-control datePicker" type="text" name="date_from" id="date_from">
+				<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="">Hasta:</label>
+				<input class="form-control datePicker" type="text" name="date_from" id="date_from">
+				<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-sm btn-primary" id="run_search">Buscar</button>
+			</div>
+		</div>
+		<div id="divPieChart"></div>
 	</div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+	<script src="/static/js/jquery.datetimepicker.js"></script>
+	<script src="/static/js/panel/index.js"></script>
 {% endblock %}

@@ -21,6 +21,8 @@ class InputEmailHandler(webapp2.RequestHandler):
     el DTE de Azurian
     """
     def post(self):
+        logging.info(self.request.headers)
+        logging.info(self.request.body)
         enterprise = self.request.get('enterprise')
         campaign_id = self.request.get('campaign_id')
         email = self.request.get('email')
