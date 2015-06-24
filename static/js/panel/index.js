@@ -72,7 +72,7 @@ function drawPieGraph ( data ) {
 		]);
 
 	var options = {
-		title: 'Actividad',
+		title: 'Gráfico de Actividad',
 		is3D: true,
 		width: 500,
 		height: 500,
