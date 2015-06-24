@@ -25,6 +25,7 @@ from app.controllers.user_controller import NewUserAdminHandler
 from app.controllers.panel_controller import LoginPanelHandler
 from app.controllers.panel_controller import LogoutPanelHandler
 from app.controllers.panel_controller import HomePanelHandler
+from app.controllers.panel_controller import StatisticPanelHandler
 
 # manejo de errores
 from app.controllers.errorhandler_controller import handle_404
@@ -47,6 +48,7 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 app = webapp2.WSGIApplication([
     # panel usuario clientes
     (r'/', HomePanelHandler),
+    (r'/statistics', StatisticPanelHandler),
     (r'/login', LoginPanelHandler),
     (r'/logout', LogoutPanelHandler),
 

@@ -4,6 +4,7 @@
 
 import base64
 import json
+import datetime
 
 
 from app_controller import BaseHandler
@@ -13,6 +14,7 @@ from config.jinja_environment import JINJA_ENVIRONMENT
 
 
 from app.models.user import UserModel
+from app.models.email import EmailModel
 
 
 class HomePanelHandler(BaseHandler):
@@ -28,6 +30,25 @@ class HomePanelHandler(BaseHandler):
 			}
 			template = JINJA_ENVIRONMENT.get_template('panel/index.html')
 			self.response.write(template.render(context))
+
+
+class StatisticPanelHandler(BaseHandler):
+	def get(self):
+		date_from = self.request.get('date_from')
+		date_to = self.request.get('date_to')
+
+		if date_from and date_to:
+			date_from = int(date_from)
+			date_to = int(date_to)
+			date_from = datetime.datetime.fromtimestamp(date_from)
+			date_to = datetime.datetime.fromtimestamp(date_to)
+			data = EmailModel.get_count_statistic_by_dates(date_from, date_to)
+			context = {
+			'date_from': str(date_from),
+			'date_to': str(date_to),
+			'statistic': data,
+			}
+			self.response.write(json.dumps(context))
 
 
 class LoginPanelHandler(BaseHandler):
