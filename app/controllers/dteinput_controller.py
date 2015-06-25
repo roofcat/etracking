@@ -26,13 +26,14 @@ class InputEmailHandler(webapp2.RequestHandler):
         enterprise = self.request.get('enterprise')
         campaign_id = self.request.get('campaign_id')
         email = self.request.get('email')
+        recipient_type = self.request.get('recipient_type')
         full_name = self.request.get('full_name')
         subject = self.request.get('subject')
         htmlBody = self.request.get('htmlBody')
         file1 = self.request.POST.get('file1', None)
         file2 = self.request.POST.get('file2', None)
         file3 = self.request.POST.get('file3', None)
-        if (enterprise and campaign_id and email and subject and htmlBody):
+        if (enterprise and campaign_id and email and subject and htmlBody and recipient_type):
             # Proceso de creación del objeto email
             my_email = EmailModel()
             email_result = my_email.search_email(enterprise, email, campaign_id)
@@ -41,6 +42,7 @@ class InputEmailHandler(webapp2.RequestHandler):
                     my_email.enterprise = enterprise
                     my_email.campaign_id = campaign_id
                     my_email.email = email
+                    my_email.recipient_type = recipient_type
                     my_email.full_name = full_name
                     my_email.subject = subject
                     my_email.htmlBody = htmlBody

@@ -5,6 +5,9 @@
 from google.appengine.ext import ndb
 
 
+recipient_type_choices = ['dte', 'cliente',]
+
+
 class AttachModel(ndb.Model):
     name = ndb.StringProperty()
     attach = ndb.BlobProperty()
@@ -17,6 +20,7 @@ class EmailModel(ndb.Model):
     input_time = ndb.TimeProperty(auto_now_add=True)
     enterprise = ndb.StringProperty(required=True)
     campaign_id = ndb.StringProperty(required=True)
+    recipient_type = ndb.StringProperty(required=True, choices=recipient_type_choices)
     email = ndb.StringProperty(required=True)
     full_name = ndb.StringProperty(required=False)
     subject = ndb.StringProperty(required=True)
@@ -86,28 +90,28 @@ class EmailModel(ndb.Model):
     def get_count_statistic_by_dates(self, from_date, to_date):
         try:
             total = len(EmailModel.query(
-                        ndb.AND(EmailModel.input_date >= from_date, 
+                        ndb.AND(EmailModel.input_date >= from_date,
                                 EmailModel.input_date <= to_date)).fetch())
             processed = len(EmailModel.query(
-                        ndb.AND(EmailModel.processed_event == 'processed',
-                                EmailModel.input_date >= from_date, 
-                                EmailModel.input_date <= to_date)).fetch())
+                ndb.AND(EmailModel.processed_event == 'processed',
+                        EmailModel.input_date >= from_date,
+                        EmailModel.input_date <= to_date)).fetch())
             delivered = len(EmailModel.query(
-                        ndb.AND(EmailModel.delivered_event == 'delivered',
-                                EmailModel.input_date >= from_date, 
-                                EmailModel.input_date <= to_date)).fetch())
+                ndb.AND(EmailModel.delivered_event == 'delivered',
+                        EmailModel.input_date >= from_date,
+                        EmailModel.input_date <= to_date)).fetch())
             opened = len(EmailModel.query(
-                        ndb.AND(EmailModel.opened_event == 'open',
-                                EmailModel.input_date >= from_date,
-                                EmailModel.input_date <= to_date)).fetch())
+                ndb.AND(EmailModel.opened_event == 'open',
+                        EmailModel.input_date >= from_date,
+                        EmailModel.input_date <= to_date)).fetch())
             dropped = len(EmailModel.query(
-                        ndb.AND(EmailModel.dropped_event == 'dropped',
-                                EmailModel.input_date >= from_date,
-                                EmailModel.input_date <= to_date)).fetch())
+                ndb.AND(EmailModel.dropped_event == 'dropped',
+                        EmailModel.input_date >= from_date,
+                        EmailModel.input_date <= to_date)).fetch())
             bounced = len(EmailModel.query(
-                        ndb.AND(EmailModel.bounce_event == 'bounce',
-                                EmailModel.input_date >= from_date,
-                                EmailModel.input_date <= to_date)).fetch())
+                ndb.AND(EmailModel.bounce_event == 'bounce',
+                        EmailModel.input_date >= from_date,
+                        EmailModel.input_date <= to_date)).fetch())
             return {
                 'total': total,
                 'processed': processed,
@@ -116,6 +120,8 @@ class EmailModel(ndb.Model):
                 'dropped': dropped,
                 'bounced': bounced,
             }
-            #return ndb.gql("SELECT * FROM EmailModel WHERE processed_event = 'processed' AND input_date >= :1 AND input_date <= :2", from_date, to_date).fetch()
+            # return ndb.gql("SELECT * FROM EmailModel WHERE processed_event =
+            # 'processed' AND input_date >= :1 AND input_date <= :2",
+            # from_date, to_date).fetch()
         except Exception, e:
             raise e
