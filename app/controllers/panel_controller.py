@@ -42,7 +42,8 @@ class StatisticPanelHandler(BaseHandler):
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
-            data = EmailModel.get_count_statistic_by_dates(date_from, date_to)
+            #data = EmailModel.get_count_statistic_by_dates(date_from, date_to)
+            data = EmailModel.get_statistic_by_dates(date_from, date_to)
             context = {
                 'date_from': str(date_from),
                 'date_to': str(date_to),

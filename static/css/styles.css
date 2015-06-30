@@ -13,12 +13,10 @@ html, body {
 	background: #1B22AA;
 	color: #fff;
 }
-
 .btn-success {
 	background: #0053A0;
 	border-color: #0053A0;
 }
-
 .btn-right {
 	float: right;
 	position: relative;
@@ -26,24 +24,20 @@ html, body {
 	right: 3em;
 	margin-bottom: 20px;
 }
-
 .responsive-table {
 	display: block;
 	height: 500px;
 	overflow-y: auto;
 }
-
 th {
 	background: #0053A0;
 	color: #fff;
 }
-
 tbody {
 	odd: #A9A9F5;
 	color: #0053A0;
 }
-
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
 	color: #0053A0;
 }
 .footer {
@@ -61,8 +55,16 @@ h1, h2, h3, h4, h5 {
 	top: 51px;
 	left: 0;
 	bottom: 0;
+	padding: 10px;
 	display: block;
 	overflow-x; hidden;
 	overflow-y; auto;
 	background-color: #f1f1f1;
+}
+.main {
+  	padding: 20px;
+  	left: 0;
+}
+.main .page-header {
+  	margin-top: 0;
 }

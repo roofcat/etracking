@@ -11,6 +11,7 @@ from app.controllers.dteinput_controller import InputEmailHandler
 from app.controllers.dteinput_controller import InputEmailQueueHandler
 from app.controllers.webhook_controller import SendrigWebhookHandler
 
+
 # imports para admin
 from app.controllers.oauth_controller import AuthHandler
 from app.controllers.oauth_controller import RevokeHandler
@@ -21,15 +22,18 @@ from app.controllers.user_controller import UserAdminHandler
 from app.controllers.user_controller import ListUserAdminHandler
 from app.controllers.user_controller import NewUserAdminHandler
 
+
 # imports para usuarios normales
 from app.controllers.panel_controller import LoginPanelHandler
 from app.controllers.panel_controller import LogoutPanelHandler
 from app.controllers.panel_controller import HomePanelHandler
 from app.controllers.panel_controller import StatisticPanelHandler
 
+
 # manejo de errores
 from app.controllers.errorhandler_controller import handle_404
 from app.controllers.errorhandler_controller import handle_500
+
 
 # imports para pruebas
 from app.controllers.test import TestHandler
@@ -66,7 +70,7 @@ app = webapp2.WSGIApplication([
     (r'/input', InputEmailHandler),
     (r'/inputqueue', InputEmailQueueHandler),
     (r'/webhook', SendrigWebhookHandler),
-    (r'/test', TestHandler),
+    (r'/test1', TestHandler),
     (r'/test2', Test2Handler),
     (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),

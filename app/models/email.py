@@ -5,7 +5,7 @@
 from google.appengine.ext import ndb
 
 
-recipient_type_choices = ['dte', 'cliente',]
+recipient_type_choices = ['dte', 'cliente', ]
 
 
 class AttachModel(ndb.Model):
@@ -20,7 +20,8 @@ class EmailModel(ndb.Model):
     input_time = ndb.TimeProperty(auto_now_add=True)
     enterprise = ndb.StringProperty(required=True)
     campaign_id = ndb.StringProperty(required=True)
-    recipient_type = ndb.StringProperty(required=True, choices=recipient_type_choices)
+    recipient_type = ndb.StringProperty(
+        required=True, choices=recipient_type_choices)
     email = ndb.StringProperty(required=True)
     full_name = ndb.StringProperty(required=False)
     subject = ndb.StringProperty(required=True)
@@ -81,10 +82,33 @@ class EmailModel(ndb.Model):
         )).get()
 
     def email_add_count(self, data):
-        """ Incrementa el campo de lecturas efectuadas por el receptor del correo
+        """ Incrementa el campo de lecturas efectuadas 
+            por el receptor del correo
         """
         data.opened_count = data.opened_count + 1
         data.put()
+
+    @classmethod
+    def get_stats_by_dates(self, from_date, to_date):
+        pass
+
+    @classmethod
+    def get_statistic_by_dates(self, from_date, to_date):
+        query = EmailModel.query(EmailModel.input_date >= from_date, EmailModel.input_date <= to_date)
+        total = query.count()
+        processed = query.filter(EmailModel.processed_event == "processed").count()
+        delivered = query.filter(EmailModel.delivered_event == "delivered").count()
+        opened = query.filter(EmailModel.opened_event == "open").count()
+        dropped = query.filter(EmailModel.dropped_event == "dropped").count()
+        bounced = query.filter(EmailModel.bounce_event == "bounce").count()
+        return {
+            'total': total,
+            'processed': processed,
+            'delivered': delivered,
+            'opened': opened,
+            'dropped': dropped,
+            'bounced': bounced,
+        }
 
     @classmethod
     def get_count_statistic_by_dates(self, from_date, to_date):

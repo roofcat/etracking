@@ -3,6 +3,8 @@
 google.load('visualization', '1.0', {'packages': ['corechart', 'table'], 'language': 'es'});
 
 var baseUrl = document.location.href;
+var urlPath = 'statistics';
+//var urlPath = 'teststat';
 
 $( document ).ready( function () {
 	console.log( baseUrl );
@@ -32,14 +34,15 @@ $( '#run_search' ).on( 'click', function () {
 	date_to = getDateAsTimestamp( date_to );
 
 	$.ajax({
-		type: 'get',
-		url: baseUrl + 'statistics',
+		type: 'GET',
+		url: baseUrl + urlPath,
 		dataType: 'json',
 		data: {
 			'date_from': date_from,
 			'date_to': date_to,
 		},
 		success: function ( data ) {
+			console.log( baseUrl + urlPath )
 			console.log( data );
 			setBadgesDashboard( data.statistic );
 			drawPieGraph( data.statistic );
