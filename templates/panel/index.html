@@ -7,48 +7,55 @@
 {% block title %}Panel Principal{% endblock %}
 
 {% block content %}
-<div class="row" align="left">
-	<div class="col-xs-2 col-md-3">
-		<ul class="nav nav-pills nav-stacked sidebar">
-		<h4>Menú Estadísticas - {{ data.enterprise | capitalize }}</h4>
-		<li>
-			<div class="form-group has-feedback">
-				<label for="">Desde:</label>
-				<input class="form-control datePicker" type="text" name="date_from" id="date_from">
-				<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
-			</div>
-		</li>
-		<li>
-			<div class="form-group has-feedback">
-				<label for="">Hasta:</label>
-				<input class="form-control datePicker" type="text" name="date_to" id="date_to">
-				<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
-			</div>
-		</li>
-		<li><label>Opciones:</label></li>
-		<li>
-			<div class="btn-group btn-sm" data-toggle="buttons">
-				<label class="btn btn-sm btn-info active">
-					<input type="radio" name="options" id="options1" autocomplete="off" checked> Todo
-				</label>
-				<label class="btn btn-sm btn-info">
-					<input type="radio" name="options" id="options1" autocomplete="off"> Otros DTEs
-				</label>
-				<label class="btn btn-sm btn-info">
-					<input type="radio" name="options" id="options1" autocomplete="off"> Personas
-				</label>
-			</div>
-		</li>
-		<li>
-			<div class="form-group" align="center">
-				<button class="btn btn-sm btn-primary" id="run_search"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-			</div>
-		</li>
-		</ul>
+<ul class="nav nav-pills nav-stacked sidebar">
+<h4><span class="glyphicon glyphicon-menu-hamburger"></span> Menú Estadísticas</h4>
+<li>
+	<div class="form-group has-feedback">
+		<label for="">Desde:</label>
+		<input class="form-control datePicker" type="text" name="date_from" id="date_from">
+		<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
 	</div>
-	<div class="col-xs-10 col-md-9 main">
+</li>
+<li>
+	<div class="form-group has-feedback">
+		<label for="">Hasta:</label>
+		<input class="form-control datePicker" type="text" name="date_to" id="date_to">
+		<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+	</div>
+</li>
+<li><label>Opciones:</label></li>
+<li>
+	<div class="btn-group btn-sm" data-toggle="buttons">
+		<label class="btn btn-sm btn-info active">
+			<input type="radio" name="options" id="options1" autocomplete="off" checked> Todo
+		</label>
+		<label class="btn btn-sm btn-info">
+			<input type="radio" name="options" id="options1" autocomplete="off"> Otros DTEs
+		</label>
+		<label class="btn btn-sm btn-info">
+			<input type="radio" name="options" id="options1" autocomplete="off"> Personas
+		</label>
+	</div>
+</li>
+<li>
+	<div class="form-group" align="center">
+		<button class="btn btn-sm btn-primary" id="run_search"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+	</div>
+</li>
+</ul>
+
+<div class="main">
+	<div class="alert alert-warning alert-dismissible" role="alert" id="warningMessage" style="display:none">
+	    <a class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+	    <strong>Lo sentimos :(</strong> Asegurate de realizar correctamente la consulta.
+	</div>
+	<div class="alert alert-success alert-dismissible" role="alert" id="successMessage" style="display:none">
+	    <a class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+	    <strong>Felicidades :)</strong> Datos cargados correctamente.
+	</div>
+	<div class="box">
 		<div class="panel panel-primary">
-			<div class="panel-heading">Dashboard</div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Resumen</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills" style="font-size: 10px;">
 					<li class="active">
@@ -70,6 +77,13 @@
 						<a>Rechazados: <span class="badge" id="badgeDropped">0</span></a>
 					</li>
 				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="panel panel-success">
+			<div class="panel-heading"><span class="glyphicon glyphicon-dashboard"></span> Gráfico de actividad</div>
+			<div class="panel-body">
 				<div id="divPieChart"></div>
 			</div>
 		</div>

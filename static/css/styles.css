@@ -1,28 +1,30 @@
 html, body {
 	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	background-color: #E6E6E6;
 }
 .navbar-default {
-	background: #0053A0;
+	background: #1a237e;
 	border: 0;
 }
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
 	color: #fff;
 	font-size: 16px;
 }
-.navbar-default .navbar-nav>li>a:hover {
-	background: #1B22AA;
+.navbar-default .navbar-nav > li > a:hover {
+	background: #3949ab;
 	color: #fff;
 }
 .btn-success {
-	background: #0053A0;
-	border-color: #0053A0;
+	background: #1a237e;
+	border-color: #1a237e;
 }
 .btn-right {
-	float: right;
-	position: relative;
 	bottom: 3em;
-	right: 3em;
+	float: right;
 	margin-bottom: 20px;
+	position: relative;
+	right: 3em;
 }
 .responsive-table {
 	display: block;
@@ -30,41 +32,89 @@ html, body {
 	overflow-y: auto;
 }
 th {
-	background: #0053A0;
+	background: #1a237e;
 	color: #fff;
 }
 tbody {
+	color: #1a237e;
 	odd: #A9A9F5;
-	color: #0053A0;
 }
 h1, h2, h3, h4, h5, h6 {
-	color: #0053A0;
+	color: #1a237e;
 }
 .footer {
-	position: fixed;
+	background: #1a237e;
 	bottom: 0;
-	width: 100%;
-	padding-top: 20px;
-	padding-bottom: 30px;
-	background: #0053A0;
 	color: #FFFFFF;
+	padding-bottom: 30px;
+	padding-top: 20px;
+	position: fixed;
 	text-decoration: none;
+	width: 100%;
 }
 .sidebar {
-	position: fixed;
-	top: 51px;
-	left: 0;
-	bottom: 0;
-	padding: 10px;
-	display: block;
-	overflow-x; hidden;
-	overflow-y; auto;
-	background-color: #f1f1f1;
+	background-color: #C9C9C9;
+	color: #1a237e;
+	display: none;
+	height: 100%;
+}
+@media(min-width: 769px) {
+	.sidebar {
+		bottom: 0;
+		display: block;
+		left: 0;
+		overflow-x; hidden;
+		overflow-y; auto;
+		padding: 10px;
+		position: fixed;
+		top: 51px;
+		width: 20%;
+	}
+}
+input[type=text]:hover {
+	border: 1px solid #1a237e;
 }
 .main {
   	padding: 20px;
-  	left: 0;
+}
+@media(min-width: 769px) {
+	.main {
+	  	margin-left: 14%;
+	  	margin-right: 10px;
+	}
 }
 .main .page-header {
-  	margin-top: 0;
+  	margin-top: 10px;
+}
+.box {
+	background: #FFFFFF;
+	border-left: 4px solid #C9C9C9;
+	border-radius: 1px;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.5);
+	margin-bottom: 20px;
+	padding: 10px;
+	position: relative;
+	width: 100%;
+}
+.box:hover {
+	border-left: 4px solid #1a237e;
+}
+.panel {
+	border-radius: 0;
+}
+.panel-success {
+	border-color: #00695c;
+}
+.panel-success .panel-heading {
+	border-radius: 0;
+	background-color: #00695c;
+	color: #F2F2F2;
+}
+.panel-primary {
+	border-color: #303f9f;
+}
+.panel-primary .panel-heading {
+	border-radius: 0;
+	background-color: #303f9f;
+	color: #F2F2F2;
 }

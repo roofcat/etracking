@@ -11,8 +11,7 @@ $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
 
-	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
-	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
+	resetInputDates();
 
 	$( '.datePicker' ).datetimepicker ({
 		dayOfWeekStart: 1,
@@ -22,9 +21,19 @@ $( document ).ready( function () {
 		formatDate: 'Y/m/d',
 	});
 
+	// realizar carga por defecto
+	$( "#run_search" ).click();
+
 });
 
+function resetInputDates () {
+	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
+	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
+};
+
 $( '#run_search' ).on( 'click', function () {
+
+	hideAlertsMessages();
 
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
@@ -46,18 +55,33 @@ $( '#run_search' ).on( 'click', function () {
 			console.log( data );
 			setBadgesDashboard( data.statistic );
 			drawPieGraph( data.statistic );
+			showSuccessMessage();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			console.log( errorThrown );
 			console.log( jqXHR );
 			console.log( textStatus );
+			showWarningMessage();
 		},
 	});
 
 });
 
+function showSuccessMessage () {
+	$( "#successMessage" ).show();
+};
+
+function showWarningMessage () {
+	$( "#warningMessage" ).show();
+};
+
+function hideAlertsMessages () {
+	$( "#warningMessage" ).hide();
+	$( "#successMessage" ).hide();
+};
+
 function setBadgesDashboard ( data ) {
-	$( 'span' ).empty();
+	$( 'span.badge' ).empty();
 	var total = $( '#badgeTotal' ).text( data.total );
 	var processed = $( '#badgeProcessed' ).text( data.processed );
 	var delivered = $( '#badgeDelivered' ).text( data.delivered );
@@ -75,10 +99,9 @@ function drawPieGraph ( data ) {
 		]);
 
 	var options = {
-		title: 'Gráfico de Actividad',
 		is3D: true,
-		width: 500,
-		height: 500,
+		width: 400,
+		height: 400,
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById( 'divPieChart' ));
