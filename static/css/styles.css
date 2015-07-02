@@ -75,11 +75,14 @@ input[type=text]:hover {
 	border: 1px solid #1a237e;
 }
 .main {
-  	padding: 20px;
+  	padding-bottom: 20px;
+  	padding-left: 40px;
+  	padding-right: 20px;
+  	padding-top: 20px;
 }
-@media(min-width: 769px) {
+@media(min-width: 768px) {
 	.main {
-	  	margin-left: 14%;
+	  	margin-left: 15%;
 	  	margin-right: 10px;
 	}
 }
