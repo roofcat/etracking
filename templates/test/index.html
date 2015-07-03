@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/material.min.css">
+	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
+	<link rel="stylesheet" href="/static/css/roboto.min.css">
+	<link rel="stylesheet" href="/static/css/ripples.min.css">
+	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+	<style>
+      * {
+        box-sizing: border-box;
+      }
+      .header-panel {
+        background-color: #009587;
+        height: 144px;
+        position: relative;
+        z-index: 3;
+      }
+      .header-panel div {
+        position: relative;
+        height: 100%;
+      }
+      .header-panel h1 {
+        color: #FFF;
+        font-size: 20px;
+        font-weight: 400;
+        position: absolute;
+        bottom: 10px;
+        padding-left: 35px;
+      }
+
+      .menu {
+        overflow: auto;
+        padding: 0;
+      }
+      .menu, .menu * {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      .menu ul {
+        padding: 0;
+        margin: 7px 0;
+      }
+      .menu ul li {
+        list-style: none;
+        padding: 20px 0 20px 50px;
+        font-size: 15px;
+        font-weight: normal;
+        cursor: pointer;
+      }
+      .menu ul li.active {
+        background-color: #dedede;
+        position: relative;
+      }
+      .menu ul li a {
+        color: rgb(51, 51, 51);
+        text-decoration: none;
+      }
+
+      .pages {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 4;
+        padding: 0;
+        overflow: auto;
+      }
+      .pages > div {
+        padding: 0 5px;
+        padding-top: 64px;
+      }
+
+      .pages .header {
+        color: rgb(82, 101, 162);
+        font-size: 24px;
+        font-weight: normal;
+        margin-top: 5px;
+        margin-bottom: 60px;
+        letter-spacing: 1.20000004768372px;
+      }
+
+      .page {
+        transform: translateY(1080px);
+        transition: transform 0 linear;
+        display: none;
+        opacity: 0;
+        font-size: 16px;
+      }
+
+      .page.active {
+        transform: translateY(0px);
+        transition: all 0.3s ease-out;
+        display: block;
+        opacity: 1;
+      }
+
+      #opensource {
+        color: rgba(0, 0, 0, 0.62);
+        position: fixed;
+        margin-top: 50px;
+        margin-left: 50px;
+        z-index: 100;
+      }
+
+      #source-modal h4 {
+        color: black;
+      }
+    </style>
+	<title>Document</title>
+</head>
+<body>
+<div class="page-header">
+	<div class="navbar navbar-inverse shadow-z-2 navbar-fixed-top">
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-warning-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="javascript:void(0)"><b>Azurian</b>DTE</a>
+	    </div>
+	    <div class="navbar-collapse collapse navbar-warning-collapse">
+	        <ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+	                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">usuario@usuario <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+	                    <li><a href="javascript:void(0)">Salir</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+
+<div class="container-fluid  main">
+	<div class="row">
+		<nav class="col-xs-3 menu">
+			<ul>
+				<legend>Menú Estadísticas</legend>
+				<li>
+					<div class="form-group has-feedback">
+						<label class="control-label">Desde</label>
+						<input class="form-control datePicker" type="text" name="date_from" id="date_from">
+						<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+					</div>
+				</li>
+				<li>
+					<div class="form-group has-feedback">
+						<label class="control-label">Hasta</label>
+						<input class="form-control datePicker" type="text" name="date_to" id="date_to">
+						<span class="glyphicon glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+					</div>
+				</li>
+				<li>
+					<div class="form-group">
+						<label class="control-label">Opciones</label>
+						<div class="radio radio-success">
+							<label>
+								<input type="radio" name="options" id="options1" autocomplete="off" checked>
+								<span class="circle"></span><span class="check"></span> Todo
+							</label>
+						</div>
+						<div class="radio radio-success">
+							<label>
+								<input type="radio" name="options" id="options1" autocomplete="off">
+								<span class="circle"></span><span class="check"></span> Otros DTEs
+							</label>
+						</div>
+						<div class="radio radio-success">
+							<label>
+								<input type="radio" name="options" id="options1" autocomplete="off">
+								<span class="circle"></span><span class="check"></span> Personas
+							</label>
+						</div>
+					</div>
+					<div class="form-group" align="right">
+						<button class="btn btn-material-red btn-fab btn-raised mdi-navigation-arrow-forward">
+						<div class="ripple-wrapper"></div>
+						</button>
+					</div>
+				</li>
+			</ul>
+		</nav>
+		<div class="pages col-xs-9">
+			<div class="col-xs-10">
+				<div class="jumbotron">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Resumen</div>
+						<div class="panel-body">
+							<ul class="nav nav-pills" style="font-size: 10px;">
+								<li class="active">
+									<a>Solicitudes: <span class="badge" id="badgeTotal">0</span></a>
+								</li>
+								<li class="active">
+									<a>Procesados: <span class="badge" id="badgeProcessed">0</span></a>
+								</li>
+								<li class="active">
+									<a>Enviados: <span class="badge" id="badgeDelivered">0</span></a>
+								</li>
+								<li class="active">
+									<a>Leídos: <span class="badge" id="badgeOpened">0</span></a>
+								</li>
+								<li class="active">
+									<a>Rebotados: <span class="badge" id="badgeBounced">0</span></a>
+								</li>
+								<li class="active">
+									<a>Rechazados: <span class="badge" id="badgeDropped">0</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="jumbotron">
+					<div class="panel panel-success">
+						<div class="panel-heading"><span class="glyphicon glyphicon-dashboard"></span> Gráfico de actividad</div>
+						<div class="panel-body">
+							<div id="divPieChart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2"></div>
+		</div>
+	</div>
+</div>
+	
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/jquery-ui.min.js"></script>
+	<script src="/static/js/moment.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="/static/js/material.min.js"></script>
+	<script src="/static/js/ripples.min.js"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	<script src="/static/js/jquery.datetimepicker.js"></script>
+	<script src="/static/js/panel/index.js"></script>
+</body>
+</html>

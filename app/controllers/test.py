@@ -12,6 +12,9 @@ import re
 from app.models.email import EmailModel
 
 
+from config.jinja_environment import JINJA_ENVIRONMENT
+
+
 class TestHandler(webapp2.RequestHandler):
 
     def get(self):
@@ -48,6 +51,13 @@ class Test2Handler(webapp2.RequestHandler):
             self.response.write(f)
             self.response.write(
                 "<br>----------------------------------------------<br>")
+
+
+class Test3Handler(webapp2.RequestHandler):
+
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('test/index.html')
+        self.response.write(template.render())
 
 
 class TestInputWithUserAndPassword(webapp2.RequestHandler):
