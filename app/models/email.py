@@ -2,6 +2,9 @@
 #!/usr/bin/env python
 
 
+import datetime
+
+
 from google.appengine.ext import ndb
 
 
@@ -90,7 +93,32 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_stats_by_dates(self, from_date, to_date):
-        pass
+        data_result = []
+        # dias para restar
+        day = datetime.timedelta(days=1)
+        end_date = to_date
+        
+        while end_date >= from_date:
+            query = EmailModel.query(EmailModel.input_date >= end_date, EmailModel.input_date <= end_date)
+            total = query.count()
+            processed = query.filter(EmailModel.processed_event == "processed").count()
+            delivered = query.filter(EmailModel.delivered_event == "delivered").count()
+            opened = query.filter(EmailModel.opened_event == "open").count()
+            dropped = query.filter(EmailModel.dropped_event == "dropped").count()
+            bounced = query.filter(EmailModel.bounce_event == "bounce").count()
+            data = {
+                'date': str(end_date),
+                'total': total,
+                'processed': processed,
+                'delivered': delivered,
+                'opened': opened,
+                'dropped': dropped,
+                'bounced': bounced,
+            }
+            data_result.append(data)
+            end_date = end_date - day
+        return data_result
+
 
     @classmethod
     def get_statistic_by_dates(self, from_date, to_date):
@@ -109,43 +137,3 @@ class EmailModel(ndb.Model):
             'dropped': dropped,
             'bounced': bounced,
         }
-
-    @classmethod
-    def get_count_statistic_by_dates(self, from_date, to_date):
-        try:
-            total = len(EmailModel.query(
-                        ndb.AND(EmailModel.input_date >= from_date,
-                                EmailModel.input_date <= to_date)).fetch())
-            processed = len(EmailModel.query(
-                ndb.AND(EmailModel.processed_event == 'processed',
-                        EmailModel.input_date >= from_date,
-                        EmailModel.input_date <= to_date)).fetch())
-            delivered = len(EmailModel.query(
-                ndb.AND(EmailModel.delivered_event == 'delivered',
-                        EmailModel.input_date >= from_date,
-                        EmailModel.input_date <= to_date)).fetch())
-            opened = len(EmailModel.query(
-                ndb.AND(EmailModel.opened_event == 'open',
-                        EmailModel.input_date >= from_date,
-                        EmailModel.input_date <= to_date)).fetch())
-            dropped = len(EmailModel.query(
-                ndb.AND(EmailModel.dropped_event == 'dropped',
-                        EmailModel.input_date >= from_date,
-                        EmailModel.input_date <= to_date)).fetch())
-            bounced = len(EmailModel.query(
-                ndb.AND(EmailModel.bounce_event == 'bounce',
-                        EmailModel.input_date >= from_date,
-                        EmailModel.input_date <= to_date)).fetch())
-            return {
-                'total': total,
-                'processed': processed,
-                'delivered': delivered,
-                'opened': opened,
-                'dropped': dropped,
-                'bounced': bounced,
-            }
-            # return ndb.gql("SELECT * FROM EmailModel WHERE processed_event =
-            # 'processed' AND input_date >= :1 AND input_date <= :2",
-            # from_date, to_date).fetch()
-        except Exception, e:
-            raise e

@@ -39,6 +39,7 @@ from app.controllers.errorhandler_controller import handle_500
 from app.controllers.test import TestHandler
 from app.controllers.test import Test2Handler
 from app.controllers.test import Test3Handler
+from app.controllers.test import Test4Handler
 from app.controllers.test import TestInputWithUserAndPassword
 
 
@@ -74,6 +75,7 @@ app = webapp2.WSGIApplication([
     (r'/test1', TestHandler),
     (r'/test2', Test2Handler),
     (r'/test3', Test3Handler),
+    (r'/test4', Test4Handler),
     (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)

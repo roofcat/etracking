@@ -60,6 +60,13 @@ class Test3Handler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 
+class Test4Handler(webapp2.RequestHandler):
+
+    def get(self):
+        todo = EmailModel.query(group_by=['input_date'], projection=['input_date'], distinct=True).count()
+        self.response.write(json.dumps(todo))
+
+
 class TestInputWithUserAndPassword(webapp2.RequestHandler):
 
     def get(self):
