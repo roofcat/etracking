@@ -1,12 +1,11 @@
 'use strict';
 
-google.load('visualization', '1.0', {'packages': ['corechart',], 'language': 'es'});
+google.load('visualization', '1.0', {'packages': ['corechart','line','table'], 'language': 'es'});
 
 var baseUrl = document.location.href;
 var urlPath = 'statistics';
 
 $( document ).ready( function () {
-	console.log( baseUrl );
 	// Seteo de fecha actual
 	setDefaultDates();
 
@@ -22,20 +21,16 @@ $( document ).ready( function () {
 
 	// realizar carga por defecto
 	$( "#run_search" ).click();
-
 });
 function resetInputDates () {
 	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
 	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
 };
 $( '#run_search' ).on( 'click', function () {
-
 	hideAlertsMessages();
-
+	
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
-
-	//if ( date_from && date_to )
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
 
@@ -48,11 +43,12 @@ $( '#run_search' ).on( 'click', function () {
 			'date_to': date_to,
 		},
 		success: function ( data ) {
-			console.log( data );
+			//console.log( data );
 			setBadgesDashboard( data.statistic );
 			drawPieGraph( data.statistic );
 			drawLineGraph( data.results );
 			showSuccessMessage();
+			$( '#modalButton' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			console.log( errorThrown );
@@ -81,32 +77,20 @@ function setBadgesDashboard ( data ) {
 	var bounced = $( '#badgeBounced' ).text( data.bounced );
 	var dropped = $( '#badgeDropped' ).text( data.dropped );
 };
-function drawLineGraph ( data ) {
-	var dataTable = new google.visualization.DataTable();
-	dataTable.addColumn( 'date', 'Fecha' );
-	dataTable.addColumn( 'number', 'Cantidad' );
-	dataTable.addColumn( 'string', 'Campo' );
-
-	var dataArray = [];
-
-	for (var i in data ) {
-		console.log( moment(data.date) );
-		dataArray.push( [ moment(data.date), data.total, 'Total' ] );
-		dataArray.push( [ moment(data.date), data.bounced, 'Rebotados' ] );
-		dataArray.push( [ moment(data.date), data.dropped, 'Rechazados' ] );
-	};
-
-	console.log( dataTable );
-	dataTable.addRows( [ dataArray ] );
-	console.log( dataTable );
-
-	var data = google.visualization.arrayToDataTable( dataArray );
+function drawLineGraph ( datas ) {
+	var data = new google.visualization.arrayToDataTable( datas );
+	
 	var options = {
-		'title': 'Line Chart',
-		'width': 800,
-		'height': 600,
+		'title': 'Estadísticas',
+		'width': 700,
+		'height': 250,
+		'vAxis': {
+			'viewWindow': {
+				'min': 0,
+			}
+		}
 	};
-
+	//var chart = new google.charts.Line( document.getElementById( 'divLineChart' ) );
 	var chart = new google.visualization.LineChart( document.getElementById( 'divLineChart' ) );
 	chart.draw( data, options );
 };
@@ -119,9 +103,9 @@ function drawPieGraph ( data ) {
 		]);
 
 	var options = {
-		is3D: true,
-		width: 400,
-		height: 400,
+		is3D: false,
+		width: 300,
+		height: 300,
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById( 'divPieChart' ));

@@ -10,7 +10,7 @@
 <div class="row">
 	<nav class="col-xs-3 menu">
 		<ul>
-			<legend>Menú Estadísticas</legend>
+			<legend style="padding-left:20px;">Menú Estadísticas</legend>
 			<li>
 				<div class="form-group has-feedback">
 					<label class="control-label">Desde</label>
@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				<div class="form-group" align="right" style="margin-right:20px;">
-					<button id="run_search" class="btn btn-material-red btn-fab btn-raised mdi-navigation-arrow-forward">
+					<button id="run_search" class="btn btn-material-red btn-fab btn-raised mdi-navigation-arrow-forward" data-toggle="modal" data-target="#loadingModal">
 					<div class="ripple-wrapper"></div>
 					</button>
 				</div>
@@ -58,8 +58,16 @@
 
 	<div class="pages col-xs-9">
 		<div class="col-xs-10">
-			<div class="jumbotron">
-				<div class="panel panel-primary">
+			<div class="well">
+				<div class="panel panel-warning">
+					<div class="panel-heading"><span class="glyphicon glyphicon-dashboard"></span> Gráfica del período</div>
+					<div class="panel-body">
+						<div id="divLineChart"></div>
+					</div>
+				</div>
+			</div>
+			<div class="well">
+				<div class="panel panel-info">
 					<div class="panel-heading"><span class="glyphicon glyphicon-list-alt"></span> Resumen</div>
 					<div class="panel-body">
 						<ul class="nav nav-pills" style="font-size: 10px;">
@@ -85,18 +93,31 @@
 					</div>
 				</div>
 			</div>
-			<div class="jumbotron">
+			<div class="well">
 				<div class="panel panel-success">
 					<div class="panel-heading"><span class="glyphicon glyphicon-dashboard"></span> Gráfico de actividad</div>
 					<div class="panel-body">
 						<div id="divPieChart" width="400" height="400"></div>
-						<div id="divLineChart"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-2"></div>
 	</div>
+</div>
+<div class="modal" id="loadingModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="modalButton" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Cargando...</h4>
+            </div>
+            <div class="modal-body">
+                <p>por favor espere unos segundos</p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

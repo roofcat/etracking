@@ -93,12 +93,14 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_stats_by_dates(self, from_date, to_date):
-        data_result = []
         # dias para restar
         day = datetime.timedelta(days=1)
-        end_date = to_date
+        end_date = from_date
+        data_result = [
+            ["Fecha", "Solicitudes", "Procesados", "Enviados", "Abiertos", "Rechazados", "Rebotados"]
+        ]
         
-        while end_date >= from_date:
+        while end_date <= to_date:
             query = EmailModel.query(EmailModel.input_date >= end_date, EmailModel.input_date <= end_date)
             total = query.count()
             processed = query.filter(EmailModel.processed_event == "processed").count()
@@ -106,17 +108,9 @@ class EmailModel(ndb.Model):
             opened = query.filter(EmailModel.opened_event == "open").count()
             dropped = query.filter(EmailModel.dropped_event == "dropped").count()
             bounced = query.filter(EmailModel.bounce_event == "bounce").count()
-            data = {
-                'date': str(end_date),
-                'total': total,
-                'processed': processed,
-                'delivered': delivered,
-                'opened': opened,
-                'dropped': dropped,
-                'bounced': bounced,
-            }
+            data = [str(end_date), total, processed, delivered, opened, dropped, bounced]
             data_result.append(data)
-            end_date = end_date - day
+            end_date = end_date + day
         return data_result
 
 
