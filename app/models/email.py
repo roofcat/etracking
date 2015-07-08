@@ -92,7 +92,7 @@ class EmailModel(ndb.Model):
         data.put()
 
     @classmethod
-    def get_stats_by_dates(self, from_date, to_date):
+    def get_stats_by_dates(self, from_date, to_date, enterprise):
         # dias para restar
         day = datetime.timedelta(days=1)
         end_date = from_date
@@ -101,7 +101,9 @@ class EmailModel(ndb.Model):
         ]
         
         while end_date <= to_date:
-            query = EmailModel.query(EmailModel.input_date >= end_date, EmailModel.input_date <= end_date)
+            query = EmailModel.query(EmailModel.input_date >= end_date,
+                                    EmailModel.input_date <= end_date,
+                                    EmailModel.enterprise == enterprise)
             total = query.count()
             processed = query.filter(EmailModel.processed_event == "processed").count()
             delivered = query.filter(EmailModel.delivered_event == "delivered").count()
@@ -115,8 +117,10 @@ class EmailModel(ndb.Model):
 
 
     @classmethod
-    def get_statistic_by_dates(self, from_date, to_date):
-        query = EmailModel.query(EmailModel.input_date >= from_date, EmailModel.input_date <= to_date)
+    def get_statistic_by_dates(self, from_date, to_date, enterprise):
+        query = EmailModel.query(EmailModel.input_date >= from_date,
+                                EmailModel.input_date <= to_date,
+                                EmailModel.enterprise == enterprise)
         total = query.count()
         processed = query.filter(EmailModel.processed_event == "processed").count()
         delivered = query.filter(EmailModel.delivered_event == "delivered").count()

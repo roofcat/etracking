@@ -3,39 +3,48 @@
 <head>
 	<meta charset="UTF-8">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/css/cover.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/material.min.css">
+	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
+	<link rel="stylesheet" href="/static/css/roboto.min.css">
+	<link rel="stylesheet" href="/static/css/ripples.min.css">
+	<link rel="stylesheet" href="/static/css/styles.css">
 	<title>Azurian - Auth</title>
 </head>
-<body>
-	<div class="site-wrapper">
-      <div class="site-wrapper-inner">
-        <div class="cover-container">
-          <div class="inner cover">
-            <h1 class="cover-heading">Bienvenido</h1>
-            <p class="lead">Estadísticas de envío de correo DTE Azurian</p>
-            <p class="lead">
+<body class="animated fadeInDown" ba>
+
+	<div class="navbar navbar-warning shadow-z-2 navbar-fixed-top">
+	    <div class="navbar-header"></div>
+	</div>
+
+<div class="container-fluid login">
+	<div class="row">
+		<div class="col-xs-8 col-md-7 hidden-xs hidden-sm">
+			<img width="750" src="http://www.azurian.com/sites/default/files/SliderIMG/Factura-Electronica-2015_2.jpg" alt="" class="image-responsive">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+			<div class="well">
+				<h3 class="header"><b>Azurian</b>DTE e-tracking</h3>
 				<form name='formulario' method="post">
-				<div class="form-group form-inline">
-					<input type="email" placeholder='Correo' class='form-control' name="email">
+				<div class="form-group">
+					<input type="email" placeholder='Usuario' class='form-control floating-label' name="email" required>
 				</div>
-				<div class="form-group form-inline">
-					<input type='password' placeholder='Contraseña' class='form-control' name='password'>
+				<div class="form-group">
+					<input type='password' placeholder='Contraseña' class='form-control floating-label' name='password' required>
 				</div>
-					<input class='btn btn-primary' type="submit" value="Iniciar Sesión">
-					<button class="btn btn-default" type="reset">Limpiar</button>
+				<div class="form-group" align="right">
+					<input class="btn btn-material-deep-orange-700" type="submit" value="Iniciar Sesión">
+				</div>
 				</form>
-            </p>
-          </div>
-          <div class="mastfoot">
-            <div class="inner">
-              <p>&copy; Azurian Tecnología Ltda 2015</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+			</div>
+		</div>
+	</div>
+</div>
 	<script src="/static/js/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="/static/js/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="/static/js/material.min.js"></script>
+	<script src="/static/js/ripples.min.js"></script>
+	<script>$.material.init();</script>
 </body>
 </html>

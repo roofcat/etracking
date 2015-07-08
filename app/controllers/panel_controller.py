@@ -5,6 +5,7 @@
 import base64
 import json
 import datetime
+import logging
 
 
 from app_controller import BaseHandler
@@ -34,18 +35,25 @@ class HomePanelHandler(BaseHandler):
 class StatisticPanelHandler(BaseHandler):
 
     def get(self):
+        user = None
+        try:
+            user = self.session['user']
+        except:
+            self.redirect('/login')
+
         date_from = self.request.get('date_from')
         date_to = self.request.get('date_to')
+        enterprise = user['enterprise']
 
-        if date_from and date_to:
+        if date_from and date_to and enterprise:
             # preparacion de parametros
             date_from = int(date_from)
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             # busqueda de datos
-            data = EmailModel.get_statistic_by_dates(date_from, date_to)
-            results = EmailModel.get_stats_by_dates(date_from, date_to)
+            data = EmailModel.get_statistic_by_dates(date_from, date_to, enterprise)
+            results = EmailModel.get_stats_by_dates(date_from, date_to, enterprise)
             context = {
                 'date_from': str(date_from),
                 'date_to': str(date_to),
@@ -81,8 +89,8 @@ class LoginPanelHandler(BaseHandler):
                 }
                 self.session['user'] = user
                 self.redirect('/')
-            else:
-                self.response.write("Clave incorrecta")
+        else:
+            self.redirect('/login')
 
 
 class LogoutPanelHandler(BaseHandler):

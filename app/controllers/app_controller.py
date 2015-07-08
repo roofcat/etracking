@@ -12,6 +12,8 @@ class BaseHandler(webapp2.RequestHandler):
         self.session_store = sessions.get_store(request=self.request)
         try:
             webapp2.RequestHandler.dispatch(self)
+        except:
+        	self.redirect('/logout')
         finally:
             self.session_store.save_sessions(self.response)
 

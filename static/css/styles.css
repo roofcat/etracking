@@ -154,3 +154,10 @@
 	float: right;
 	margin: 0;
 }
+.login {
+  margin-right: 20px;
+  margin-top: 70px;
+}
+.login .header {
+	padding: 10px;
+}
