@@ -10,7 +10,7 @@ $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
 	resetInputDates();
-	$("#options").dropdown();
+	//$("#options").dropdown();
 
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
