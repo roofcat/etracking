@@ -28,24 +28,11 @@
 			<li>
 				<div class="form-group">
 					<label class="control-label">Opciones</label>
-					<div class="radio radio-success">
-						<label>
-							<input type="radio" name="options" id="options1" autocomplete="off" checked>
-							<span class="circle"></span><span class="check"></span> Todo
-						</label>
-					</div>
-					<div class="radio radio-success">
-						<label>
-							<input type="radio" name="options" id="options1" autocomplete="off">
-							<span class="circle"></span><span class="check"></span> Otros DTEs
-						</label>
-					</div>
-					<div class="radio radio-success">
-						<label>
-							<input type="radio" name="options" id="options1" autocomplete="off">
-							<span class="circle"></span><span class="check"></span> Personas
-						</label>
-					</div>
+					<select name="options" id="options" class="form-control">
+						<option value="all">Todo</option>
+						<option value="dte">Otros DTEs</option>
+						<option value="customer">Personas</option>
+					</select>
 				</div>
 				<div class="form-group" align="right" style="margin-right:20px;">
 					<button id="run_search" class="btn btn-material-red btn-fab btn-raised mdi-navigation-arrow-forward" data-toggle="modal" data-target="#loadingModal">

@@ -9,8 +9,8 @@ var jsonData;
 $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
-
 	resetInputDates();
+	$("select").dropdown();
 
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
@@ -19,7 +19,6 @@ $( document ).ready( function () {
 		'format': 'd/m/Y',
 		'formatDate': 'Y/m/d',
 	});
-
 	// realizar carga por defecto
 	$( "#run_search" ).click();
 });
@@ -37,8 +36,10 @@ $( '#run_search' ).on( 'click', function () {
 	
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
+	var options = $( 'input:radio[name=options]:checked' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
+	console.log( options );
 
 	$.ajax({
 		'type': 'GET',
