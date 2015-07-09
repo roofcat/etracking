@@ -228,13 +228,19 @@
 </div>
 	
 	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/jquery-ui.min.js"></script>
 	<script src="/static/js/moment.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/static/js/material.min.js"></script>
 	<script src="/static/js/ripples.min.js"></script>
-	<script src="https://www.google.com/jsapi"></script>
 	<script src="/static/js/jquery.datetimepicker.js"></script>
-	<script src="/static/js/panel/index.js"></script>
+	<script src="/static/js/echarts.js"></script>
+	<script src="/static/js/chart/line.js"></script>
+	<script type="text/javascript">
+	var myLineChart = echarts.init( document.getElementById( 'divPieChart' ) );
+	var option = {
+
+	};
+	myLineChart.setOption( option );
+	</script>
 </body>
 </html>

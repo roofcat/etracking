@@ -4,6 +4,7 @@ google.load('visualization', '1.0', {'packages': ['corechart','line','table'], '
 
 var baseUrl = document.location.href;
 var urlPath = 'statistics';
+var jsonData;
 
 $( document ).ready( function () {
 	// Seteo de fecha actual
@@ -21,6 +22,11 @@ $( document ).ready( function () {
 
 	// realizar carga por defecto
 	$( "#run_search" ).click();
+});
+$( window ).on( 'resize', function () {
+	setBadgesDashboard( jsonData.statistic );
+	drawPieGraph( jsonData.statistic );
+	drawLineGraph( jsonData.results );
 });
 function resetInputDates () {
 	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
@@ -43,10 +49,10 @@ $( '#run_search' ).on( 'click', function () {
 			'date_to': date_to,
 		},
 		success: function ( data ) {
-			//console.log( data );
-			setBadgesDashboard( data.statistic );
-			drawPieGraph( data.statistic );
-			drawLineGraph( data.results );
+			jsonData = data;
+			setBadgesDashboard( jsonData.statistic );
+			drawPieGraph( jsonData.statistic );
+			drawLineGraph( jsonData.results );
 			showSuccessMessage();
 			$( '#modalButton' ).click();
 		},
@@ -55,9 +61,7 @@ $( '#run_search' ).on( 'click', function () {
 			showWarningMessage();
 		},
 	});
-
 });
-
 function showSuccessMessage () {
 	$( "#successMessage" ).show();
 };
@@ -79,18 +83,14 @@ function setBadgesDashboard ( data ) {
 };
 function drawLineGraph ( datas ) {
 	var data = new google.visualization.arrayToDataTable( datas );
-	
 	var options = {
 		'title': 'Estadísticas',
-		'width': 700,
-		'height': 250,
 		'vAxis': {
 			'viewWindow': {
 				'min': 0,
-			}
-		}
+			},
+		},
 	};
-	//var chart = new google.charts.Line( document.getElementById( 'divLineChart' ) );
 	var chart = new google.visualization.LineChart( document.getElementById( 'divLineChart' ) );
 	chart.draw( data, options );
 };
