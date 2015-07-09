@@ -10,7 +10,7 @@ $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
 	resetInputDates();
-	$("select").dropdown();
+	$("#options").dropdown();
 
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
@@ -36,10 +36,9 @@ $( '#run_search' ).on( 'click', function () {
 	
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
-	var options = $( 'input:radio[name=options]:checked' ).val();
+	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-	console.log( options );
 
 	$.ajax({
 		'type': 'GET',
@@ -48,6 +47,7 @@ $( '#run_search' ).on( 'click', function () {
 		'data': {
 			'date_from': date_from,
 			'date_to': date_to,
+			'options': options,
 		},
 		success: function ( data ) {
 			jsonData = data;
