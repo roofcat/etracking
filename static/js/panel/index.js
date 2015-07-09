@@ -61,7 +61,8 @@ $( '#run_search' ).on( 'click', function () {
 });
 function drawJsonData () {
 	setBadgesDashboard( jsonData.statistic );
-	drawPieGraph( jsonData.statistic );
+	drawPendingPieGraph( jsonData.statistic );
+	drawStatusPieGraph( jsonData.statistic );
 	drawLineGraph( jsonData.results );
 };
 function showSuccessMessage () {
@@ -96,7 +97,7 @@ function drawLineGraph ( datas ) {
 	var chart = new google.visualization.LineChart( document.getElementById( 'divLineChart' ) );
 	chart.draw( data, options );
 };
-function drawPieGraph ( data ) {
+function drawStatusPieGraph ( data ) {
 	var data = google.visualization.arrayToDataTable([
 		[ 'Estadísticas', 'Correos' ],
 		[ 'Enviados', data.delivered ],
@@ -105,12 +106,36 @@ function drawPieGraph ( data ) {
 		]);
 
 	var options = {
-		is3D: false,
-		width: 300,
-		height: 300,
+		'title': "Estado global",
+		'is3D': true,
+		'width': 350,
+		'height': 300,
+		'legend': {
+			'maxLines': 20,
+		},
 	};
 
-	var chart = new google.visualization.PieChart(document.getElementById( 'divPieChart' ));
+	var chart = new google.visualization.PieChart(document.getElementById( 'divStatusPieChart' ));
+	chart.draw( data, options );
+};
+function drawPendingPieGraph ( data ) {
+	var data = google.visualization.arrayToDataTable([
+		[ 'Estadísticas', 'Correos' ],
+		[ 'Solicitudes', data.total ],
+		[ 'Pendientes', data.total - data.processed ],
+		]);
+
+	var options = {
+		'title': "Estado de pendientes",
+		'is3D': true,
+		'width': 350,
+		'height': 300,
+		'legend': {
+			'maxLines': 20,
+		},
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById( 'divPendingPieChart' ));
 	chart.draw( data, options );
 };
 function getDateAsTimestamp ( date ) {
