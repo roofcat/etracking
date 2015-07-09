@@ -9,6 +9,7 @@ from google.appengine.ext import ndb
 
 
 recipient_type_choices = ['dte', 'cliente', ]
+options = ['all', 'dte', 'customer',]
 
 
 class AttachModel(ndb.Model):
@@ -92,7 +93,7 @@ class EmailModel(ndb.Model):
         data.put()
 
     @classmethod
-    def get_stats_by_dates(self, from_date, to_date, enterprise):
+    def get_stats_by_dates(self, from_date, to_date, enterprise, options):
         # dias para restar
         day = datetime.timedelta(days=1)
         end_date = from_date
@@ -117,7 +118,7 @@ class EmailModel(ndb.Model):
 
 
     @classmethod
-    def get_statistic_by_dates(self, from_date, to_date, enterprise):
+    def get_statistic_by_dates(self, from_date, to_date, enterprise, options):
         query = EmailModel.query(EmailModel.input_date >= from_date,
                                 EmailModel.input_date <= to_date,
                                 EmailModel.enterprise == enterprise)

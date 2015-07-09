@@ -47,15 +47,15 @@ class StatisticPanelHandler(BaseHandler):
         enterprise = user['enterprise']
         logging.info(options)
 
-        if date_from and date_to and enterprise:
+        if date_from and date_to and enterprise and options:
             # preparacion de parametros
             date_from = int(date_from)
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             # busqueda de datos
-            data = EmailModel.get_statistic_by_dates(date_from, date_to, enterprise)
-            results = EmailModel.get_stats_by_dates(date_from, date_to, enterprise)
+            data = EmailModel.get_statistic_by_dates(date_from, date_to, enterprise, options)
+            results = EmailModel.get_stats_by_dates(date_from, date_to, enterprise, options)
             context = {
                 'date_from': str(date_from),
                 'date_to': str(date_to),
