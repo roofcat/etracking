@@ -23,9 +23,7 @@ $( document ).ready( function () {
 	$( "#run_search" ).click();
 });
 $( window ).on( 'resize', function () {
-	setBadgesDashboard( jsonData.statistic );
-	drawPieGraph( jsonData.statistic );
-	drawLineGraph( jsonData.results );
+	drawJsonData();
 });
 function resetInputDates () {
 	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
@@ -51,9 +49,7 @@ $( '#run_search' ).on( 'click', function () {
 		},
 		success: function ( data ) {
 			jsonData = data;
-			setBadgesDashboard( jsonData.statistic );
-			drawPieGraph( jsonData.statistic );
-			drawLineGraph( jsonData.results );
+			drawJsonData();
 			showSuccessMessage();
 			$( '#modalButton' ).click();
 		},
@@ -63,6 +59,11 @@ $( '#run_search' ).on( 'click', function () {
 		},
 	});
 });
+function drawJsonData () {
+	setBadgesDashboard( jsonData.statistic );
+	drawPieGraph( jsonData.statistic );
+	drawLineGraph( jsonData.results );
+};
 function showSuccessMessage () {
 	$( "#successMessage" ).show();
 };
