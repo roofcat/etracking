@@ -54,16 +54,21 @@ $( '#run_search' ).on( 'click', function () {
 			$( '#modalButton' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
-			console.log( errorThrown );
+			$( '#modalButton' ).click();
 			showWarningMessage();
+			console.log( errorThrown );
 		},
 	});
 });
 function drawJsonData () {
-	setBadgesDashboard( jsonData.statistic );
-	drawPendingPieGraph( jsonData.statistic );
-	drawStatusPieGraph( jsonData.statistic );
-	drawLineGraph( jsonData.results );
+	if ( jsonData.statistic ) {
+		setBadgesDashboard( jsonData.statistic );
+		drawPendingPieGraph( jsonData.statistic );
+		drawStatusPieGraph( jsonData.statistic );
+	};
+	if ( jsonData.results ) {
+		drawLineGraph( jsonData.results );
+	};
 };
 function showSuccessMessage () {
 	$( "#successMessage" ).show();

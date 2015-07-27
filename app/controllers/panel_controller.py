@@ -91,6 +91,8 @@ class LoginPanelHandler(BaseHandler):
                 }
                 self.session['user'] = user
                 self.redirect('/')
+            else:
+                self.redirect('/login')
         else:
             self.redirect('/login')
 
