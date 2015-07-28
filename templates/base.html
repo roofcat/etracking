@@ -29,14 +29,13 @@
 		    <div class="navbar-collapse collapse navbar-warning-collapse">
 		    	<ul class="nav navbar-nav">
 				{% if data.is_custom_user %}
-				<!--
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Menú <b class="caret"></b></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Estadísticas <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> Estadísticas</a></li>
+						<li><a href="/"><span class="glyphicon glyphicon-calendar"></span> Por Fecha</a></li>
+						<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> Personalizada</a></li>
 					</ul>
 				</li>
-				-->
 				{% else %}
 				  	<li><a href="/admin">Inicio</a></li>
 				  	<li><a href="/admin/statistics">Estadísticas</a></li>

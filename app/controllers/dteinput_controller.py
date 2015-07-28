@@ -77,11 +77,9 @@ class InputEmailHandler(webapp2.RequestHandler):
 
 
 class InputEmailQueueHandler(webapp2.RequestHandler):
-
     """
     Entrada de ejecución definitiva del proceso de envío de correo
     """
-
     def post(self):
         enterprise = self.request.get('enterprise')
         campaign_id = self.request.get('campaign_id')
