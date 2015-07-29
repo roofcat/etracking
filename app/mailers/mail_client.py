@@ -27,18 +27,35 @@ class EmailClient(object):
         self.message.set_from(SG_FROM)
         self.message.set_from_name(SG_FROM_NAME)
 
-    def send_sg_email(self, to, to_name, subject, html, campaign_id, enterprise, attachs=None):
+    def send_sg_email(self, correo):
         # valores de envío
-        self.message.add_to(to)
-        self.message.add_to_name(to_name)
-        self.message.set_subject(subject)
-        self.message.set_html(html)
-        self.message.set_unique_args({'campaign_id': campaign_id, 'enterprise': enterprise})
+        self.message.add_to(correo.correo)
+        self.message.add_to_name(correo.nombre_cliente)
+        self.message.set_subject(correo.asunto)
+        self.message.set_html(correo.html)
+        # valores personalizados
+        unique_args = {
+            'empresa': correo.empresa,
+            'rut_receptor': correo.rut_receptor,
+            'rut_emisor': correo.rut_emisor,
+            'tipo_envio': correo.tipo_envio,
+            'tipo_dte': correo.tipo_dte,
+            'numero_folio': correo.numero_folio,
+            'resolucion_receptor': correo.resolucion_receptor,
+            'resolucion_emisor': correo.resolucion_emisor,
+            'monto': correo.monto,
+            'fecha_emision': correo.fecha_emision,
+            'fecha_recepcion': correo.fecha_recepcion,
+            'estado_documento': correo.estado_documento,
+            'tipo_operacion': correo.tipo_operacion,
+            'tipo_receptor': correo.tipo_receptor,
+        }
+        self.message.set_unique_args(unique_args)
         # Validacion de adjuntos
-        if not attachs == None:
-            for attach in attachs:
-                att = AttachModel.query(ancestor=attach).get()
-                self.message.add_attachment_stream(att.name, att.attach)
+        if correo.attachs:
+            for adjunto in correo.attachs:
+                adj = AttachModel.query(ancestor=adjunto).get()
+                self.message.add_attachment_stream(adj.nombre, adj.archivo)
         # enviando el mail
         status, msg = self.sg.send(self.message)
         # imprimiendo respuesta

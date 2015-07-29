@@ -40,6 +40,7 @@ from app.controllers.test import TestHandler
 from app.controllers.test import Test2Handler
 from app.controllers.test import Test3Handler
 from app.controllers.test import Test4Handler
+from app.controllers.test import Test5Handler
 from app.controllers.test import TestInputWithUserAndPassword
 
 

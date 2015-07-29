@@ -10,6 +10,7 @@ import re
 
 
 from app.models.email import EmailModel
+from app.models.email import AttachModel
 
 
 from config.jinja_environment import JINJA_ENVIRONMENT
@@ -65,6 +66,10 @@ class Test4Handler(webapp2.RequestHandler):
     def get(self):
         todo = EmailModel.query(group_by=['input_date'], projection=['input_date'], distinct=True).count()
         self.response.write(json.dumps(todo))
+
+
+class Test5Handler(webapp2.RequestHandler):
+    pass
 
 
 class TestInputWithUserAndPassword(webapp2.RequestHandler):
