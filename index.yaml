@@ -3,40 +3,40 @@ indexes:
 - kind: EmailModel
   ancestor: yes
   properties:
-  - name: email
-  - name: enterprise
-  - name: campaign_id
+  - name: correo
+  - name: numero_folio
+  - name: tipo_dte
     direction: asc
 
 - kind: EmailModel
   properties:
   - name: processed_event
   - name: input_date
-  - name: enterprise
+  - name: tipo_receptor
 
 - kind: EmailModel
   properties:
   - name: delivered_event
   - name: input_date
-  - name: enterprise
+  - name: tipo_receptor
 
 - kind: EmailModel
   properties:
   - name: opened_event
   - name: input_date
-  - name: enterprise
+  - name: tipo_receptor
 
 - kind: EmailModel
   properties:
   - name: dropped_event
   - name: input_date
-  - name: enterprise
+  - name: tipo_receptor
 
 - kind: EmailModel
   properties:
   - name: bounce_event
   - name: input_date
-  - name: enterprise
+  - name: tipo_receptor
 
 - kind: EmailModel
   properties:

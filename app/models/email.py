@@ -33,7 +33,7 @@ class EmailModel(ndb.Model):
     numero_folio = ndb.StringProperty()
     resolucion_receptor = ndb.StringProperty()
     resolucion_emisor = ndb.StringProperty()
-    monto = ndb.StringProperty()
+    monto = ndb.IntegerProperty()
     fecha_emision = ndb.DateProperty()
     fecha_recepcion = ndb.DateProperty()
     estado_documento = ndb.StringProperty(choices=tipos_de_estados_documentos)
