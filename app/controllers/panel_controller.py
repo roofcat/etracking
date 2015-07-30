@@ -44,9 +44,8 @@ class StatisticPanelHandler(BaseHandler):
         date_from = self.request.get('date_from')
         date_to = self.request.get('date_to')
         options = self.request.get('options')
-        enterprise = user['enterprise']
 
-        if date_from and date_to and enterprise and options:
+        if date_from and date_to and options:
             # preparacion de parametros
             date_from = int(date_from)
             date_to = int(date_to)

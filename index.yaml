@@ -40,6 +40,11 @@ indexes:
 
 - kind: EmailModel
   properties:
+  - name: tipo_receptor
+  - name: input_date
+
+- kind: EmailModel
+  properties:
   - name: processed_event
   - name: input_date
 
