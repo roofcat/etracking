@@ -3,7 +3,7 @@
 google.load('visualization', '1.0', {'packages': ['corechart','line','table'], 'language': 'es'});
 
 var baseUrl = document.location.href;
-var urlPath = 'statistics';
+var urlPath = 'api/statistics/globalstats';
 var jsonData;
 
 $( document ).ready( function () {

@@ -32,6 +32,34 @@ class HomePanelHandler(BaseHandler):
             self.response.write(template.render(context))
 
 
+class EmailPanelHandler(BaseHandler):
+
+    def get(self):
+        user = None
+        try:
+            user = self.session['user']
+        except:
+            self.redirect('/login')
+        if user:
+            context = {
+                'data': user,
+            }
+            template = JINJA_ENVIRONMENT.get_template('panel/email.html')
+            self.response.write(template.render(context))
+
+
+class StatisticEmailPanelHandler(BaseHandler):
+
+    def get(self):
+        user = None
+        try:
+            user = self.session['user']
+        except:
+            self.redirect('/login')
+
+        correo = self.request.get('correo')
+
+
 class StatisticPanelHandler(BaseHandler):
 
     def get(self):

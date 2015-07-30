@@ -27,7 +27,12 @@ from app.controllers.user_controller import NewUserAdminHandler
 from app.controllers.panel_controller import LoginPanelHandler
 from app.controllers.panel_controller import LogoutPanelHandler
 from app.controllers.panel_controller import HomePanelHandler
+from app.controllers.panel_controller import EmailPanelHandler
+
+
+# import para uso de apis
 from app.controllers.panel_controller import StatisticPanelHandler
+from app.controllers.panel_controller import StatisticEmailPanelHandler
 
 
 # manejo de errores
@@ -55,7 +60,11 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 app = webapp2.WSGIApplication([
     # panel usuario clientes
     (r'/', HomePanelHandler),
-    (r'/statistics', StatisticPanelHandler),
+    (r'/email', EmailPanelHandler),
+    # url apis
+    (r'/api/statistics/globalstats', StatisticPanelHandler),
+    (r'/api/statistics/email', StatisticEmailPanelHandler),
+    # autenticacion
     (r'/login', LoginPanelHandler),
     (r'/logout', LogoutPanelHandler),
 
