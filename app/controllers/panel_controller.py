@@ -51,13 +51,14 @@ class EmailPanelHandler(BaseHandler):
 class StatisticEmailPanelHandler(BaseHandler):
 
     def get(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login')
-
         correo = self.request.get('correo')
+        logging.info(correo)
+        data = EmailModel.get_info_by_email(correo)
+        context = {
+            'data': data,
+        }
+        #logging.info(context)
+        self.response.write(context)
 
 
 class StatisticPanelHandler(BaseHandler):

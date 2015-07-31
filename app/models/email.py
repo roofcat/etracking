@@ -105,6 +105,14 @@ class EmailModel(ndb.Model):
         data.put()
 
     @classmethod
+    def get_info_by_email(self, correo):
+        result = []
+        data = EmailModel.query(EmailModel.correo == correo).fetch()
+        for d in data:
+            result.append(d.to_dict())
+        return result
+
+    @classmethod
     def get_stats_by_dates(self, from_date, to_date, tipo_receptor):
         # dias para restar
         day = datetime.timedelta(days=1)
