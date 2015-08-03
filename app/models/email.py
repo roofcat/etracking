@@ -3,6 +3,7 @@
 
 
 import datetime
+import logging
 
 
 from google.appengine.ext import ndb
@@ -155,7 +156,7 @@ class EmailModel(ndb.Model):
                 EmailModel.dropped_event == "dropped").count()
             bounced = query.filter(EmailModel.bounce_event == "bounce").count()
             data = [
-                str(end_date), total, processed, delivered, opened, dropped, bounced]
+                str(end_date).split(' ')[0], total, processed, delivered, opened, dropped, bounced]
             data_result.append(data)
             end_date = end_date + day
         return data_result
