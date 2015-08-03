@@ -128,7 +128,7 @@ function drawPendingPieGraph ( data ) {
 		[ 'Estadísticas', 'Correos' ],
 		[ 'Solicitudes', data.total ],
 		[ 'Pendientes', data.total - data.processed + data.dropped ],
-		]);
+	]);
 
 	var options = {
 		'title': "Estado de pendientes",
