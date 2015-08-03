@@ -108,7 +108,8 @@ class EmailModel(ndb.Model):
     @classmethod
     def get_info_by_email(self, correo):
         result = []
-        data = EmailModel.query(EmailModel.correo == correo).order(-EmailModel.input_date).fetch()
+        data = EmailModel.query(
+            EmailModel.correo == correo).order(-EmailModel.input_date).fetch()
         for d in data:
             result.append(d.to_dict())
         return result
@@ -119,7 +120,8 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_email_lagging(self):
-        query = EmailModel.query(ndb.AND(EmailModel.processed_event == None, EmailModel.dropped_event == None))
+        query = EmailModel.query(
+            ndb.AND(EmailModel.processed_event == None, EmailModel.dropped_event == None))
         return query.fetch()
 
     @classmethod
@@ -155,8 +157,8 @@ class EmailModel(ndb.Model):
             dropped = query.filter(
                 EmailModel.dropped_event == "dropped").count()
             bounced = query.filter(EmailModel.bounce_event == "bounce").count()
-            data = [
-                str(end_date).split(' ')[0], total, processed, delivered, opened, dropped, bounced]
+            data = [str(end_date).split(' ')[0], total, processed,
+                    delivered, opened, dropped, bounced]
             data_result.append(data)
             end_date = end_date + day
         return data_result
