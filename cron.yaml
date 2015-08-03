@@ -1,0 +1,4 @@
+cron:
+- description: ejecutar envio de correos no enviados por algun error
+  url: /cron/sendlagging
+  schedule: every 30 mins

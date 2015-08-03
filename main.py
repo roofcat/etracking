@@ -28,6 +28,12 @@ from app.controllers.panel_controller import LoginPanelHandler
 from app.controllers.panel_controller import LogoutPanelHandler
 from app.controllers.panel_controller import HomePanelHandler
 from app.controllers.panel_controller import EmailPanelHandler
+from app.controllers.panel_controller import FolioPanelHandler
+from app.controllers.panel_controller import RutReceptorPanelHandler
+
+
+# import tareas cron
+from app.controllers.cron_controller import SendLaggingCronHandler
 
 
 # import para uso de apis
@@ -58,12 +64,20 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 
 
 app = webapp2.WSGIApplication([
+
     # panel usuario clientes
     (r'/', HomePanelHandler),
     (r'/email', EmailPanelHandler),
+    (r'/folio', FolioPanelHandler),
+    (r'/receptor', RutReceptorPanelHandler),
+
+    # tareas cron
+    (r'/cron/sendlagging', SendLaggingCronHandler),
+    
     # url apis
     (r'/api/statistics/globalstats', StatisticPanelHandler),
     (r'/api/statistics/email', StatisticEmailPanelHandler),
+    
     # autenticacion
     (r'/login', LoginPanelHandler),
     (r'/logout', LogoutPanelHandler),

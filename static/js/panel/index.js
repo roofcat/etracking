@@ -127,7 +127,7 @@ function drawPendingPieGraph ( data ) {
 	var data = google.visualization.arrayToDataTable([
 		[ 'Estadísticas', 'Correos' ],
 		[ 'Solicitudes', data.total ],
-		[ 'Pendientes', data.total - data.processed ],
+		[ 'Pendientes', data.total - data.processed + data.dropped ],
 		]);
 
 	var options = {

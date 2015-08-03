@@ -107,10 +107,23 @@ class EmailModel(ndb.Model):
     @classmethod
     def get_info_by_email(self, correo):
         result = []
-        data = EmailModel.query(EmailModel.correo == correo).fetch()
+        data = EmailModel.query(EmailModel.correo == correo).order(-EmailModel.input_date).fetch()
         for d in data:
             result.append(d.to_dict())
         return result
+
+    @classmethod
+    def get_emails_by_folio(self, folio):
+        return EmailModel.query(EmailModel.numero_folio == folio).fetch()
+
+    @classmethod
+    def get_email_lagging(self):
+        query = EmailModel.query(ndb.AND(EmailModel.processed_event == None, EmailModel.dropped_event == None))
+        return query.fetch()
+
+    @classmethod
+    def get_emails_by_rut_receptor(self, rut):
+        return EmailModel.query(EmailModel.rut_receptor == rut).fetch()
 
     @classmethod
     def get_stats_by_dates(self, from_date, to_date, tipo_receptor):
