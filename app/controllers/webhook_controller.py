@@ -119,7 +119,7 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                         email_model.bounce_sg_event_id = body['sg_event_id']
                         email_model.bounce_sg_message_id = body[
                             'sg_message_id']
-                        email_model.bounce_reason = body['reason']
+                        email_model.bounce_reason = str(body['reason']).decode("utf-8")
                         email_model.bounce_status = body['status']
                         email_model.bounce_type = body['type']
                         email_model.put()
