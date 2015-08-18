@@ -62,8 +62,8 @@ $( '#export' ).on( 'click', function () {
 			'options': options,
 		},
 		success: function ( data ) {
-			return data;
 			$( '#modalButton' ).click();
+			return data;
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			$( '#modalButton' ).click();
