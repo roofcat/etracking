@@ -3,17 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/css/material.min.css">
-	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
 	<link rel="stylesheet" href="/static/css/roboto.min.css">
+	<!--<link rel="stylesheet" href="/static/css/material.min.css">-->
+	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
 	<link rel="stylesheet" href="/static/css/ripples.min.css">
 	<link rel="stylesheet" href="/static/css/dropdown.css">
 	<link rel="stylesheet" href="/static/css/styles.css">
 	{% block stylesheets %}{% endblock %}
-	<title>{% block title %}{% endblock %} - AzurianDTE e-tracking</title>
+	<title>{% block title %}{% endblock %} - AzurianDTE Tracking</title>
 </head>
 <body>
 	<div class="page-header">
@@ -24,18 +24,18 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 		        </button>
-		        <a class="navbar-brand" style="margin-left:20px;" href="/"><b>Azurian</b>DTE e-tracking</a>
+		        <a class="navbar-brand" style="margin-left:20px;" href="/"><b>Azurian</b>DTE Tracking</a>
 		    </div>
 		    <div class="navbar-collapse collapse navbar-warning-collapse">
 		    	<ul class="nav navbar-nav">
 				{% if data.is_custom_user %}
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Estadísticas <b class="caret"></b></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Búsquedas <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="/"><span class="glyphicon glyphicon-calendar"></span> Por Fecha</a></li>
-						<li><a href="/folio"><span class="glyphicon glyphicon-briefcase"></span> Búsqueda por folio</a></li>
-						<li><a href="/receptor"><span class="glyphicon glyphicon-user"></span> Búsqueda por rut receptor</a></li>
-						<li><a href="/email"><span class="glyphicon glyphicon-envelope"></span> Búsqueda por correo</a></li>
+						<li><a href="/folio"><span class="glyphicon glyphicon-briefcase"></span> Por folio</a></li>
+						<li><a href="/receptor"><span class="glyphicon glyphicon-user"></span> Por rut receptor</a></li>
+						<li><a href="/email"><span class="glyphicon glyphicon-envelope"></span> Por correo</a></li>
 					</ul>
 				</li>
 				{% else %}
@@ -68,8 +68,8 @@
 	<script src="/static/js/moment.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="/static/js/dropdown.js"></script>
-	<script src="/static/js/material.min.js"></script>
 	<script src="/static/js/ripples.min.js"></script>
+	<script src="/static/js/material.min.js"></script>
 	<script src="https://www.google.com/jsapi"></script>
 	<script>$.material.init();</script>
 	{% block javascript %}{% endblock %}

@@ -46,7 +46,6 @@ class EmailModel(ndb.Model):
     asunto = ndb.StringProperty(required=True)
     html = ndb.TextProperty(required=True)
     # adjuntos
-    #attachs = ndb.StructuredProperty(AttachModel, repeated=True)
     attachs = ndb.KeyProperty(kind='AttachModel', repeated=True)
     # campos de processed
     smtp_id = ndb.StringProperty()
@@ -89,6 +88,14 @@ class EmailModel(ndb.Model):
     unsubscribe_purchase = ndb.StringProperty()
     unsubscribe_id = ndb.StringProperty()
     unsubscribe_event = ndb.StringProperty(indexed=True)
+    # campos click
+    click_ip = ndb.StringProperty()
+    click_purchase = ndb.StringProperty()
+    click_useragent = ndb.StringProperty()
+    click_event = ndb.StringProperty()
+    click_email = ndb.StringProperty()
+    click_date = ndb.DateTimeProperty()
+    click_url = ndb.StringProperty()
 
     def search_email(self, correo, numero_folio, tipo_dte):
         """ Retorna el objeto para determinar si existe o no """
@@ -162,6 +169,18 @@ class EmailModel(ndb.Model):
             data_result.append(data)
             end_date = end_date + day
         return data_result
+
+    @classmethod
+    def get_all_emails_by_dates(self, from_date, to_date, tipo_receptor):
+        
+        if tipo_receptor == 'all':
+            query = EmailModel.query(EmailModel.input_date >= end_date,
+                                     EmailModel.input_date <= end_date)
+        else:
+            query = EmailModel.query(EmailModel.input_date >= end_date,
+                                     EmailModel.input_date <= end_date,
+                                     EmailModel.tipo_receptor == tipo_receptor)
+        return query.fetch()
 
     @classmethod
     def get_statistic_by_dates(self, from_date, to_date, tipo_receptor):

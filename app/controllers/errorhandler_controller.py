@@ -16,6 +16,13 @@ def handle_404(request, response, exception):
 	response.set_status(404)
 
 
+def handle_403(request, response, exception):
+	logging.exception(exception)
+	template = JINJA_ENVIRONMENT.get_template('403.html')
+	response.write(template.render())
+	response.set_status(403)
+
+
 def handle_500(request, response, exception):
 	logging.exception(exception)
 	template = JINJA_ENVIRONMENT.get_template('500.html')

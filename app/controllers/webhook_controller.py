@@ -136,5 +136,24 @@ class SendrigWebhookHandler(webapp2.RequestHandler):
                         email_model.unsubscribe_id = body['id']
                         email_model.unsubscribe_event = body['event']
                         email_model.put()
+                elif event == 'click':
+                    e = EmailModel()
+                    email_model = e.search_email(correo, numero_folio, tipo_dte)
+
+                    if not email_model == None:
+                        email_model.unsubscribe_date = body['timestamp']
+                        email_model.unsubscribe_uid = body['uid']
+                        email_model.unsubscribe_purchase = body['purchase']
+                        email_model.unsubscribe_id = body['id']
+                        email_model.unsubscribe_event = body['event']
+                        
+                        email_model.click_ip = body['ip']
+                        email_model.click_purchase = body['purchase']
+                        email_model.click_useragent = body['useragent']
+                        email_model.click_event = body['event']
+                        email_model.click_email = body['email']
+                        email_model.click_date = body['timestamp']
+                        email_model.click_url = body['url']
+                        email_model.put()
             else:
                 logging.info('body con campos vacios')

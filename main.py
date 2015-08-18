@@ -32,6 +32,10 @@ from app.controllers.panel_controller import FolioPanelHandler
 from app.controllers.panel_controller import RutReceptorPanelHandler
 
 
+# imports para reportes csv
+from app.controllers.csv_controller import ExportHomePanelHandler
+
+
 # import tareas cron
 from app.controllers.cron_controller import SendLaggingCronHandler
 
@@ -42,6 +46,7 @@ from app.controllers.panel_controller import StatisticEmailPanelHandler
 
 
 # manejo de errores
+from app.controllers.errorhandler_controller import handle_403
 from app.controllers.errorhandler_controller import handle_404
 from app.controllers.errorhandler_controller import handle_500
 
@@ -64,12 +69,14 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 
 
 app = webapp2.WSGIApplication([
-
     # panel usuario clientes
     (r'/', HomePanelHandler),
     (r'/email', EmailPanelHandler),
     (r'/folio', FolioPanelHandler),
     (r'/receptor', RutReceptorPanelHandler),
+
+    # rutas para descargar csv
+    (r'/export/stats', ExportHomePanelHandler),
 
     # tareas cron
     (r'/cron/sendlagging', SendLaggingCronHandler),
@@ -104,5 +111,6 @@ app = webapp2.WSGIApplication([
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)
 
+app.error_handlers[403] = handle_403
 app.error_handlers[404] = handle_404
 app.error_handlers[500] = handle_500
