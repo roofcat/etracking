@@ -107,6 +107,7 @@ app = webapp2.WSGIApplication([
     (r'/test2', Test2Handler),
     (r'/test3', Test3Handler),
     (r'/test4', Test4Handler),
+    (r'/test5', Test5Handler),
     (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)

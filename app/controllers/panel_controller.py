@@ -11,8 +11,6 @@ import logging
 from app_controller import BaseHandler
 from app.models.user import UserModel
 from app.models.email import EmailModel
-from config.oauth2_utils import decorator
-from config.oauth2_utils import user_info_service
 from config.jinja_environment import JINJA_ENVIRONMENT
 
 

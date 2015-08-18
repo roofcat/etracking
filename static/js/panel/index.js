@@ -11,7 +11,7 @@ $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
 	resetInputDates();
-	//$("#options").dropdown();
+	putDownloadLink();
 
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
@@ -39,6 +39,7 @@ $( 'input:text' ).on( 'change', function () {
 	if ( date_from > date_to ) {
 		resetInputDates();
 	};
+	putDownloadLink();
 });
 
 function resetInputDates () {
@@ -46,32 +47,16 @@ function resetInputDates () {
 	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
 };
 
-$( '#export' ).on( 'click', function () {
+function putDownloadLink () {
+	console.log("cambio link");
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
 	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-	//$.download();
-	$.ajax({
-		'type': 'GET',
-		'url': baseUrl + urlExport,
-		'data': {
-			'date_from': date_from,
-			'date_to': date_to,
-			'options': options,
-		},
-		success: function ( data ) {
-			$( '#modalButton' ).click();
-			return data;
-		},
-		error: function ( jqXHR, textStatus, errorThrown ) {
-			$( '#modalButton' ).click();
-			console.log( errorThrown );
-		},
-	});
-	
-});
+	var link = baseUrl + urlExport + '?date_from=' + date_from + '&date_to=' + date_to + '&options=' + options;
+	$( '#export' ).attr('href', link );
+};
 
 $( '#run_search' ).on( 'click', function () {
 	hideAlertsMessages();

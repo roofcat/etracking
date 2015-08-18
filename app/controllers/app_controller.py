@@ -13,7 +13,7 @@ class BaseHandler(webapp2.RequestHandler):
         try:
             webapp2.RequestHandler.dispatch(self)
         except:
-        	self.redirect('/logout')
+            self.redirect('/logout')
         finally:
             self.session_store.save_sessions(self.response)
 

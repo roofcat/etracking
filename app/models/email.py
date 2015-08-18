@@ -174,11 +174,11 @@ class EmailModel(ndb.Model):
     def get_all_emails_by_dates(self, from_date, to_date, tipo_receptor):
         
         if tipo_receptor == 'all':
-            query = EmailModel.query(EmailModel.input_date >= end_date,
-                                     EmailModel.input_date <= end_date)
+            query = EmailModel.query(EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date)
         else:
-            query = EmailModel.query(EmailModel.input_date >= end_date,
-                                     EmailModel.input_date <= end_date,
+            query = EmailModel.query(EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date,
                                      EmailModel.tipo_receptor == tipo_receptor)
         return query.fetch()
 
