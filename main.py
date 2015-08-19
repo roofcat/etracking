@@ -71,12 +71,12 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 app = webapp2.WSGIApplication([
     # panel usuario clientes
     (r'/', HomePanelHandler),
-    (r'/email', EmailPanelHandler),
-    (r'/folio', FolioPanelHandler),
-    (r'/receptor', RutReceptorPanelHandler),
+    (r'/email/', EmailPanelHandler),
+    (r'/folio/', FolioPanelHandler),
+    (r'/receptor/', RutReceptorPanelHandler),
 
     # rutas para descargar csv
-    (r'/export/stats', ExportHomePanelHandler),
+    (r'/export/stats/(\d+)/(\d+)/(.+)/', ExportHomePanelHandler),
 
     # tareas cron
     (r'/cron/sendlagging', SendLaggingCronHandler),

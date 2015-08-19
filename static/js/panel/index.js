@@ -4,7 +4,7 @@ google.load('visualization', '1.0', {'packages': ['corechart','line','table'], '
 
 var baseUrl = document.location.href;
 var urlPath = 'api/statistics/globalstats';
-var urlExport = 'export/stats';
+var urlExport = 'export/stats/';
 var jsonData;
 
 $( document ).ready( function () {
@@ -48,13 +48,12 @@ function resetInputDates () {
 };
 
 function putDownloadLink () {
-	console.log("cambio link");
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
 	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-	var link = baseUrl + urlExport + '?date_from=' + date_from + '&date_to=' + date_to + '&options=' + options;
+	var link = baseUrl + urlExport + date_from + '/' + date_to + '/' + options + '/';
 	$( '#export' ).attr('href', link );
 };
 
