@@ -86,14 +86,14 @@ class ExportHomePanelHandler(BaseHandler):
 			opened_last_date = row.opened_last_date
 			opened_event = row.opened_event
 			opened_ip = row.opened_ip
-			opened_user_agent = str(row.opened_user_agent).replace(',', ' ').replace(';', '')
+			opened_user_agent = str(row.opened_user_agent).replace(',', ' ').replace(';', ' ')
 			opened_count = row.opened_count
 			dropped_date = row.dropped_date
-			dropped_reason = str(row.dropped_reason).replace(',', ' ').replace(';', '')
+			dropped_reason = str(row.dropped_reason).replace(',', ' ').replace(';', ' ')
 			dropped_event = row.dropped_event
 			bounce_date = row.bounce_date
 			bounce_event = row.bounce_event
-			bounce_reason = str(row.bounce_reason).replace(',', ' ').replace(';', '')
+			bounce_reason = str(row.bounce_reason).replace(',', ' ').replace(';', ' ')
 			bounce_status = row.bounce_status
 			bounce_type = row.bounce_type
 			unsubscribe_date = row.unsubscribe_date
@@ -102,7 +102,7 @@ class ExportHomePanelHandler(BaseHandler):
 			unsubscribe_event = row.unsubscribe_event
 			click_ip = row.click_ip
 			click_purchase = row.click_purchase
-			click_useragent = str(row.click_useragent).replace(',', ' ').replace(';', '')
+			click_useragent = str(row.click_useragent).replace(',', ' ').replace(';', ' ')
 			click_event = row.click_event
 			click_email = row.click_email
 			click_date = row.click_date
