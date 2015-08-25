@@ -21,7 +21,7 @@ class HomePanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         if user:
             context = {
                 'data': user,
@@ -37,7 +37,7 @@ class EmailPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         if user:
             context = {
                 'data': user,
@@ -50,7 +50,7 @@ class EmailPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         correo = self.request.get('correo')
         correos = EmailModel.get_info_by_email(correo)
         context = {
@@ -68,7 +68,7 @@ class FolioPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         if user:
             context = {
                 'data': user,
@@ -81,7 +81,7 @@ class FolioPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         folio = self.request.get('folio')
         correos = EmailModel.get_emails_by_folio(folio)
         context = {
@@ -99,7 +99,7 @@ class RutReceptorPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         if user:
             context = {
                 'data': user,
@@ -112,7 +112,7 @@ class RutReceptorPanelHandler(BaseHandler):
         try:
             user = self.session['user']
         except:
-            self.redirect('/login')
+            self.redirect('/login/')
         rut = self.request.get('rut')
         correos = EmailModel.get_emails_by_rut_receptor(rut)
         context = {
@@ -138,19 +138,9 @@ class StatisticEmailPanelHandler(BaseHandler):
 
 class StatisticPanelHandler(BaseHandler):
 
-    def get(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login')
-
-        date_from = self.request.get('date_from')
-        date_to = self.request.get('date_to')
-        options = self.request.get('options')
+    def get(self, date_from, date_to, options):
 
         if date_from and date_to and options:
-            # preparacion de parametros
             date_from = int(date_from)
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
@@ -194,9 +184,9 @@ class LoginPanelHandler(BaseHandler):
                 self.session['user'] = user
                 self.redirect('/')
             else:
-                self.redirect('/login')
+                self.redirect('/login/')
         else:
-            self.redirect('/login')
+            self.redirect('/login/')
 
 
 class LogoutPanelHandler(BaseHandler):

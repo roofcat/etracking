@@ -71,38 +71,38 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 app = webapp2.WSGIApplication([
     # panel usuario clientes
     (r'/', HomePanelHandler),
-    (r'/email/', EmailPanelHandler),
-    (r'/folio/', FolioPanelHandler),
-    (r'/receptor/', RutReceptorPanelHandler),
+    (r'/email/$', EmailPanelHandler),
+    (r'/folio/$', FolioPanelHandler),
+    (r'/receptor/$', RutReceptorPanelHandler),
 
     # rutas para descargar csv
-    (r'/export/stats/(\d+)/(\d+)/(.+)/', ExportHomePanelHandler),
-
-    # tareas cron
-    (r'/cron/sendlagging', SendLaggingCronHandler),
+    (r'/export/stats/(\d+)/(\d+)/(.+)/$', ExportHomePanelHandler),
     
     # url apis
-    (r'/api/statistics/globalstats', StatisticPanelHandler),
-    (r'/api/statistics/email', StatisticEmailPanelHandler),
+    (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),
+    (r'/api/statistics/email/$', StatisticEmailPanelHandler),
+
+    # tareas cron
+    (r'/cron/sendlagging/$', SendLaggingCronHandler),
     
     # autenticacion
-    (r'/login', LoginPanelHandler),
-    (r'/logout', LogoutPanelHandler),
+    (r'/login/$', LoginPanelHandler),
+    (r'/logout/$', LogoutPanelHandler),
 
     # panel admin azurian
-    (r'/admin', AdminHandler),
-    (r'/admin/statistics', IndexStatisticHandler),
-    (r'/admin/statistics/stats', GraphStatisticHandler),
-    (r'/admin/users', UserAdminHandler),
-    (r'/admin/users/list', ListUserAdminHandler),
-    (r'/admin/users/new', NewUserAdminHandler),
+    (r'^/admin/$', AdminHandler),
+    (r'^/admin/statistics/$', IndexStatisticHandler),
+    (r'^/admin/statistics/stats/$', GraphStatisticHandler),
+    (r'^/admin/users/$', UserAdminHandler),
+    (r'^/admin/users/list/$', ListUserAdminHandler),
+    (r'^/admin/users/new/$', NewUserAdminHandler),
 
     # Eliminar token para el admin azurian
-    (r'/revoke', RevokeHandler),
-    (r'/home', HomePanelHandler),
-    (r'/input', InputEmailHandler),
-    (r'/inputqueue', InputEmailQueueHandler),
-    (r'/webhook', SendrigWebhookHandler),
+    (r'^/revoke/$', RevokeHandler),
+    (r'^/home/$', HomePanelHandler),
+    (r'^/input/$', InputEmailHandler),
+    (r'^/inputqueue', InputEmailQueueHandler),
+    (r'^/webhook/$', SendrigWebhookHandler),
     (r'/test1', TestHandler),
     (r'/test2', Test2Handler),
     (r'/test3', Test3Handler),

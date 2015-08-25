@@ -3,7 +3,7 @@
 google.load('visualization', '1.0', {'packages': ['corechart','line','table'], 'language': 'es'});
 
 var baseUrl = document.location.href;
-var urlPath = 'api/statistics/globalstats';
+var urlPath = 'api/statistics/globalstats/';
 var urlExport = 'export/stats/';
 var jsonData;
 
@@ -66,15 +66,12 @@ $( '#run_search' ).on( 'click', function () {
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
 
+	
+
 	$.ajax({
 		'type': 'GET',
-		'url': baseUrl + urlPath,
+		'url': baseUrl + urlPath + date_from + '/' + date_to + '/' + options + '/',
 		'dataType': 'json',
-		'data': {
-			'date_from': date_from,
-			'date_to': date_to,
-			'options': options,
-		},
 		success: function ( data ) {
 			jsonData = data;
 			drawJsonData();
