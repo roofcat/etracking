@@ -8,22 +8,14 @@
 	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
 	<link rel="stylesheet" href="/static/css/roboto.min.css">
 	<link rel="stylesheet" href="/static/css/ripples.min.css">
-	<link rel="stylesheet" href="/static/css/styles.css">
+	<link rel="stylesheet" href="/static/css/style.css">
 	<title>Azurian - Login</title>
 </head>
-<body class="animated fadeInDown">
+<body class="animated fadeInDown fondo-azurian" style="padding-top:40px;padding-bottom:40px;">
 
-	<div class="navbar navbar-warning shadow-z-2 navbar-fixed-top">
-	    <div class="navbar-header"></div>
-	</div>
-
-<div class="container-fluid login">
-	<div class="row">
-		<div class="col-xs-8 col-md-7 hidden-xs hidden-sm">
-			<img width="750" src="http://www.azurian.com/sites/default/files/SliderIMG/Factura-Electronica-2015_2.jpg" alt="" class="image-responsive">
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-			<div class="well">
+	<div class="container-fluid login">
+		<div class="row">
+			<div class="well" style="width:100%">
 				<h3 class="header"><b>Azurian</b>DTE Tracking</h3>
 				<form name='formulario' method="post">
 					<div class="form-group">
@@ -33,13 +25,16 @@
 						<input type='password' placeholder='Contraseña' class='form-control floating-label' name='password' required>
 					</div>
 					<div class="form-group" align="right">
-						<input class="btn btn-material-deep-orange-700" type="submit" value="Iniciar Sesión">
+						<button class="btn btn-raised btn-material-deep-orange-600" style="width:100%;" type="submit">Iniciar sesión  <div class="ripple-wrapper"></div></button>
 					</div>
 				</form>
+				<div align="right">
+					<img src="/static/img/azurian_logo.png" width="198" height="82">
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
 	<script src="/static/js/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="/static/js/material.min.js"></script>
