@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/css/roboto.min.css">
-	<!--<link rel="stylesheet" href="/static/css/material.min.css">-->
+	<link rel="stylesheet" href="/static/css/material.min.css">
 	<link rel="stylesheet" href="/static/css/material-fullpalette.min.css">
 	<link rel="stylesheet" href="/static/css/ripples.min.css">
 	<link rel="stylesheet" href="/static/css/dropdown.css">
@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="page-header">
-		<div class="navbar navbar-inverse shadow-z-2 navbar-fixed-top">
+		<div class="navbar navbar-inverse shadow-z-1 navbar-fixed-top">
 		    <div class="navbar-header">
 		        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-warning-collapse">
 		            <span class="icon-bar"></span>
@@ -32,10 +32,10 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Búsquedas <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/"><span class="glyphicon glyphicon-calendar"></span> Por Fecha</a></li>
-						<li><a href="/folio/"><span class="glyphicon glyphicon-briefcase"></span> Por folio</a></li>
-						<li><a href="/receptor/"><span class="glyphicon glyphicon-user"></span> Por rut receptor</a></li>
-						<li><a href="/email/"><span class="glyphicon glyphicon-envelope"></span> Por correo</a></li>
+						<li><a href="/">Por Fecha</a></li>
+						<li><a href="/folio/">Por folio</a></li>
+						<li><a href="/receptor/">Por rut receptor</a></li>
+						<li><a href="/email/">Por correo</a></li>
 					</ul>
 				</li>
 				{% else %}
@@ -49,9 +49,9 @@
 		                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ data.email }} <b class="caret"></b></a>
 		                <ul class="dropdown-menu">
 		                {% if data.is_custom_user %}
-				        	<li><a href="/logout/"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+				        	<li><a href="/logout/">Salir</a></li>
 						{% else %}
-				          	<li><a href="/revoke/"><span class="glyphicon glyphicon-off"></span> Salir</a></li>
+				          	<li><a href="/revoke/">Salir</a></li>
 						{% endif %}
 		                </ul>
 		            </li>

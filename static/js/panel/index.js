@@ -89,7 +89,6 @@ $( '#run_search' ).on( 'click', function () {
 function drawJsonData () {
 	if ( jsonData.statistic ) {
 		setBadgesDashboard( jsonData.statistic );
-		drawPendingPieGraph( jsonData.statistic );
 		drawStatusPieGraph( jsonData.statistic );
 	};
 	if ( jsonData.results ) {
@@ -111,23 +110,32 @@ function hideAlertsMessages () {
 };
 
 function setBadgesDashboard ( data ) {
-	$( 'span.badge' ).empty();
-	var total = $( '#badgeTotal' ).text( data.total );
-	var processed = $( '#badgeProcessed' ).text( data.processed );
-	var delivered = $( '#badgeDelivered' ).text( data.delivered );
-	var opened = $( '#badgeOpened' ).text( data.opened );
-	var bounced = $( '#badgeBounced' ).text( data.bounced );
-	var dropped = $( '#badgeDropped' ).text( data.dropped );
+	var total = $( '#badgeTotal' ).empty().text( data.total );
+	var processed = $( '#badgeProcessed' ).empty().text( data.processed );
+	var delivered = $( '#badgeDelivered' ).empty().text( data.delivered );
+	var opened = $( '#badgeOpened' ).empty().text( data.opened );
+	var bounced = $( '#badgeBounced' ).empty().text( data.bounced );
+	var dropped = $( '#badgeDropped' ).empty().text( data.dropped );
 };
 
 function drawLineGraph ( datas ) {
 	var data = new google.visualization.arrayToDataTable( datas );
 	var options = {
-		'title': 'Estadísticas',
+		'width': '85%',
+		'height': '85%',
+		'chartArea': {
+			'left': "3%",
+			'top': "3%",
+			'height': "79%",
+			'width': "79%",
+		},
 		'vAxis': {
 			'viewWindow': {
 				'min': 0,
 			},
+		},
+		'legend': {
+			'position': 'right',
 		},
 	};
 	var chart = new google.visualization.LineChart( document.getElementById( 'divLineChart' ) );
@@ -143,39 +151,23 @@ function drawStatusPieGraph ( data ) {
 		]);
 
 	var options = {
-		'title': "Estado global",
-		'is3D': true,
-		'width': 350,
-		'height': 300,
-		'legend': {
-			'maxLines': 20,
+		'pieHole': 0.5,
+		'width': '100%',
+		'height': '100%',
+		'forceIFrame': true,
+		'chartArea': {
+			'left': "3%",
+			'top': "3%",
+			'height': "94%",
+			'width': "94%",
 		},
+		'legend': { 'position': 'none', },
 	};
 
 	var chart = new google.visualization.PieChart(document.getElementById( 'divStatusPieChart' ));
 	chart.draw( data, options );
 };
 
-function drawPendingPieGraph ( data ) {
-	var data = google.visualization.arrayToDataTable([
-		[ 'Estadísticas', 'Correos' ],
-		[ 'Solicitudes', data.total ],
-		[ 'Pendientes', ( data.total - (data.processed + data.dropped) ) ],
-	]);
-
-	var options = {
-		'title': "Estado de pendientes",
-		'is3D': true,
-		'width': 350,
-		'height': 300,
-		'legend': {
-			'maxLines': 20,
-		},
-	};
-
-	var chart = new google.visualization.PieChart(document.getElementById( 'divPendingPieChart' ));
-	chart.draw( data, options );
-};
 function getDateAsTimestamp ( date ) {
 	return moment( date, 'DD/MM/YYYY' ).unix();
 };
