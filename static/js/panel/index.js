@@ -161,13 +161,14 @@ function drawLineGraph ( datas ) {
 	var options = {
 		'width': '87%',
 		'height': '90%',
+		'pointSize': 3,
 		'chartArea': {
 			'left': "3%",
 			'top': "3%",
 			'height': "83%",
 			'width': "83%",
 		},
-		'fontSize': 11,		
+		'fontSize': 11,
 		'vAxis': {
 			'textStyle': {
 				'color': '#212121',
