@@ -58,15 +58,12 @@ function putDownloadLink () {
 };
 
 $( '#run_search' ).on( 'click', function () {
-	hideAlertsMessages();
 	
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
 	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-
-	
 
 	$.ajax({
 		'type': 'GET',
@@ -75,12 +72,10 @@ $( '#run_search' ).on( 'click', function () {
 		success: function ( data ) {
 			jsonData = data;
 			drawJsonData();
-			showSuccessMessage();
 			$( '#modalButton' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			$( '#modalButton' ).click();
-			showWarningMessage();
 			console.log( errorThrown );
 		},
 	});
@@ -88,48 +83,96 @@ $( '#run_search' ).on( 'click', function () {
 
 function drawJsonData () {
 	if ( jsonData.statistic ) {
-		setBadgesDashboard( jsonData.statistic );
-		drawStatusPieGraph( jsonData.statistic );
+		setLegends( jsonData.statistic );
+		drawGeneralStatusPieGraph( jsonData.statistic );
+		drawSendedStatusPieChart( jsonData.statistic );
+		drawFailureStatusPieChart( jsonData.statistic );
 	};
 	if ( jsonData.results ) {
 		drawLineGraph( jsonData.results );
 	};
 };
 
-function showSuccessMessage () {
-	$( "#successMessage" ).show();
+function setLegends ( data ) {
+	var divResumeGeneral = $( '#divResumeGeneral' );
+	var divResumeOpened = $( '#divResumeOpened' );
+	var divResumeFailure = $( '#divResumeFailure' );
+
+	var htmlGeneral = '';
+	var htmlOpened = '';
+	var htmlFailure = '';
+
+	if ( data && data.total > 0 ) {
+		// calcular general
+		htmlGeneral += '<span class="circulo-indigo-500"></span>';
+		htmlGeneral += '<label> ';
+		htmlGeneral +=  data.delivered + ' enviados ';
+		htmlGeneral +=  getPercentage2( data.delivered, ( data.bounced + data.dropped ) );
+		htmlGeneral += '%</label><br>';
+		htmlGeneral += '<span class="circulo-naranjo-500"></span>';
+		htmlGeneral += '<label> ';
+		htmlGeneral +=  ( data.bounced + data.dropped ) + ' fallidos ';
+		htmlGeneral +=  getPercentage2( ( data.bounced + data.dropped ), data.delivered );
+		htmlGeneral += '%</label><br>';
+
+		divResumeGeneral.empty().append( htmlGeneral );
+
+		// calcular abiertos
+		htmlOpened += '<span class="circulo-indigo-700"></span>';
+		htmlOpened += '<label> ';
+		htmlOpened += data.opened + ' leídos ';
+		htmlOpened += getPercentage2( data.opened, ( data.delivered - data.opened ) ) + '%</label><br>';
+		htmlOpened += '<span class="circulo-indigo-300"></span>';
+		htmlOpened += '<label> ';
+		htmlOpened += ( data.delivered - data.opened ) + ' no leídos ';
+		htmlOpened += getPercentage2( ( data.delivered - data.opened ), data.opened ) + '%</label><br>';
+
+		divResumeOpened.empty().append( htmlOpened );
+
+		// calcular fallidos
+		htmlFailure += '<span class="circulo-naranjo-700"></span>';
+		htmlFailure += '<label> ';
+		htmlFailure += data.bounced + ' rebotados ';
+		htmlFailure += getPercentage2( data.bounced, data.dropped ) + '%</label><br>';
+		htmlFailure += '<span class="circulo-naranjo-300"></span>';
+		htmlFailure += '<label> ';
+		htmlFailure += data.dropped + ' rechazados ';
+		htmlFailure += getPercentage2( data.dropped, data.bounced ) + '%</label><br>';
+
+		divResumeFailure.empty().append( htmlFailure );
+
+	} else {
+		divResumeGeneral.empty().append( '<label>Sin datos en este período</label>' );
+		divResumeOpened.empty().append( '<label>Sin datos en este período</label>' );
+		divResumeFailure.empty().append( '<label>Sin datos en este período</label>' );
+	};
 };
 
-function showWarningMessage () {
-	$( "#warningMessage" ).show();
+function getPercentage2( val1, val2 ) {
+	return parseFloat( ( val1 * 100 ) / ( val1 + val2 ) ).toFixed( 1 );
 };
 
-function hideAlertsMessages () {
-	$( "#warningMessage" ).hide();
-	$( "#successMessage" ).hide();
-};
-
-function setBadgesDashboard ( data ) {
-	var total = $( '#badgeTotal' ).empty().text( data.total );
-	var processed = $( '#badgeProcessed' ).empty().text( data.processed );
-	var delivered = $( '#badgeDelivered' ).empty().text( data.delivered );
-	var opened = $( '#badgeOpened' ).empty().text( data.opened );
-	var bounced = $( '#badgeBounced' ).empty().text( data.bounced );
-	var dropped = $( '#badgeDropped' ).empty().text( data.dropped );
+function getPercentage3( val1, val2, val3 ) {
+	return parseFloat( ( val1 * 100 ) / ( val1 + val2 + val3 ) ).toFixed( 1 );
 };
 
 function drawLineGraph ( datas ) {
 	var data = new google.visualization.arrayToDataTable( datas );
 	var options = {
-		'width': '85%',
-		'height': '85%',
+		'width': '87%',
+		'height': '90%',
 		'chartArea': {
 			'left': "3%",
 			'top': "3%",
-			'height': "79%",
-			'width': "79%",
+			'height': "83%",
+			'width': "83%",
 		},
+		'fontSize': 11,		
 		'vAxis': {
+			'textStyle': {
+				'color': '#212121',
+				'fontSize': 10,
+			},
 			'viewWindow': {
 				'min': 0,
 			},
@@ -142,19 +185,20 @@ function drawLineGraph ( datas ) {
 	chart.draw( data, options );
 };
 
-function drawStatusPieGraph ( data ) {
+function drawGeneralStatusPieGraph ( data ) {
 	var data = google.visualization.arrayToDataTable([
 		[ 'Estadísticas', 'Correos' ],
 		[ 'Enviados', data.delivered ],
-		[ 'Rebotados', data.bounced ],
-		[ 'Rechazados', data.dropped ],
+		[ 'Fallidos', ( data.bounced + data.dropped ) ],
 		]);
 
 	var options = {
-		'pieHole': 0.5,
+		'pieHole': 0.65,
 		'width': '100%',
 		'height': '100%',
-		'forceIFrame': true,
+		'forceIFrame': false,
+		'showLables': 'true',
+		'colors': [ '#3F51B5', '#FF9800' ],
 		'chartArea': {
 			'left': "3%",
 			'top': "3%",
@@ -164,7 +208,61 @@ function drawStatusPieGraph ( data ) {
 		'legend': { 'position': 'none', },
 	};
 
-	var chart = new google.visualization.PieChart(document.getElementById( 'divStatusPieChart' ));
+	var chart = new google.visualization.PieChart(document.getElementById( 'divGeneralStatusPieChart' ));
+	chart.draw( data, options );
+};
+
+function drawSendedStatusPieChart ( data ) {
+	var data = google.visualization.arrayToDataTable([
+		[ 'Estadísticas', 'Correos' ],
+		[ 'Leídos', data.opened ],
+		[ 'No leídos', ( data.total - data.opened ) ],
+	]);
+
+	var options = {
+		'pieHole': 0.65,
+		'width': '100%',
+		'height': '100%',
+		'forceIFrame': false,
+		'showLables': 'true',
+		'colors': [ '#303F9F', '#7986CB' ],
+		'chartArea': {
+			'left': "3%",
+			'top': "3%",
+			'height': "94%",
+			'width': "94%",
+		},
+		'legend': { 'position': 'none', },
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById( 'divSendedStatusPieChart' ));
+	chart.draw( data, options );
+};
+
+function drawFailureStatusPieChart ( data ) {
+	var data = google.visualization.arrayToDataTable([
+		[ 'Estadísticas', 'Correos' ],
+		[ 'Rechazados', data.dropped ],
+		[ 'Rebotados', data.bounced ],
+	]);
+
+	var options = {
+		'pieHole': 0.65,
+		'width': '100%',
+		'height': '100%',
+		'forceIFrame': false,
+		'showLables': 'true',
+		'colors': [ '#F57C00', '#FFB74D' ],
+		'chartArea': {
+			'left': "3%",
+			'top': "3%",
+			'height': "94%",
+			'width': "94%",
+		},
+		'legend': { 'position': 'none', },
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById( 'divFailureStatusPieChart' ));
 	chart.draw( data, options );
 };
 

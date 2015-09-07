@@ -164,8 +164,13 @@ class EmailModel(ndb.Model):
             dropped = query.filter(
                 EmailModel.dropped_event == "dropped").count()
             bounced = query.filter(EmailModel.bounce_event == "bounce").count()
-            data = [str(end_date).split(' ')[0], total, processed,
-                    delivered, opened, dropped, bounced]
+            fecha = str(end_date).split(' ')[0]
+            fecha = fecha.split('-')
+            fecha.reverse()
+            ''.join(fecha)
+            fecha = fecha[0] + '-' + fecha[1]
+            # Armar array de respuesta
+            data = [fecha, total, processed,delivered, opened, dropped, bounced]
             data_result.append(data)
             end_date = end_date + day
         return data_result
