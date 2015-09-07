@@ -181,6 +181,10 @@ function drawLineGraph ( datas ) {
 		'legend': {
 			'position': 'right',
 		},
+		'explorer': {
+			'maxZoomOut': 2,
+			'keepInBounds': true,
+		},
 	};
 	var chart = new google.visualization.LineChart( document.getElementById( 'divLineChart' ) );
 	chart.draw( data, options );
