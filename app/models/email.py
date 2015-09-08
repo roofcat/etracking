@@ -106,6 +106,7 @@ class EmailModel(ndb.Model):
                 EmailModel.tipo_dte == tipo_dte
             )).get()
 
+    @ndb.transactional
     def email_add_count(self, data):
         """ Incrementa el campo de lecturas efectuadas 
             por el receptor del correo """
@@ -183,6 +184,36 @@ class EmailModel(ndb.Model):
                                      EmailModel.input_date <= to_date)
         else:
             query = EmailModel.query(EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date,
+                                     EmailModel.tipo_receptor == tipo_receptor)
+        return query.fetch()
+
+    @classmethod
+    def get_all_sended_emails_by_dates(self, from_date, to_date, tipo_receptor):
+        
+        if tipo_receptor == 'all':
+            query = EmailModel.query(EmailModel.delivered_event == 'delivered',
+                                     EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date)
+        else:
+            query = EmailModel.query(EmailModel.delivered_event == 'delivered',
+                                     EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date,
+                                     EmailModel.tipo_receptor == tipo_receptor)
+        return query.fetch()
+
+    @classmethod
+    def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor):
+        
+        if tipo_receptor == 'all':
+            query = EmailModel.query(ndb.OR(EmailModel.dropped_event == 'dropped',
+                                     EmailModel.bounce_event =='bounce'),
+                                     EmailModel.input_date >= from_date,
+                                     EmailModel.input_date <= to_date)
+        else:
+            query = EmailModel.query(ndb.OR(EmailModel.dropped_event == 'dropped',
+                                     EmailModel.bounce_event =='bounce'),
+                                     EmailModel.input_date >= from_date,
                                      EmailModel.input_date <= to_date,
                                      EmailModel.tipo_receptor == tipo_receptor)
         return query.fetch()

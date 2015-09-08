@@ -33,7 +33,9 @@ from app.controllers.panel_controller import RutReceptorPanelHandler
 
 
 # imports para reportes csv
-from app.controllers.csv_controller import ExportHomePanelHandler
+from app.controllers.csv_controller import ExportGeneralEmailHandler
+from app.controllers.csv_controller import ExportSendedEmailHandler
+from app.controllers.csv_controller import ExportFailureEmailHandler
 
 
 # import tareas cron
@@ -76,7 +78,9 @@ app = webapp2.WSGIApplication([
     (r'/receptor/$', RutReceptorPanelHandler),
 
     # rutas para descargar csv
-    (r'/export/stats/(\d+)/(\d+)/(.+)/$', ExportHomePanelHandler),
+    (r'/export/general/(\d+)/(\d+)/(.+)/$', ExportGeneralEmailHandler),
+    (r'/export/sended/(\d+)/(\d+)/(.+)/$', ExportSendedEmailHandler),
+    (r'/export/failure/(\d+)/(\d+)/(.+)/$', ExportFailureEmailHandler),
     
     # url apis
     (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),

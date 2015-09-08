@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="row">
-	<nav class="hidden-xs hidden-sm col-md-2 col-lg-2 menu">
+	<nav class="hidden-xs hidden-sm col-md-2 col-lg-2 menu" id="menuPanel">
 		<ul>
 			<legend style="padding-left:20px;">Menú Estadísticas</legend>
 			<li>
@@ -34,10 +34,7 @@
 						<option value="cliente">Personas</option>
 					</select>
 				</div>
-				<div class="form-group form-group-material-indigo" align="right" style="margin-right:20px;">
-					<a id="export" href="" target="_self" class="btn btn-fab btn-raised mdi-editor-vertical-align-bottom" title="Exportar a CSV">
-					<div class="ripple-wrapper"></div>
-					</a>
+				<div class="form-group" align="right" style="margin-right:20px;">
 					<button id="run_search" class="btn btn-material-red btn-fab btn-raised mdi-navigation-arrow-forward" data-toggle="modal" data-target="#loadingModal" title="Buscar">
 					<div class="ripple-wrapper"></div>
 					</button>
@@ -46,7 +43,7 @@
 		</ul>
 	</nav>
 
-	<div class="pages col-xs-11 col-sm-11 col-md-10 col-lg-10">
+	<div class="pages col-xs-12 col-sm-12 col-md-10 col-lg-10">
 		
 		<div class="row">
 			
@@ -56,6 +53,9 @@
 					<div class="panel-body">
 						<div class="pie-chart" id="divGeneralStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeGeneral"><label>Sin datos en este período</label></p>
+						<div align="right" style="margin-top:-50px;">
+							<a href target="_self" class="btn btn-sm btn-raised btn-material-indigo" id="btnGeneralExport">Descargar</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -66,6 +66,9 @@
 					<div class="panel-body">
 						<div class="pie-chart" id="divSendedStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeOpened"><label>Sin datos en este período</label></p>
+						<div align="right" style="margin-top:-50px;">
+							<a href target="_self" class="btn btn-sm btn-raised btn-material-blue" id="btnSendedExport">Descargar</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -76,11 +79,13 @@
 					<div class="panel-body">
 						<div class="pie-chart" id="divFailureStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeFailure"><label>Sin datos en este período</label></p>
+						<div align="right" style="margin-top:-50px;">
+							<a href target="_self" class="btn btn-sm btn-raised btn-material-deep-orange" id="btnFailedExport">Descargar</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		<!--</div>
-
 		<div class="row">-->
 			<div class="col-md-12 col-lg-12">
 				<h5>Gráfica del período</h5>

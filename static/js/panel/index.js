@@ -4,7 +4,9 @@ google.load('visualization', '1.0', {'packages': ['corechart','line','table'], '
 
 var baseUrl = document.location.href;
 var urlPath = 'api/statistics/globalstats/';
-var urlExport = 'export/stats/';
+var urlGeneralExport = 'export/general/';
+var urlSendedExport = 'export/sended/';
+var urlFailureExport = 'export/failure/';
 var jsonData;
 
 $( document ).ready( function () {
@@ -53,8 +55,14 @@ function putDownloadLink () {
 	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-	var link = baseUrl + urlExport + date_from + '/' + date_to + '/' + options + '/';
-	$( '#export' ).attr('href', link );
+	
+	var linkGeneral = baseUrl + urlGeneralExport + date_from + '/' + date_to + '/' + options + '/';
+	var linkSended = baseUrl + urlSendedExport + date_from + '/' + date_to + '/' + options + '/';
+	var linkFailure = baseUrl + urlFailureExport + date_from + '/' + date_to + '/' + options + '/';
+
+	$( '#btnGeneralExport' ).attr('href', linkGeneral );
+	$( '#btnSendedExport' ).attr('href', linkSended );
+	$( '#btnFailedExport' ).attr('href', linkFailure );
 };
 
 $( '#run_search' ).on( 'click', function () {
