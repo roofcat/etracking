@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+{% endblock %}
+
+{% block title %}Menú búsquedas personalizadas{% endblock %}
+
+{% block content %}
+<div class="container">
+	
+</div>
+
+<!-- BOTON MATERIAL -->
+<div class="search-btn" align="right">
+	<button class="btn btn-fab btn-raised btn-material-red mdi-action-search" id="showMenu" type="button" data-toggle="tooltip" data-placement="left" title="Click para buscar">
+		<div class="ripple-wrapper"></div>
+	</button>
+</div>
+
+<!-- MODAL MENU BUSCAR -->
+<div class="modal" id="menuModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeMenuModal" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Buscar por...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal" style="padding-top:10px;width:100%;">
+                	<div class="row">
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+							<ul class="nav nav-pills nav-stacked" role="tablist" id="tabNavs">
+								<li role="presentation" class="active">
+									<a href="#correo" aria-controls="correo" role="tab" data-toggle="tab">Correo</a>
+								</li>
+								<li role="presentation">
+									<a href="#folio" aria-controls="folio" role="tab" data-toggle="tab">Folio</a>
+								</li>
+								<li role="presentation">
+									<a href="#rutreceptor" aria-controls="rutreceptor" role="tab" data-toggle="tab">Rut receptor</a>
+								</li>
+								<li role="presentation">
+									<a href="#fallidos" aria-controls="fallidos" role="tab" data-toggle="tab">Fallidos</a>
+								</li>
+				  			</ul>
+						</div>
+						<!-- DIVs DE OPCIONES -->
+						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+							<div class="tab-content">
+							    <div role="tabpanel" class="tab-pane active" id="correo">
+
+							    	<div class="form-horizontal" style="padding:10px;">
+							    	<!-- FORM CORREOS -->
+							    		<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Desde</label>
+											<input class="form-control datePicker" type="text" id="date_from">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Hasta</label>
+											<input class="form-control datePicker" type="text" id="date_to">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Correo</label>
+											<input class="form-control mdi-content-mail" type="email" id="correoDestinatario">
+										</div>
+							    	</div>
+							    </div>
+
+							    <div role="tabpanel" class="tab-pane" id="folio">
+							    <!-- FORM POR FOLIO -->
+							    	<div class="form-horizontal" style="padding:10px;">
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Nº de folio</label>
+											<input class="form-control" type="text" id="numeroFolio">
+										</div>
+							    	</div>
+							    </div>
+
+							    <div role="tabpanel" class="tab-pane" id="rutreceptor">
+							    <!-- FORM RUT RECEPTOR -->
+							    	<div class="form-horizontal" style="padding:10px;">
+							    		<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Desde</label>
+											<input class="form-control datePicker" type="text" id="date_from">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Hasta</label>
+											<input class="form-control datePicker" type="text" id="date_to">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Rut receptor</label>
+											<input class="form-control" type="text" id="rutReceptor">
+										</div>
+							    	</div>
+							    </div>
+
+							    <div role="tabpanel" class="tab-pane" id="fallidos">
+							    <!-- FORM FALLIDOS -->
+							    	<div class="form-horizontal" style="padding:10px;">
+							    		<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Desde</label>
+											<input class="form-control datePicker" type="text" id="date_from">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Hasta</label>
+											<input class="form-control datePicker" type="text" id="date_to">
+											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
+										</div>
+							    	</div>
+							    </div>
+
+				  			</div>
+						</div>
+					</div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+            	<div class="form-group" align="right" style="margin-right:20px;">
+            		<button class="btn btn-flat" data-dismiss="modal">Cancelar</button>
+					<button class="btn btn-flat btn-material-indigo" id="run_search">Buscar</button>
+				</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CARGANDO -->
+<div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeLoadingModal" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Buscando...</h4>
+            </div>
+            <div class="modal-body">
+                <p>por favor espere unos segundos</p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CARGANDO -->
+<div class="modal" id="errorModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeErrorModal" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">¡Error!</h4>
+            </div>
+            <div class="modal-body">
+                <p>No deben ir campos vacíos.</p>
+            </div>
+            <div class="modal-footer">
+            	<div class="form-group" align="right" style="margin-right:20px;">
+					<button class="btn btn-flat btn-material-indigo" data-dismiss="modal">Cerrar</button>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+	<script src="/static/js/jquery.datetimepicker.js"></script>
+	<script src="/static/js/panel/custom_search.js"></script>
+{% endblock %}

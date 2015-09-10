@@ -12,7 +12,6 @@ var jsonData;
 $( document ).ready( function () {
 	// Seteo de fecha actual
 	setDefaultDates();
-	resetInputDates();
 	putDownloadLink();
 
 	$( '.datePicker' ).datetimepicker ({
@@ -30,6 +29,10 @@ $( window ).on( 'resize', function () {
 	drawJsonData();
 });
 
+$( '#showMenu' ).on( 'click', function () {
+	$( '#menuModal' ).modal( 'show', true );
+});
+
 // Validar los campos de fecha
 $( 'input:text' ).on( 'change', function () {
 	var date_from = $( '#date_from' ).val();
@@ -39,15 +42,10 @@ $( 'input:text' ).on( 'change', function () {
 	date_to = moment( date_to, 'DD/MM/YYYY' ).unix();
 
 	if ( date_from > date_to ) {
-		resetInputDates();
+		setDefaultDates();
 	};
 	putDownloadLink();
 });
-
-function resetInputDates () {
-	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
-	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
-};
 
 function putDownloadLink () {
 	var date_from = $( '#date_from' ).val();
@@ -67,12 +65,15 @@ function putDownloadLink () {
 
 $( '#run_search' ).on( 'click', function () {
 	
+	$( '#closeMenuModal' ).click();
+
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
 	var options = $( '#options' ).val();
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
-
+	
+	$( '#loadingModal' ).modal( 'show', true );
 	$.ajax({
 		'type': 'GET',
 		'url': baseUrl + urlPath + date_from + '/' + date_to + '/' + options + '/',
@@ -80,10 +81,10 @@ $( '#run_search' ).on( 'click', function () {
 		success: function ( data ) {
 			jsonData = data;
 			drawJsonData();
-			$( '#modalButton' ).click();
+			$( '#closeLoadingModal' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
-			$( '#modalButton' ).click();
+			$( '#closeLoadingModal' ).click();
 			console.log( errorThrown );
 		},
 	});
@@ -229,7 +230,7 @@ function drawSendedStatusPieChart ( data ) {
 	var data = google.visualization.arrayToDataTable([
 		[ 'Estadísticas', 'Correos' ],
 		[ 'Leídos', data.opened ],
-		[ 'No leídos', ( data.total - data.opened ) ],
+		[ 'No leídos', ( data.delivered - data.opened ) ],
 	]);
 
 	var options = {

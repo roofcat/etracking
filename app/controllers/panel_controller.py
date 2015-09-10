@@ -14,7 +14,7 @@ from app.models.email import EmailModel
 from config.jinja_environment import JINJA_ENVIRONMENT
 
 
-class HomePanelHandler(BaseHandler):
+class DashboardHandler(BaseHandler):
 
     def get(self):
         user = None
@@ -23,10 +23,22 @@ class HomePanelHandler(BaseHandler):
         except:
             self.redirect('/login/')
         if user:
-            context = {
-                'data': user,
-            }
+            context = { 'data': user,}
             template = JINJA_ENVIRONMENT.get_template('panel/index.html')
+            self.response.write(template.render(context))
+
+
+class CustomSearchHandler(BaseHandler):
+    
+    def get(self):
+        user = None
+        try:
+            user = self.session['user']
+        except:
+            self.redirect('/login/')
+        if user:
+            context = { 'data': user, }
+            template = JINJA_ENVIRONMENT.get_template('panel/custom_search.html')
             self.response.write(template.render(context))
 
 

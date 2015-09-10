@@ -26,10 +26,8 @@ from app.controllers.user_controller import NewUserAdminHandler
 # imports para usuarios normales
 from app.controllers.panel_controller import LoginPanelHandler
 from app.controllers.panel_controller import LogoutPanelHandler
-from app.controllers.panel_controller import HomePanelHandler
-from app.controllers.panel_controller import EmailPanelHandler
-from app.controllers.panel_controller import FolioPanelHandler
-from app.controllers.panel_controller import RutReceptorPanelHandler
+from app.controllers.panel_controller import DashboardHandler
+from app.controllers.panel_controller import CustomSearchHandler
 
 
 # imports para reportes csv
@@ -72,10 +70,8 @@ config['webapp2_extras.sessions'] = {'secret_key': 'EstaEsMiSuperKey', }
 
 app = webapp2.WSGIApplication([
     # panel usuario clientes
-    (r'/', HomePanelHandler),
-    (r'/email/$', EmailPanelHandler),
-    (r'/folio/$', FolioPanelHandler),
-    (r'/receptor/$', RutReceptorPanelHandler),
+    (r'/', DashboardHandler),
+    (r'/customsearch/$', CustomSearchHandler),
 
     # rutas para descargar csv
     (r'/export/general/(\d+)/(\d+)/(.+)/$', ExportGeneralEmailHandler),
@@ -103,7 +99,6 @@ app = webapp2.WSGIApplication([
 
     # Eliminar token para el admin azurian
     (r'^/revoke/$', RevokeHandler),
-    (r'^/home/$', HomePanelHandler),
     (r'^/input/$', InputEmailHandler),
     (r'^/inputqueue', InputEmailQueueHandler),
     (r'^/webhook/$', SendrigWebhookHandler),
