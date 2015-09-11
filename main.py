@@ -78,9 +78,15 @@ app = webapp2.WSGIApplication([
     (r'/export/sended/(\d+)/(\d+)/(.+)/$', ExportSendedEmailHandler),
     (r'/export/failure/(\d+)/(\d+)/(.+)/$', ExportFailureEmailHandler),
     
-    # url apis
+    # api estadisticas
     (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),
     (r'/api/statistics/email/$', StatisticEmailPanelHandler),
+
+    # api busquedas
+    (r'/api/search/email/(\d+)/(\d+)/(.+)/$', CustomSearchHandler),
+    (r'/api/search/folio/(.+)/$', CustomSearchHandler),
+    (r'/api/search/rut/(\d+)/(\d+)/(.+)/$', CustomSearchHandler),
+    (r'/api/search/fallidos/(\d+)/(\d+)/$', CustomSearchHandler),
 
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),

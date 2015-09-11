@@ -1,11 +1,22 @@
 'use strict';
 
 var baseUrl = document.location.href;
+var emailUrl = 'api/search/';
+var folioUrl = 'api/search/';
+var rutUrl = 'api/search/';
+var fallidosUrl = 'api/search/';
+
 var tabPosition = '#correo';
 
 $( document ).ready( function () {
 
 	console.log( baseUrl );
+	baseUrl = baseUrl.split('/');
+	delete baseUrl[4];
+	delete baseUrl[3];
+	baseUrl = baseUrl.join('/')
+	baseUrl = baseUrl.substring( 0, baseUrl.length - 1 );
+	console.log( baseUrl  );
 	
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
