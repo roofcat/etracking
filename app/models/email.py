@@ -20,6 +20,8 @@ tipos_de_operaciones = ['compra', 'venta', ]
 class JSONEncoder(json.JSONEncoder):
 
     def default(self, obj):
+        simple_types = (int,str, long, float, bool, basestring,)
+        
         if isinstance(obj, ndb.Key):
             return obj.urlsafe()
 
@@ -37,8 +39,8 @@ class JSONEncoder(json.JSONEncoder):
                 x[l] = self.default(obj[l])
             return x
 
-        if isinstance(obj, str):
-            return unicode(obj)
+        if obj is None or isinstance(obj, simple_types):
+            return obj
 
         if isinstance(obj, datetime):
             return unicode(datetime.strftime(obj, '%Y-%m-%d %H:%M:%S'))
