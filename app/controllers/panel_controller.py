@@ -11,6 +11,7 @@ import logging
 from app_controller import BaseHandler
 from app.models.user import UserModel
 from app.models.email import EmailModel
+from app.models.email import JSONEncoder
 from config.jinja_environment import JINJA_ENVIRONMENT
 
 
@@ -23,7 +24,7 @@ class DashboardHandler(BaseHandler):
         except:
             self.redirect('/login/')
         if user:
-            context = { 'data': user,}
+            context = { 'data': user, }
             template = JINJA_ENVIRONMENT.get_template('panel/index.html')
             self.response.write(template.render(context))
 
@@ -42,110 +43,46 @@ class CustomSearchHandler(BaseHandler):
             self.response.write(template.render(context))
 
 
-class EmailPanelHandler(BaseHandler):
+class EmailSearchHandler(BaseHandler):
 
-    def get(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        if user:
-            context = {
-                'data': user,
-            }
-            template = JINJA_ENVIRONMENT.get_template('panel/email.html')
-            self.response.write(template.render(context))
-
-    def post(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        correo = self.request.get('correo')
-        correos = EmailModel.get_info_by_email(correo)
-        context = {
-            'data': user,
-            'correos': correos,
-        }
-        template = JINJA_ENVIRONMENT.get_template('panel/email.html')
-        self.response.write(template.render(context))
+    def get(self, date_from, date_to, correo):
+        if date_from and date_to and correo:
+            date_from = int(date_from)
+            date_to = int(date_to)
+            date_from = datetime.datetime.fromtimestamp(date_from)
+            date_to = datetime.datetime.fromtimestamp(date_to)
+            data = EmailModel.get_info_by_email(date_from, date_to, correo)
+            context = {'message': 'ok', 'data': data, }
+            self.response.write(JSONEncoder().default(context))
+        else:
+            self.response.write(json.dumps({'message': 'error'}))
 
 
 class FolioPanelHandler(BaseHandler):
 
-    def get(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        if user:
-            context = {
-                'data': user,
-            }
-            template = JINJA_ENVIRONMENT.get_template('panel/folio.html')
-            self.response.write(template.render(context))
-
-    def post(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        folio = self.request.get('folio')
-        correos = EmailModel.get_emails_by_folio(folio)
-        context = {
-            'data': user,
-            'correos': correos,
-        }
-        template = JINJA_ENVIRONMENT.get_template('panel/folio.html')
-        self.response.write(template.render(context))
+    def get(self, folio):
+        if folio:
+            folio = str(folio)
+            try:
+                data = EmailModel.get_emails_by_folio(folio)
+                context = { 'data': data, }
+                self.response.write(context)
+            except Exception, e:
+                logging.error(e)
 
 
 class RutReceptorPanelHandler(BaseHandler):
 
-    def get(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        if user:
-            context = {
-                'data': user,
-            }
-            template = JINJA_ENVIRONMENT.get_template('panel/rut_receptor.html')
-            self.response.write(template.render(context))
-
-    def post(self):
-        user = None
-        try:
-            user = self.session['user']
-        except:
-            self.redirect('/login/')
-        rut = self.request.get('rut')
-        correos = EmailModel.get_emails_by_rut_receptor(rut)
-        context = {
-            'data': user,
-            'correos': correos,
-        }
-        template = JINJA_ENVIRONMENT.get_template('panel/rut_receptor.html')
-        self.response.write(template.render(context))
-
-
-class StatisticEmailPanelHandler(BaseHandler):
-
-    def get(self):
-        correo = self.request.get('correo')
-        logging.info(correo)
-        data = EmailModel.get_info_by_email(correo)
-        context = {
-            'data': data,
-        }
-        #logging.info(context)
-        self.response.write(context)
+    def get(self, date_from, date_to, rut):
+        if date_from and date_to and correo:
+            date_from = int(date_from)
+            date_to = int(date_to)
+            date_from = datetime.datetime.fromtimestamp(date_from)
+            date_to = datetime.datetime.fromtimestamp(date_to)
+            rut = str(rut)
+            data = EmailModel.get_emails_by_rut_receptor(rut)
+            context = {'data': data, }
+            self.response.write(context)
 
 
 class StatisticPanelHandler(BaseHandler):

@@ -49,8 +49,6 @@ class InputEmailHandler(webapp2.RequestHandler):
         adjunto1 = self.request.POST.get('adjunto1', None)
         adjunto2 = self.request.POST.get('adjunto2', None)
         adjunto3 = self.request.POST.get('adjunto3', None)
-        logging.info(fecha_emision)
-        logging.info(fecha_recepcion)
 
         if (correo and asunto and html and numero_folio and tipo_dte):
             # Proceso de creación del objeto email

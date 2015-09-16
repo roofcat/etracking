@@ -4,6 +4,8 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+instance_class: F4_1G
+
 handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
@@ -25,5 +27,4 @@ libraries:
   version: latest
 
 inbound_services:
-- mail
-- mail_bounce
+- warmup

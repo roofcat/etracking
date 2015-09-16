@@ -7,10 +7,12 @@ import json
 import logging
 import base64
 import re
+import datetime
 
 
 from app.models.email import EmailModel
 from app.models.email import AttachModel
+from app.models.email import JSONEncoder
 
 
 from config.jinja_environment import JINJA_ENVIRONMENT
@@ -19,17 +21,12 @@ from config.jinja_environment import JINJA_ENVIRONMENT
 class TestHandler(webapp2.RequestHandler):
 
     def get(self):
-        total_count = len(EmailModel.query().fetch())
-        total_processed = len(
-            EmailModel.query(EmailModel.processed_event == 'processed').fetch())
-        total_delivered = len(
-            EmailModel.query(EmailModel.delivered_event == 'delivered').fetch())
-        total_opened = len(
-            EmailModel.query(EmailModel.opened_event == 'open').fetch())
-        total_dropped = len(
-            EmailModel.query(EmailModel.dropped_event == 'dropped').fetch())
-        total_bounce = len(
-            EmailModel.query(EmailModel.bounce_event == 'bounce').fetch())
+        total_count = EmailModel.query().count()
+        total_processed = EmailModel.query(EmailModel.processed_event == 'processed').count()
+        total_delivered = EmailModel.query(EmailModel.delivered_event == 'delivered').count()
+        total_opened = EmailModel.query(EmailModel.opened_event == 'open').count()
+        total_dropped = EmailModel.query(EmailModel.dropped_event == 'dropped').count()
+        total_bounce = EmailModel.query(EmailModel.bounce_event == 'bounce').count()
         context = {
             'total_count': total_count,
             'total_processed': total_processed,
@@ -44,21 +41,14 @@ class TestHandler(webapp2.RequestHandler):
 class Test2Handler(webapp2.RequestHandler):
 
     def get(self):
-        fallidos = EmailModel.query(EmailModel.processed_event == None).fetch()
-        self.response.write(len(fallidos))
-        self.response.write(
-            "<br>----------------------------------------------<br>")
-        for f in fallidos:
-            self.response.write(f)
-            self.response.write(
-                "<br>----------------------------------------------<br>")
-
-
-class Test3Handler(webapp2.RequestHandler):
-
-    def get(self):
-        template = JINJA_ENVIRONMENT.get_template('test/index.html')
-        self.response.write(template.render())
+        date_from = 1441594800
+        date_to = 1442199600
+        date_from = datetime.datetime.fromtimestamp(date_from)
+        date_to = datetime.datetime.fromtimestamp(date_to)
+        query = EmailModel.get_info_by_email(date_from, date_to, 'crojas@azurian.com')
+        #query = EmailModel.query().fetch()
+        #self.response.write(ndb_json.NdbEncoder().default(query))
+        self.response.write(JSONEncoder().default(query))
 
 
 class Test4Handler(webapp2.RequestHandler):
