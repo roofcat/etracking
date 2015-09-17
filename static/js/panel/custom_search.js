@@ -56,8 +56,7 @@ $( '#run_search' ).on( 'click', function () {
 				'url': link,
 				success: function ( data ) {
 					console.log( data['message'] );
-					console.log( data['data'] );
-					loadData( data['data'] );
+					loadData( data.data );
 				},
 				error: function ( jqXHR, textStatus, errorThrown ) {
 					console.log( errorThrown );
@@ -108,73 +107,71 @@ $( '#run_search' ).on( 'click', function () {
 });
 
 function loadData ( data ) {
-	var div = $( '#divCards' );
+	var divCards = $( '#divCards' );
 	var htmlCard = '';
+	divCards.empty();
 
 	for ( var i = 0; i < data.length; i++ ) {
-		var row = data[i];
-		console.log( row );
-	};
-
-	/*
-	<div class="panel panel-success">
-			<div class="panel-heading">
-				<strong>Folio Nº:</strong> {{ correo.numero_folio }}
-				<strong> Correo:</strong> {{ correo.correo }}
-				<strong> Fecha:</strong> {{ correo.input_date }}
-			</div>
-			<div class="panel-body" style="font-size:12px;">
-				<strong>Rut receptor: </strong>{{ correo.rut_receptor }} - <strong>Cliente: </strong> {{ correo.nombre_cliente }} <br>
-			    <strong>Rut emisor: </strong>{{ correo.rut_emisor }} - <strong>Emisor: </strong> {{ correo.empresa }} <br>
-			    <strong>Tipo envío: </strong>{{ correo.tipo_envio }}
-			    <strong>Tipo dte: </strong>{{ correo.tipo_dte }}
-			    <strong>Resolución receptor: </strong> {% if correo.resolucion_receptor %} {{ correo.resolucion_receptor }} {% else %} {% endif %}
-			    <strong>Resolución emisor: </strong>{{ correo.resolucion_emisor }}
-			    <strong>Monto: </strong>{{ correo.monto }}
-			    <strong>Fecha emisión: </strong>{{ correo.fecha_emision }}
-			    <strong>Fecha recepción: </strong>{{ correo.fecha_recepcion }}
-			    <strong>Estado documento: </strong>{{ correo.estado_documento }}
-			    <strong>Tipo operación: </strong>{{ correo.tipo_operacion }}
-			    <strong>Tipo receptor: </strong>{{ correo.tipo_receptor }}
-				<br>
-				<strong>Estados del correo</strong><br>
-				{% if correo.processed_event %}
-				<span class="label label-default">
-					{{ correo.processed_event }} - {{ correo.processed_date }}
-				</span><br>
-				{% endif %}
-				{% if correo.delivered_event %}
-				<span class="label label-primary">
-					{{ correo.delivered_event }} - {{ correo.delivered_date }}
-				</span><br>
-				{% endif %}
-				{% if correo.opened_event %}
-				<span class="label label-success">
-			    	{{ correo.opened_event }} - {{ correo.opened_first_date }} - {{ correo.opened_ip }} -
-			    {{ correo.opened_user_agent }} - <strong>Veces visto </strong> {{ correo.opened_count }}
-				</span><br>
-				{% endif %}
-				{% if correo.dropped_event %}
-				<span class="label label-warning">
-					{{ correo.dropped_event }} - {{ correo.dropped_reason }} - {{ correo.dropped_date }}
-				</span><br>
-				{% endif %}
-				
-				{% if correo.bounce_event %}
-				<span class="label label-danger">
-					{{ correo.bounce_event }} - {{ correo.bounce_date }} - {{ correo.bounce_type }} - {{ correo.bounce_status }}
-				</span><br>
-				<p class="alert alert-danger">{{ correo.bounce_reason }}</p><br>
-				{% endif %}
-
-				{% if correo.unsubscribe_event %}
-				<span class="label label-info">
-			    	{{ correo.unsubscribe_event }} - {{ correo.unsubscribe_date }}
-				</span><br>
-				{% endif %}
-			</div>
-		</div>
-		*/
+		var correo = data[i];
+		htmlCard += '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">';
+		htmlCard += '<div class="panel panel-success">';
+		htmlCard += '<div class="panel-heading"> ';
+		htmlCard += ' <strong>Folio Nº:</strong> ' + correo.numero_folio;
+		htmlCard += ' <strong> Correo:</strong> ' + correo.correo;
+		htmlCard += ' <strong> Fecha:</strong> ' + correo.input_date;
+		htmlCard += ' </div>';
+		htmlCard += '<div class="panel-body" style="font-size:12px;"> ';
+		htmlCard += ' <strong>Rut receptor: </strong>' + correo.rut_receptor + ' - <strong>Cliente: </strong> ' +correo.nombre_cliente + '<br>';
+	    htmlCard += ' <strong>Rut emisor: </strong>' + correo.rut_emisor + ' - <strong>Emisor: </strong> ' + correo.empresa + '<br>';
+	    htmlCard += ' <strong>Tipo envío: </strong>' + correo.tipo_envio;
+	    htmlCard += ' <strong>Tipo dte: </strong>' + correo.tipo_dte;
+	    htmlCard += ' <strong>Resolución receptor: </strong> ';
+	    if ( correo.resolucion_receptor ) { correo.resolucion_receptor };
+	    	htmlCard += ' <strong>Resolución emisor: </strong>' + correo.resolucion_emisor;
+	    	htmlCard += ' <strong>Monto: </strong>' + correo.monto;
+	    	htmlCard += ' <strong>Fecha emisión: </strong>' + correo.fecha_emision;
+	    	htmlCard += ' <strong>Fecha recepción: </strong>' + correo.fecha_recepcion;
+	    	htmlCard += ' <strong>Estado documento: </strong>' + correo.estado_documento;
+	    	htmlCard += ' <strong>Tipo operación: </strong>' + correo.tipo_operacion;
+	    	htmlCard += ' <strong>Tipo receptor: </strong>' + correo.tipo_receptor;
+			htmlCard += ' <br> ';
+			htmlCard += ' <strong>Estados del correo</strong><br> ';
+		if ( correo.processed_event ) {
+			htmlCard += '<span class="label label-default"> ';
+			htmlCard += correo.processed_event + ' - ' + correo.processed_date;
+			htmlCard += ' </span><br> ';
+		};
+		if ( correo.delivered_event ) {
+			htmlCard += '<span class="label label-primary"> ';
+			htmlCard += correo.delivered_event + ' - ' + correo.delivered_date;
+			htmlCard += ' </span><br> ';
+		};
+		if ( correo.opened_event ) {
+			htmlCard += '<span class="label label-success"> ';
+	    	htmlCard += correo.opened_event + ' - ' +  correo.opened_first_date + ' - ' + correo.opened_ip + ' - ';
+		    htmlCard += correo.opened_user_agent + ' - ' + '<strong>Veces visto </strong>' + correo.opened_count;
+			htmlCard += ' </span><br> ';
+		};
+		if ( correo.dropped_event ) {
+			htmlCard += '<span class="label label-warning"> ';
+			htmlCard += correo.dropped_event + ' - ' + correo.dropped_reason + ' - ' + correo.dropped_date;
+			htmlCard += ' </span><br> ';
+		};					
+		if ( correo.bounce_event ) {
+			htmlCard += '<span class="label label-danger"> ';
+			htmlCard += correo.bounce_event + ' - ' + correo.bounce_date + ' - ' + correo.bounce_type + ' - ' + correo.bounce_status;
+			htmlCard += ' </span><br>';
+			htmlCard += '<p class="alert alert-danger">' + correo.bounce_reason + '</p><br> ';
+		};
+		if ( correo.unsubscribe_event ) {
+			htmlCard += '<span class="label label-info"> ';
+		    htmlCard += correo.unsubscribe_event + ' - ' + correo.unsubscribe_date;
+			htmlCard += ' </span><br> ';
+		};
+		htmlCard += '</div>';
+		htmlCard += '</div> ';
+	}; //endfor
+	divCards.append( htmlCard );
 };
 
 function formValidate () {

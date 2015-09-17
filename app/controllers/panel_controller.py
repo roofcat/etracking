@@ -52,26 +52,30 @@ class EmailSearchHandler(BaseHandler):
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             data = EmailModel.get_info_by_email(date_from, date_to, correo)
+            result = []
+            for d in data:
+                result.append(JSONEncoder().default(d))
+            context = {'message': 'ok', 'data': result, }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps(context))
+        else:
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps({'message': 'error'}))
+
+
+class FolioSearchHandler(BaseHandler):
+
+    def get(self, folio):
+        if folio:
+            folio = str(folio)
+            data = EmailModel.get_emails_by_folio(folio)
             context = {'message': 'ok', 'data': data, }
             self.response.write(JSONEncoder().default(context))
         else:
             self.response.write(json.dumps({'message': 'error'}))
 
 
-class FolioPanelHandler(BaseHandler):
-
-    def get(self, folio):
-        if folio:
-            folio = str(folio)
-            try:
-                data = EmailModel.get_emails_by_folio(folio)
-                context = { 'data': data, }
-                self.response.write(context)
-            except Exception, e:
-                logging.error(e)
-
-
-class RutReceptorPanelHandler(BaseHandler):
+class RutReceptorSearchHandler(BaseHandler):
 
     def get(self, date_from, date_to, rut):
         if date_from and date_to and correo:
@@ -81,8 +85,25 @@ class RutReceptorPanelHandler(BaseHandler):
             date_to = datetime.datetime.fromtimestamp(date_to)
             rut = str(rut)
             data = EmailModel.get_emails_by_rut_receptor(rut)
-            context = {'data': data, }
-            self.response.write(context)
+            context = {'message': 'ok', 'data': data, }
+            self.response.write(JSONEncoder().default(context))
+        else:
+            self.response.write(json.dumps({'message': 'error'}))
+
+
+class FallidosSearchHandler(BaseHandler):
+
+    def get(self, date_from, date_to):
+        if date_from and date_to:
+            date_from = int(date_from)
+            date_to = int(date_to)
+            date_from = datetime.datetime.fromtimestamp(date_from)
+            date_to = datetime.datetime.fromtimestamp(date_to)
+            data = EmailModel.get_all_failure_emails_by_dates(date_from, date_to)
+            context = {'message': 'ok', 'data': data, }
+            self.response.write(JSONEncoder().default(context))
+        else:
+            self.response.write(json.dumps({'message': 'error'}))
 
 
 class StatisticPanelHandler(BaseHandler):

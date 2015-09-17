@@ -20,8 +20,8 @@ tipos_de_operaciones = ['compra', 'venta', ]
 class JSONEncoder(json.JSONEncoder):
 
     def default(self, obj):
-        simple_types = (int,str, long, float, bool, basestring,)
-        
+        simple_types = (int, long, float, bool, basestring)
+
         if isinstance(obj, ndb.Key):
             return obj.urlsafe()
 
@@ -40,16 +40,18 @@ class JSONEncoder(json.JSONEncoder):
             return x
 
         if obj is None or isinstance(obj, simple_types):
-            return obj
+            return unicode(obj)
 
         if isinstance(obj, datetime):
             return unicode(datetime.strftime(obj, '%Y-%m-%d %H:%M:%S'))
 
         if isinstance(obj, date):
             return unicode(datetime.strftime(obj, '%Y-%m-%d'))
-        
+
         if isinstance(obj, time):
             return unicode(time.strftime(obj, '%H:%M:%S.%f'))
+
+        return obj
 
 
 class AttachModel(ndb.Model):
@@ -154,8 +156,8 @@ class EmailModel(ndb.Model):
     def get_info_by_email(self, date_from, date_to, correo):
         query = EmailModel.query()
         query = query.filter(EmailModel.correo == correo,
-                            EmailModel.input_date >= date_from,
-                            EmailModel.input_date <= date_to)
+                             EmailModel.input_date >= date_from,
+                             EmailModel.input_date <= date_to)
         query = query.order(-EmailModel.input_date)
         return query.fetch()
 
@@ -180,7 +182,8 @@ class EmailModel(ndb.Model):
         end_date = from_date
         # arreglo para armar el objeto de respuesta
         data_result = [
-            ["Fecha", "Solicitudes", "Procesados", "Enviados", "Abiertos", "Rechazados", "Rebotados"]
+            ["Fecha", "Solicitudes", "Procesados", "Enviados",
+                "Abiertos", "Rechazados", "Rebotados"]
         ]
 
         while end_date <= to_date:
@@ -193,10 +196,13 @@ class EmailModel(ndb.Model):
                                          EmailModel.input_date <= end_date,
                                          EmailModel.tipo_receptor == tipo_receptor)
             total = query.count()
-            processed = query.filter(EmailModel.processed_event == "processed").count()
-            delivered = query.filter(EmailModel.delivered_event == "delivered").count()
+            processed = query.filter(
+                EmailModel.processed_event == "processed").count()
+            delivered = query.filter(
+                EmailModel.delivered_event == "delivered").count()
             opened = query.filter(EmailModel.opened_event == "open").count()
-            dropped = query.filter(EmailModel.dropped_event == "dropped").count()
+            dropped = query.filter(
+                EmailModel.dropped_event == "dropped").count()
             bounced = query.filter(EmailModel.bounce_event == "bounce").count()
             fecha = str(end_date).split(' ')[0]
             fecha = fecha.split('-')
@@ -204,7 +210,8 @@ class EmailModel(ndb.Model):
             ''.join(fecha)
             fecha = fecha[0] + '-' + fecha[1]
             # Armar array de respuesta
-            data = [fecha, total, processed, delivered, opened, dropped, bounced]
+            data = [
+                fecha, total, processed, delivered, opened, dropped, bounced]
             data_result.append(data)
             end_date = end_date + day
         return data_result
@@ -220,8 +227,10 @@ class EmailModel(ndb.Model):
                                      EmailModel.input_date <= to_date,
                                      EmailModel.tipo_receptor == tipo_receptor)
         total = query.count()
-        processed = query.filter(EmailModel.processed_event == "processed").count()
-        delivered = query.filter(EmailModel.delivered_event == "delivered").count()
+        processed = query.filter(
+            EmailModel.processed_event == "processed").count()
+        delivered = query.filter(
+            EmailModel.delivered_event == "delivered").count()
         opened = query.filter(EmailModel.opened_event == "open").count()
         dropped = query.filter(EmailModel.dropped_event == "dropped").count()
         bounced = query.filter(EmailModel.bounce_event == "bounce").count()
@@ -261,7 +270,7 @@ class EmailModel(ndb.Model):
         return query.fetch()
 
     @classmethod
-    def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor):
+    def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor='all'):
 
         if tipo_receptor == 'all':
             query = EmailModel.query(ndb.OR(EmailModel.dropped_event == 'dropped',

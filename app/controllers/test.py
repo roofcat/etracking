@@ -41,14 +41,17 @@ class TestHandler(webapp2.RequestHandler):
 class Test2Handler(webapp2.RequestHandler):
 
     def get(self):
-        date_from = 1441594800
-        date_to = 1442199600
+        date_from = 1441854000
+        date_to = 1442458800
         date_from = datetime.datetime.fromtimestamp(date_from)
         date_to = datetime.datetime.fromtimestamp(date_to)
-        query = EmailModel.get_info_by_email(date_from, date_to, 'crojas@azurian.com')
-        #query = EmailModel.query().fetch()
-        #self.response.write(ndb_json.NdbEncoder().default(query))
-        self.response.write(JSONEncoder().default(query))
+        query = EmailModel.get_info_by_email(date_from, date_to, 'admin@gapps.azurian.com')
+        result = []
+        for q in query:
+            result.append(JSONEncoder().default(q))
+        #self.response.write(JSONEncoder().default(query))
+        self.response.headers['Content-Type'] = 'text/json'
+        self.response.write(json.dumps(result))
 
 
 class Test4Handler(webapp2.RequestHandler):
