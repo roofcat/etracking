@@ -39,8 +39,11 @@ class JSONEncoder(json.JSONEncoder):
                 x[l] = self.default(obj[l])
             return x
 
-        if obj is None or isinstance(obj, simple_types):
+        if isinstance(obj, simple_types):
             return unicode(obj)
+
+        if obj is None:
+            return ''
 
         if isinstance(obj, datetime):
             return unicode(datetime.strftime(obj, '%Y-%m-%d %H:%M:%S'))
