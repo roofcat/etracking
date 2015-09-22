@@ -199,7 +199,7 @@ function drawTable ( datas ) {
 	var options = {
 		'showRowNumber': true,
 		'width': '100%',
-		'height': 400,
+		'height': 450,
 		'page': 'enable',
 		'pageSize': 50,
 		'allowHtml': true,
