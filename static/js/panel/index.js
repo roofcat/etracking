@@ -139,11 +139,11 @@ function setLegends ( data ) {
 		divResumeOpened.empty().append( htmlOpened );
 
 		// calcular fallidos
-		htmlFailure += '<span class="circulo-naranjo-700"></span>';
+		htmlFailure += '<span class="circulo-naranjo-300"></span>';
 		htmlFailure += '<label> ';
 		htmlFailure += data.bounced + ' rebotados ';
 		htmlFailure += getPercentage2( data.bounced, data.dropped ) + '%</label><br>';
-		htmlFailure += '<span class="circulo-naranjo-300"></span>';
+		htmlFailure += '<span class="circulo-naranjo-700"></span>';
 		htmlFailure += '<label> ';
 		htmlFailure += data.dropped + ' rechazados ';
 		htmlFailure += getPercentage2( data.dropped, data.bounced ) + '%</label><br>';

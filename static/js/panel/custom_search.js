@@ -113,7 +113,7 @@ function loadData ( data ) {
 
 	for ( var i = 0; i < data.length; i++ ) {
 		var correo = data[i];
-		htmlCard += '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">';
+		htmlCard += '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">';
 		htmlCard += '<div class="panel panel-success">';
 		htmlCard += '<div class="panel-heading"> ';
 		htmlCard += ' <strong>Folio Nº:</strong> ' + correo.numero_folio;
@@ -136,40 +136,42 @@ function loadData ( data ) {
 	    	htmlCard += ' <strong>Tipo receptor: </strong>' + correo.tipo_receptor;
 			htmlCard += ' <br> ';
 			htmlCard += ' <strong>Estados del correo</strong><br> ';
-		if ( correo.processed_event ) {
+		if ( !correo.processed_event === 'None' ) {
 			htmlCard += '<span class="label label-default"> ';
 			htmlCard += correo.processed_event + ' - ' + correo.processed_date;
 			htmlCard += ' </span><br> ';
 		};
-		if ( correo.delivered_event ) {
+		if ( !correo.delivered_event === 'None' ) {
 			htmlCard += '<span class="label label-primary"> ';
 			htmlCard += correo.delivered_event + ' - ' + correo.delivered_date;
 			htmlCard += ' </span><br> ';
 		};
-		if ( correo.opened_event ) {
+		if ( !correo.opened_event === 'None' ) {
 			htmlCard += '<span class="label label-success"> ';
 	    	htmlCard += correo.opened_event + ' - ' +  correo.opened_first_date + ' - ' + correo.opened_ip + ' - ';
 		    htmlCard += correo.opened_user_agent + ' - ' + '<strong>Veces visto </strong>' + correo.opened_count;
 			htmlCard += ' </span><br> ';
 		};
-		if ( correo.dropped_event ) {
+		if ( !correo.dropped_event === 'None' ) {
 			htmlCard += '<span class="label label-warning"> ';
 			htmlCard += correo.dropped_event + ' - ' + correo.dropped_reason + ' - ' + correo.dropped_date;
 			htmlCard += ' </span><br> ';
 		};					
-		if ( correo.bounce_event ) {
+		if ( !correo.bounce_event === 'None' ) {
 			htmlCard += '<span class="label label-danger"> ';
 			htmlCard += correo.bounce_event + ' - ' + correo.bounce_date + ' - ' + correo.bounce_type + ' - ' + correo.bounce_status;
 			htmlCard += ' </span><br>';
 			htmlCard += '<p class="alert alert-danger">' + correo.bounce_reason + '</p><br> ';
 		};
-		if ( correo.unsubscribe_event ) {
+		if ( !correo.unsubscribe_event === 'None' ) {
 			htmlCard += '<span class="label label-info"> ';
 		    htmlCard += correo.unsubscribe_event + ' - ' + correo.unsubscribe_date;
-			htmlCard += ' </span><br> ';
+			htmlCard += ' </span>';
 		};
+		htmlCard += '<br>';
 		htmlCard += '</div>';
-		htmlCard += '</div> ';
+		htmlCard += '</div>';
+		htmlCard += '</div>';
 	}; //endfor
 	divCards.append( htmlCard );
 };
