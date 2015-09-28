@@ -38,6 +38,10 @@ $( '#run_search' ).on( 'click', function () {
 		$( '#errorModal' ).modal( 'show', true );
 		return;
 	};
+
+	$( '#closeMenuModal' ).click();
+
+	$( '#loadingModal' ).modal( 'show', true );
 	
 	switch ( tabPosition ) {
 		case '#correo':
@@ -112,8 +116,6 @@ $( '#run_search' ).on( 'click', function () {
 			ajaxService( link );
 			break;
 	};
-
-	$( '#closeMenuModal' ).click();
 });
 
 function ajaxService ( link ) {
@@ -121,11 +123,14 @@ function ajaxService ( link ) {
 		'type': 'GET',
 		'url': link,
 		success: function ( data ) {
-			console.log( data['message'] );
-			drawTable( data.data );
+			if ( data.data ) {
+				drawTable( data.data );
+			};
+			$( '#closeLoadingModal' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			console.log( errorThrown );
+			$( '#closeLoadingModal' ).click();
 		},
 	});
 };
@@ -174,7 +179,7 @@ function drawTable ( datas ) {
 		rows.push([
 			( !row.numero_folio ) ? '' : row.numero_folio, 
 			( !row.correo ) ? '' : row.correo, 
-			( !row.input_date ) ? '' : row.input_date, 
+			( !row.input_datetime ) ? '' : row.input_datetime, 
 			( !row.rut_receptor ) ? '' : row.rut_receptor, 
 			( !row.nombre_cliente ) ? '' : row.nombre_cliente, 
 			( !row.rut_emisor ) ? '' : row.rut_emisor, 
