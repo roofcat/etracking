@@ -18,7 +18,6 @@ $( document ).ready( function () {
 	delete baseUrl[3];
 	baseUrl = baseUrl.join('/')
 	baseUrl = baseUrl.substring( 0, baseUrl.length - 1 );
-	console.log( baseUrl  );
 	
 	$( '.datePicker' ).datetimepicker ({
 		'dayOfWeekStart': 1,
@@ -40,12 +39,11 @@ $( '#run_search' ).on( 'click', function () {
 	};
 
 	$( '#closeMenuModal' ).click();
-
 	$( '#loadingModal' ).modal( 'show', true );
 	
 	switch ( tabPosition ) {
+
 		case '#correo':
-			console.log(tabPosition);
 			var date_from = $( '#date_from1' ).val();
 			var date_to = $( '#date_to1' ).val();
 			var correoDestinatario = $( '#correoDestinatario' ).val();
@@ -55,21 +53,17 @@ $( '#run_search' ).on( 'click', function () {
 			correoDestinatario = encodeURIComponent( correoDestinatario );
 
 			var link = baseUrl + emailUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
-			console.log( link );
 			ajaxService( link );
 			break;
 
 		case '#folio':
-			console.log(tabPosition);
 			var numeroFolio = $( '#numeroFolio' ).val();
 
 			var link = baseUrl + folioUrl + numeroFolio + '/';
-			console.log( link );
 			ajaxService( link );
 			break;
 
 		case '#rutreceptor':
-			console.log(tabPosition);
 			var date_from = $( '#date_from2' ).val();
 			var date_to = $( '#date_to2' ).val();
 			var rutReceptor = $( '#rutReceptor' ).val();
@@ -82,12 +76,10 @@ $( '#run_search' ).on( 'click', function () {
 			};
 
 			var link = baseUrl + rutUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
-			console.log( link );
 			ajaxService( link );
 			break;
 
 		case '#fallidos':
-			console.log(tabPosition);
 			var date_from = $( '#date_from3' ).val();
 			var date_to = $( '#date_to3' ).val();
 
@@ -95,12 +87,10 @@ $( '#run_search' ).on( 'click', function () {
 			date_to = getDateAsTimestamp( date_to );
 
 			var link = baseUrl + fallidosUrl + date_from + '/' + date_to + '/';
-			console.log( link );
 			ajaxService( link );
 			break;
 
 		case '#monto':
-			console.log(tabPosition);
 			var date_from = $( '#date_from4' ).val();
 			var date_to = $( '#date_to4' ).val();
 			date_from = getDateAsTimestamp( date_from );
@@ -112,7 +102,6 @@ $( '#run_search' ).on( 'click', function () {
 			mount_to = parseInt( mount_to, 10 );
 
 			var link = baseUrl + montosUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
-			console.log( link );
 			ajaxService( link );
 			break;
 	};
