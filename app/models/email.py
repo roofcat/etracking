@@ -290,15 +290,6 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_emails_by_mount(self, date_from, date_to, mount_from, mount_to, tipo_receptor='all'):
-        """
-        query = EmailModel.query()
-        query = query.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
-        query = query.filter(EmailModel.monto >= mount_from, EmailModel.monto <= mount_to)
-        if not tipo_receptor == 'all':
-            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
-        #query = query.order(EmailModel.input_date)
-        return query.fetch()
-        """
         query_from = EmailModel.query()
         query_from = query_from.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
         query_from_keys = query_from.fetch(None, keys_only=True)
@@ -316,7 +307,6 @@ class EmailModel(ndb.Model):
         logging.info(len(valid_query_keys))
         result = []
         if valid_query_keys:
-            #query = EmailModel.query().filter(EmailModel._key.IN(valid_query_keys))
             query = ndb.get_multi(valid_query_keys)
             logging.info(query)
             return query
