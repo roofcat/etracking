@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="/static/css/dropdown.css">
 	<link rel="stylesheet" href="/static/css/style.css">
 	{% block stylesheets %}{% endblock %}
-	<title>{% block title %}{% endblock %} - AzurianDTE Tracking</title>
+	<title>{% block title %}{% endblock %} - DTE Tracking</title>
 </head>
 <body>
 	<div class="page-header">
@@ -25,7 +25,7 @@
 		            <span class="icon-bar"></span>
 		        </button>
 		        <a class="navbar-brand" style="margin-left:20px;" href="/">
-		        <b>Azurian</b>DTE Tracking</a>
+		        <b>DTE</b> Tracking</a>
 		    </div>
 		    <div class="navbar-collapse collapse navbar-warning-collapse">
 		    	<ul class="nav navbar-nav">
@@ -43,6 +43,7 @@
 		                <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ data.email }} <b class="glyphicon glyphicon-option-vertical"></b></a>
 		                <ul class="dropdown-menu">
 		                {% if data.is_custom_user %}
+				        	<li><a href="/profile/">Perfil de usuario</a></li>
 				        	<li><a href="/logout/">Salir</a></li>
 						{% else %}
 				          	<li><a href="/revoke/">Salir</a></li>

@@ -18,14 +18,15 @@ from app.controllers.oauth_controller import RevokeHandler
 from app.controllers.admin_controller import AdminHandler
 from app.controllers.statistic_controller import IndexStatisticHandler
 from app.controllers.statistic_controller import GraphStatisticHandler
-from app.controllers.user_controller import UserAdminHandler
-from app.controllers.user_controller import ListUserAdminHandler
-from app.controllers.user_controller import NewUserAdminHandler
+from app.controllers.user_admin_controller import UserAdminHandler
+from app.controllers.user_admin_controller import ListUserAdminHandler
+from app.controllers.user_admin_controller import NewUserAdminHandler
 
 
 # imports para usuarios normales
-from app.controllers.panel_controller import LoginPanelHandler
-from app.controllers.panel_controller import LogoutPanelHandler
+from app.controllers.user_profile_controller import LoginPanelHandler
+from app.controllers.user_profile_controller import LogoutPanelHandler
+from app.controllers.user_profile_controller import ProfilePanelHandler
 from app.controllers.panel_controller import DashboardHandler
 from app.controllers.panel_controller import CustomSearchHandler
 
@@ -81,6 +82,7 @@ app = webapp2.WSGIApplication([
     # panel usuario clientes
     (r'/', DashboardHandler),
     (r'/customsearch/$', CustomSearchHandler),
+    (r'/profile/$', ProfilePanelHandler),
 
     # rutas para descargar csv
     (r'/export/general/(\d+)/(\d+)/(.+)/$', ExportGeneralEmailHandler),
@@ -132,6 +134,7 @@ app = webapp2.WSGIApplication([
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)
 
+# Handlers para errores comunes
 app.error_handlers[403] = handle_403
 app.error_handlers[404] = handle_404
 app.error_handlers[500] = handle_500
