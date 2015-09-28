@@ -3,11 +3,18 @@
 google.load('visualization', '1.0', {'packages': ['corechart','table', 'controls',], 'language': 'es'});
 
 var baseUrl = document.location.href;
+// urls busquedas
 var emailUrl = 'api/search/email/';
 var folioUrl = 'api/search/folio/';
 var rutUrl = 'api/search/rut/';
 var fallidosUrl = 'api/search/fallidos/';
 var montosUrl = 'api/search/montos/';
+// urls export
+var emailExportUrl = '/export/email/';
+var folioExportUrl = '/export/folio/';
+var rutExportUrl = '/export/rut/';
+var fallidosExportUrl = '/export/fallidos/';
+var montosExportUrl = '/export/montos/';
 
 var tabPosition = '#correo';
 
