@@ -25,6 +25,3 @@ libraries:
   version: latest
 - name: markupsafe
   version: latest
-
-inbound_services:
-- warmup
