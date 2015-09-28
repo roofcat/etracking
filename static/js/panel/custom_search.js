@@ -7,6 +7,7 @@ var emailUrl = 'api/search/email/';
 var folioUrl = 'api/search/folio/';
 var rutUrl = 'api/search/rut/';
 var fallidosUrl = 'api/search/fallidos/';
+var montosUrl = 'api/search/montos/';
 
 var tabPosition = '#correo';
 
@@ -50,29 +51,17 @@ $( '#run_search' ).on( 'click', function () {
 			correoDestinatario = encodeURIComponent( correoDestinatario );
 
 			var link = baseUrl + emailUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
-
 			console.log( link );
-			
-			$.ajax({
-				'type': 'GET',
-				'url': link,
-				success: function ( data ) {
-					console.log( data['message'] );
-					//loadData( data.data );
-					drawTable( data.data );
-				},
-				error: function ( jqXHR, textStatus, errorThrown ) {
-					console.log( errorThrown );
-				},
-			});
-
+			ajaxService( link );
 			break;
+
 		case '#folio':
 			console.log(tabPosition);
 			var numeroFolio = $( '#numeroFolio' ).val();
 
-			var link = baseUrl + folioUrl + '/' + numeroFolio;
-
+			var link = baseUrl + folioUrl + numeroFolio + '/';
+			console.log( link );
+			ajaxService( link );
 			break;
 
 		case '#rutreceptor':
@@ -88,8 +77,9 @@ $( '#run_search' ).on( 'click', function () {
 				console.log("rut valido");
 			};
 
-			var link = baseUrl + rutUrl + '/' + date_from + '/' + date_to + '/' + rutReceptor + '/';
-
+			var link = baseUrl + rutUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
+			console.log( link );
+			ajaxService( link );
 			break;
 
 		case '#fallidos':
@@ -100,14 +90,45 @@ $( '#run_search' ).on( 'click', function () {
 			date_from = getDateAsTimestamp( date_from );
 			date_to = getDateAsTimestamp( date_to );
 
-			var link = baseUrl + fallidosUrl + '/' + date_from + '/' + date_to + '/';
-
+			var link = baseUrl + fallidosUrl + date_from + '/' + date_to + '/';
+			console.log( link );
+			ajaxService( link );
 			break;
-			
+
+		case '#monto':
+			console.log(tabPosition);
+			var date_from = $( '#date_from4' ).val();
+			var date_to = $( '#date_to4' ).val();
+			date_from = getDateAsTimestamp( date_from );
+			date_to = getDateAsTimestamp( date_to );
+
+			var mount_from = $( '#mount_from' ).val();
+			var mount_to = $( '#mount_to' ).val();
+			mount_from = parseInt( mount_from, 10 );
+			mount_to = parseInt( mount_to, 10 );
+
+			var link = baseUrl + montosUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
+			console.log( link );
+			ajaxService( link );
+			break;
 	};
 
 	$( '#closeMenuModal' ).click();
 });
+
+function ajaxService ( link ) {
+	$.ajax({
+		'type': 'GET',
+		'url': link,
+		success: function ( data ) {
+			console.log( data['message'] );
+			drawTable( data.data );
+		},
+		error: function ( jqXHR, textStatus, errorThrown ) {
+			console.log( errorThrown );
+		},
+	});
+};
 
 function drawTable ( datas ) {
 	var data = new google.visualization.DataTable();
@@ -213,76 +234,6 @@ function drawTable ( datas ) {
 	table.draw( data, options );
 };
 
-function loadData ( data ) {
-	var divCards = $( '#divCards' );
-	var htmlCard = '';
-	divCards.empty();
-
-	for ( var i = 0; i < data.length; i++ ) {
-		var correo = data[i];
-		htmlCard += '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">';
-		htmlCard += '<div class="panel panel-material-deep-orange">';
-		htmlCard += '<div class="panel-heading"> ';
-		htmlCard += ' <strong>Folio Nº:</strong> ' + correo.numero_folio;
-		htmlCard += ' <strong> Correo:</strong> ' + correo.correo;
-		htmlCard += ' <strong> Fecha:</strong> ' + correo.input_date;
-		htmlCard += ' </div>';
-		htmlCard += '<div class="panel-body" style="font-size:12px;"> ';
-		htmlCard += ' <strong>Rut receptor: </strong>' + correo.rut_receptor + ' - <strong>Cliente: </strong> ' +correo.nombre_cliente + '<br>';
-	    htmlCard += ' <strong>Rut emisor: </strong>' + correo.rut_emisor + ' - <strong>Emisor: </strong> ' + correo.empresa + '<br>';
-	    htmlCard += ' <strong>Tipo envío: </strong>' + correo.tipo_envio;
-	    htmlCard += ' <strong>Tipo dte: </strong>' + correo.tipo_dte;
-	    htmlCard += ' <strong>Resolución receptor: </strong> ';
-	    if ( correo.resolucion_receptor ) { correo.resolucion_receptor };
-    	htmlCard += ' <strong>Resolución emisor: </strong>' + correo.resolucion_emisor;
-    	htmlCard += ' <strong>Monto: </strong>' + correo.monto;
-    	htmlCard += ' <strong>Fecha emisión: </strong>' + correo.fecha_emision;
-    	htmlCard += ' <strong>Fecha recepción: </strong>' + correo.fecha_recepcion;
-    	htmlCard += ' <strong>Estado documento: </strong>' + correo.estado_documento;
-    	htmlCard += ' <strong>Tipo operación: </strong>' + correo.tipo_operacion;
-    	htmlCard += ' <strong>Tipo receptor: </strong>' + correo.tipo_receptor;
-		htmlCard += ' <br> ';
-		htmlCard += ' <strong>Estados del correo</strong><br> ';
-		if ( correo.processed_event != 'None' ) {
-			htmlCard += '<span class="label label-default"> ';
-			htmlCard += correo.processed_event + ' - ' + correo.processed_date;
-			htmlCard += ' </span><br> ';
-		};
-		if ( correo.delivered_event != 'None' ) {
-			htmlCard += '<span class="label label-primary"> ';
-			htmlCard += correo.delivered_event + ' - ' + correo.delivered_date;
-			htmlCard += ' </span><br> ';
-		};
-		if ( correo.opened_event != 'None' ) {
-			htmlCard += '<span class="label label-success"> ';
-	    	htmlCard += correo.opened_event + ' - ' +  correo.opened_first_date + ' - ' + correo.opened_ip + ' - ';
-		    htmlCard += correo.opened_user_agent + ' - ' + '<strong>Veces visto </strong>' + correo.opened_count;
-			htmlCard += ' </span><br> ';
-		};
-		if ( correo.dropped_event != 'None' ) {
-			htmlCard += '<span class="label label-warning"> ';
-			htmlCard += correo.dropped_event + ' - ' + correo.dropped_reason + ' - ' + correo.dropped_date;
-			htmlCard += ' </span><br> ';
-		};					
-		if ( correo.bounce_event != 'None' ) {
-			htmlCard += '<span class="label label-danger"> ';
-			htmlCard += correo.bounce_event + ' - ' + correo.bounce_date + ' - ' + correo.bounce_type + ' - ' + correo.bounce_status;
-			htmlCard += ' </span><br>';
-			htmlCard += '<p class="alert alert-danger">' + correo.bounce_reason + '</p><br> ';
-		};
-		if ( correo.unsubscribe_event != 'None' ) {
-			htmlCard += '<span class="label label-info"> ';
-		    htmlCard += correo.unsubscribe_event + ' - ' + correo.unsubscribe_date;
-			htmlCard += ' </span>';
-		};
-		htmlCard += '<br>';
-		htmlCard += '</div>';
-		htmlCard += '</div>';
-		htmlCard += '</div>';
-	}; //endfor
-	divCards.append( htmlCard );
-};
-
 function formValidate () {
 
 	switch ( tabPosition ) {
@@ -327,6 +278,18 @@ function formValidate () {
 				return false;
 			};
 			break;
+
+		case '#monto':
+			var date_from = $( '#date_from4' ).val();
+			var date_to = $( '#date_to4' ).val();
+			var mount_from = $( '#mount_from' ).val();
+			var mount_to = $( '#mount_to' ).val();
+			if ( date_from && date_to && mount_from && mount_to ) {
+				return true;
+			} else {
+				return false;
+			};
+			break;
 	};
 
 };
@@ -364,16 +327,20 @@ $( '.datePicker' ).on( 'change', function () {
 	var date_from1 = $( '#date_from1' ).val();
 	var date_from2 = $( '#date_from2' ).val();
 	var date_from3 = $( '#date_from3' ).val();
+	var date_from4 = $( '#date_from4' ).val();
 	var date_to1 = $( '#date_to1' ).val();
 	var date_to2 = $( '#date_to2' ).val();
 	var date_to3 = $( '#date_to3' ).val();
+	var date_to4 = $( '#date_to4' ).val();
 
 	date_from1 = moment( date_from1, 'DD/MM/YYYY' ).unix();
 	date_from2 = moment( date_from2, 'DD/MM/YYYY' ).unix();
 	date_from3 = moment( date_from3, 'DD/MM/YYYY' ).unix();
+	date_from4 = moment( date_from4, 'DD/MM/YYYY' ).unix();
 	date_to1 = moment( date_to1, 'DD/MM/YYYY' ).unix();
 	date_to2 = moment( date_to2, 'DD/MM/YYYY' ).unix();
 	date_to3 = moment( date_to3, 'DD/MM/YYYY' ).unix();
+	date_to4 = moment( date_to4, 'DD/MM/YYYY' ).unix();
 
 	if ( date_from1 > date_to1 ) {
 		setDefaultDates();
@@ -386,6 +353,10 @@ $( '.datePicker' ).on( 'change', function () {
 	if ( date_from3 > date_to3 ) {
 		setDefaultDates();
 	};
+
+	if ( date_from4 > date_to4 ) {
+		setDefaultDates();
+	};
 });
 
 function getDateAsTimestamp ( date ) {
@@ -396,9 +367,11 @@ function setDefaultDates () {
 	$( '#date_from1' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
 	$( '#date_from2' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
 	$( '#date_from3' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
+	$( '#date_from4' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
 	$( '#date_to1' ).val( moment().format( 'DD/MM/YYYY' ) );
 	$( '#date_to2' ).val( moment().format( 'DD/MM/YYYY' ) );
 	$( '#date_to3' ).val( moment().format( 'DD/MM/YYYY' ) );
+	$( '#date_to4' ).val( moment().format( 'DD/MM/YYYY' ) );
 };
 
 function validaRut ( rut ) {

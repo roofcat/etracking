@@ -6,6 +6,7 @@ import base64
 import json
 import datetime
 import logging
+import webapp2
 
 
 from app_controller import BaseHandler
@@ -69,9 +70,14 @@ class FolioSearchHandler(BaseHandler):
         if folio:
             folio = str(folio)
             data = EmailModel.get_emails_by_folio(folio)
-            context = {'message': 'ok', 'data': data, }
-            self.response.write(JSONEncoder().default(context))
+            result = []
+            for d in data:
+                result.append(JSONEncoder().default(d))
+            context = {'message': 'ok', 'data': result, }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps(context))
         else:
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps({'message': 'error'}))
 
 
@@ -85,9 +91,14 @@ class RutReceptorSearchHandler(BaseHandler):
             date_to = datetime.datetime.fromtimestamp(date_to)
             rut = str(rut)
             data = EmailModel.get_emails_by_rut_receptor(rut)
-            context = {'message': 'ok', 'data': data, }
-            self.response.write(JSONEncoder().default(context))
+            result = []
+            for d in data:
+                result.append(JSONEncoder().default(d))
+            context = {'message': 'ok', 'data': result, }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps(context))
         else:
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps({'message': 'error'}))
 
 
@@ -100,9 +111,36 @@ class FallidosSearchHandler(BaseHandler):
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             data = EmailModel.get_all_failure_emails_by_dates(date_from, date_to)
-            context = {'message': 'ok', 'data': data, }
-            self.response.write(JSONEncoder().default(context))
+            result = []
+            for d in data:
+                result.append(JSONEncoder().default(d))
+            context = {'message': 'ok', 'data': result, }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps(context))
         else:
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps({'message': 'error'}))
+
+
+class MontosSearchHandler(BaseHandler):
+
+    def get(self, date_from, date_to, mount_from, mount_to):
+        if date_from and date_to and date_from and date_to:
+            date_from = int(date_from, base=10)
+            date_to = int(date_to, base=10)
+            date_from = datetime.datetime.fromtimestamp(date_from)
+            date_to = datetime.datetime.fromtimestamp(date_to)
+            mount_from = int(mount_from, base=10)
+            mount_to = int(mount_to, base=10)
+            data = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
+            result = []
+            for d in data:
+                result.append(JSONEncoder().default(d))
+            context = {'message': 'ok', 'data': result, }
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(json.dumps(context))
+        else:
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps({'message': 'error'}))
 
 

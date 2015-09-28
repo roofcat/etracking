@@ -60,6 +60,17 @@ indexes:
 
 - kind: EmailModel
   properties:
+  - name: monto
+  - name: input_date
+  - name: tipo_receptor
+
+- kind: EmailModel
+  properties:
+  - name: monto
+  - name: input_date
+
+- kind: EmailModel
+  properties:
   - name: dropped_event
   - name: input_date
 

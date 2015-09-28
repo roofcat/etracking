@@ -54,6 +54,28 @@ class Test2Handler(webapp2.RequestHandler):
         self.response.write(json.dumps(result))
 
 
+class Test3Handler(webapp2.RequestHandler):
+
+    def get(self):
+        date_from = '1442804400'
+        date_to = '1443409200'
+        mount_from = '0'
+        mount_to = '0'
+        date_from = int(date_from, base=10)
+        date_to = int(date_to, base=10)
+        mount_from = int(mount_from, base=10)
+        mount_to = int(mount_to, base=10)
+        date_from = datetime.datetime.fromtimestamp(date_from)
+        date_to = datetime.datetime.fromtimestamp(date_to)
+        query = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
+        result = []
+        for q in query:
+            result.append(JSONEncoder().default(q))
+        #self.response.write(JSONEncoder().default(query))
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(result)
+
+
 class Test4Handler(webapp2.RequestHandler):
 
     def get(self):

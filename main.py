@@ -43,6 +43,10 @@ from app.controllers.cron_controller import SendLaggingCronHandler
 # import para uso de apis
 from app.controllers.panel_controller import StatisticPanelHandler
 from app.controllers.panel_controller import EmailSearchHandler
+from app.controllers.panel_controller import FolioSearchHandler
+from app.controllers.panel_controller import RutReceptorSearchHandler
+from app.controllers.panel_controller import FallidosSearchHandler
+from app.controllers.panel_controller import MontosSearchHandler
 
 
 # manejo de errores
@@ -54,6 +58,7 @@ from app.controllers.errorhandler_controller import handle_500
 # imports para pruebas
 from app.controllers.test import TestHandler
 from app.controllers.test import Test2Handler
+from app.controllers.test import Test3Handler
 from app.controllers.test import Test4Handler
 from app.controllers.test import Test5Handler
 from app.controllers.test import TestInputWithUserAndPassword
@@ -82,9 +87,10 @@ app = webapp2.WSGIApplication([
 
     # api busquedas
     (r'/api/search/email/(\d+)/(\d+)/(.+)/$', EmailSearchHandler),
-    (r'/api/search/folio/(.+)/$', EmailSearchHandler),
-    (r'/api/search/rut/(\d+)/(\d+)/(.+)/$', CustomSearchHandler),
-    (r'/api/search/fallidos/(\d+)/(\d+)/$', CustomSearchHandler),
+    (r'/api/search/folio/(.+)/$', FolioSearchHandler),
+    (r'/api/search/rut/(\d+)/(\d+)/(.+)/$', RutReceptorSearchHandler),
+    (r'/api/search/fallidos/(\d+)/(\d+)/$', FallidosSearchHandler),
+    (r'/api/search/montos/(\d+)/(\d+)/(\d+)/(\d+)/$', MontosSearchHandler),
 
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),
@@ -108,6 +114,7 @@ app = webapp2.WSGIApplication([
     (r'^/webhook/$', SendrigWebhookHandler),
     (r'/test1', TestHandler),
     (r'/test2', Test2Handler),
+    (r'/test3', Test3Handler),
     (r'/test4', Test4Handler),
     (r'/test5', Test5Handler),
     (r'/testauth', TestInputWithUserAndPassword),
