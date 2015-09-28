@@ -18,12 +18,12 @@ class ExportGeneralEmailHandler(BaseHandler):
 	def get(self, date_from, date_to, options):
 		
 		if date_from and date_to and options:
-			date_from = int(date_from)
-			date_to = int(date_to)
-			date_from = datetime.datetime.fromtimestamp(date_from)
-			date_to = datetime.datetime.fromtimestamp(date_to)
-			# Consulta
 			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				# Consulta
 				query = EmailModel.get_all_emails_by_dates(date_from, date_to, options)
 				create_csv(self, query)
 			except Exception, e:
@@ -35,12 +35,12 @@ class ExportSendedEmailHandler(BaseHandler):
 	def get(self, date_from, date_to, options):
 
 		if date_from and date_to and options:
-			date_from = int(date_from)
-			date_to = int(date_to)
-			date_from = datetime.datetime.fromtimestamp(date_from)
-			date_to = datetime.datetime.fromtimestamp(date_to)
-			# Consulta
 			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				# Consulta
 				query = EmailModel.get_all_sended_emails_by_dates(date_from, date_to, options)
 				create_csv(self, query)
 			except Exception, e:
@@ -52,13 +52,90 @@ class ExportFailureEmailHandler(BaseHandler):
 	def get(self, date_from, date_to, options):
 
 		if date_from and date_to and options:
-			date_from = int(date_from)
-			date_to = int(date_to)
-			date_from = datetime.datetime.fromtimestamp(date_from)
-			date_to = datetime.datetime.fromtimestamp(date_to)
-			# Consulta
 			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				# Consulta
 				query = EmailModel.get_all_failure_emails_by_dates(date_from, date_to, options)
+				create_csv(self, query)
+			except Exception, e:
+				logging.info(e)
+
+
+class ExportSearchByEmailHandler(BaseHandler):
+
+	def get(self, date_from, date_to, email):
+
+		if date_from and date_to and email:
+			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				email = str(email).lower()
+				query = EmailModel.get_info_by_email(date_from, date_to, email)
+				create_csv(self, query)
+			except Exception, e:
+				logging.info(e)
+
+
+class ExportSearchByFolioHandler(BaseHandler):
+
+	def get(self, folio):
+		if folio:
+			try:
+				folio = int(folio, base=10)
+				query = EmailModel.get_emails_by_folio(folio)
+				create_csv(self, query)
+			except Exception, e:
+				logging.info(e)
+
+
+class ExportSearchByRutHandler(BaseHandler):
+
+	def get(self, date_from, date_to, rut):
+		if date_from and date_to and rut:
+			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				rut = str(rut).upper()
+				query = EmailModel.get_emails_by_rut_receptor(date_from, date_to, rut)
+				create_csv(self, query)
+			except Exception, e:
+				logging.info(e)
+
+
+class ExportSearchByFailureHandler(BaseHandler):
+
+	def get(self, date_from, date_to):
+		if date_from and date_to:
+			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				query = EmailModel.get_all_failure_emails_by_dates(date_from, date_to)
+				create_csv(self, query)
+			except Exception, e:
+				logging.info(e)
+
+
+class ExportSearchByMountHandler(BaseHandler):
+
+	def get(self, date_from, date_to, mount_from, mount_to):
+		if date_from and date_to:
+			try:
+				date_from = int(date_from, base=10)
+				date_to = int(date_to, base=10)
+				date_from = datetime.datetime.fromtimestamp(date_from)
+				date_to = datetime.datetime.fromtimestamp(date_to)
+				mount_from = int(mount_from, base=10)
+				mount_to = int(mount_to, base=10)
+				data = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
 				create_csv(self, query)
 			except Exception, e:
 				logging.info(e)

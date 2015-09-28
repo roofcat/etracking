@@ -34,10 +34,11 @@ from app.controllers.panel_controller import CustomSearchHandler
 from app.controllers.csv_controller import ExportGeneralEmailHandler
 from app.controllers.csv_controller import ExportSendedEmailHandler
 from app.controllers.csv_controller import ExportFailureEmailHandler
-
-
-# import tareas cron
-from app.controllers.cron_controller import SendLaggingCronHandler
+from app.controllers.csv_controller import ExportSearchByEmailHandler
+from app.controllers.csv_controller import ExportSearchByFolioHandler
+from app.controllers.csv_controller import ExportSearchByRutHandler
+from app.controllers.csv_controller import ExportSearchByFailureHandler
+from app.controllers.csv_controller import ExportSearchByMountHandler
 
 
 # import para uso de apis
@@ -47,6 +48,10 @@ from app.controllers.panel_controller import FolioSearchHandler
 from app.controllers.panel_controller import RutReceptorSearchHandler
 from app.controllers.panel_controller import FallidosSearchHandler
 from app.controllers.panel_controller import MontosSearchHandler
+
+
+# import tareas cron
+from app.controllers.cron_controller import SendLaggingCronHandler
 
 
 # manejo de errores
@@ -81,6 +86,12 @@ app = webapp2.WSGIApplication([
     (r'/export/general/(\d+)/(\d+)/(.+)/$', ExportGeneralEmailHandler),
     (r'/export/sended/(\d+)/(\d+)/(.+)/$', ExportSendedEmailHandler),
     (r'/export/failure/(\d+)/(\d+)/(.+)/$', ExportFailureEmailHandler),
+
+    (r'/export/email/(\d+)/(\d+)/(.+)/$', ExportSearchByEmailHandler),
+    (r'/export/folio/(.+)/$', ExportSearchByFolioHandler),
+    (r'/export/rut/(\d+)/(\d+)/(.+)/$', ExportSearchByRutHandler),
+    (r'/export/fallidos/(\d+)/(\d+)/$', ExportSearchByFailureHandler),
+    (r'/export/montos/(\d+)/(\d+)/(\d+)/(\d+)/$', ExportSearchByMountHandler),
     
     # api estadisticas
     (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),
