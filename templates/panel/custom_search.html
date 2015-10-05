@@ -53,6 +53,10 @@
 
 							    	<div class="form-horizontal" style="padding:10px;">
 							    	<!-- FORM CORREOS -->
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Correo</label>
+											<input class="form-control" type="email" id="correoDestinatario">
+										</div>
 							    		<div class="form-group form-group-material-indigo has-feedback">
 											<label class="control-label">Desde</label>
 											<input class="form-control datePicker" type="text" id="date_from1">
@@ -63,10 +67,6 @@
 											<input class="form-control datePicker" type="text" id="date_to1">
 											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
 										</div>
-										<div class="form-group form-group-material-indigo has-feedback">
-											<label class="control-label">Correo</label>
-											<input class="form-control" type="email" id="correoDestinatario">
-										</div>
 							    	</div>
 							    </div>
 
@@ -75,7 +75,7 @@
 							    	<div class="form-horizontal" style="padding:10px;">
 										<div class="form-group form-group-material-indigo has-feedback">
 											<label class="control-label">Nº de folio</label>
-											<input class="form-control" type="text" id="numeroFolio">
+											<input class="form-control" type="number" id="numeroFolio">
 										</div>
 							    	</div>
 							    </div>
@@ -83,6 +83,10 @@
 							    <div role="tabpanel" class="tab-pane" id="rutreceptor">
 							    <!-- FORM RUT RECEPTOR -->
 							    	<div class="form-horizontal" style="padding:10px;">
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Rut receptor</label>
+											<input class="form-control" type="text" id="rutReceptor">
+										</div>
 							    		<div class="form-group form-group-material-indigo has-feedback">
 											<label class="control-label">Desde</label>
 											<input class="form-control datePicker" type="text" id="date_from2">
@@ -92,10 +96,6 @@
 											<label class="control-label">Hasta</label>
 											<input class="form-control datePicker" type="text" id="date_to2">
 											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
-										</div>
-										<div class="form-group form-group-material-indigo has-feedback">
-											<label class="control-label">Rut receptor</label>
-											<input class="form-control" type="text" id="rutReceptor">
 										</div>
 							    	</div>
 							    </div>
@@ -120,6 +120,14 @@
 							    <!-- FORM MONTO -->
 							    	<div class="form-horizontal" style="padding:10px;">
 							    		<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Monto desde</label>
+											<input class="form-control" type="number" id="mount_from" min="0">
+										</div>
+										<div class="form-group form-group-material-indigo has-feedback">
+											<label class="control-label">Monto hasta</label>
+											<input class="form-control" type="number" id="mount_to" min="0">
+										</div>
+							    		<div class="form-group form-group-material-indigo has-feedback">
 											<label class="control-label">Desde</label>
 											<input class="form-control datePicker" type="text" id="date_from4">
 											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
@@ -128,14 +136,6 @@
 											<label class="control-label">Hasta</label>
 											<input class="form-control datePicker" type="text" id="date_to4">
 											<span class="mdi-action-today form-control-feedback" aria-hidden="true"></span>
-										</div>
-							    		<div class="form-group form-group-material-indigo has-feedback">
-											<label class="control-label">Monto desde</label>
-											<input class="form-control" type="number" id="mount_from">
-										</div>
-										<div class="form-group form-group-material-indigo has-feedback">
-											<label class="control-label">Monto hasta</label>
-											<input class="form-control" type="number" id="mount_to">
 										</div>
 							    	</div>
 							    </div>

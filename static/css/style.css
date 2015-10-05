@@ -1,5 +1,6 @@
 body {
   background-color: #f3f3f1;
+  font-family: 'Open Sans';
 }
 * {
   box-sizing: border-box;
@@ -188,7 +189,7 @@ body {
   width: 250px;
 }
 .legend-status {
-  font-size: 11px;
+  font-size: 12px;
   text-align: left;
 }
 .legend-status > label {

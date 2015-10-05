@@ -35,6 +35,8 @@ $( document ).ready( function () {
 	});
 
 	setDefaultDates();
+
+	$( '#menuModal' ).modal( 'show', true );
 	
 });
 
@@ -320,7 +322,6 @@ $( '.datePicker' ).on( 'change', function () {
 
 $( '.nav-pills' ).on('click', 'a', function () {
 	tabPosition = $( this ).attr( 'href' );
-	console.log( tabPosition );
 });
 
 // Validar los campos de fecha
