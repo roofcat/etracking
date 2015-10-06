@@ -1,13 +1,54 @@
 {% extends 'base.html' %}
 
 {% block stylesheets %}
+	<link rel="stylesheet" href="https://cdn.datatables.net/r/bs/jqc-1.11.3,dt-1.10.9/datatables.min.css"/>
 	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+	<!--<link rel="stylesheet" href="/static/css/jquery.dataTables.min.css">-->
+	<link rel="stylesheet" href="/static/css/dataTables.bootstrap.min.css">
 {% endblock %}
 
 {% block title %}Menú búsquedas personalizadas{% endblock %}
 
 {% block content %}
-<div id="divCards"></div>
+<div style="display:none;" id="divCards"></div>
+<table class="table table-hover table-striped table-condensed table-responsive" id="tableCards" style="font-size:10px;">
+	<tr>
+		<th>Folio</th>
+		<th>Correo</th>
+		<th>Fecha Envío</th>
+		<th>Rut Receptor</th>
+		<th>Nombre Cliente</th>
+		<th>Rut Emisor</th>
+		<th>Nombre Emisor</th>
+		<th>Tipo Envío</th>
+		<th>Tipo DTE</th>
+		<th>Resolución Receptor</th>
+		<th>Resolución Emisor</th>
+		<th>Monto</th>
+		<th>Fecha Emisión</th>
+		<th>Fecha Recepción</th>
+		<th>Estado Documento</th>
+		<th>Tipo Operación</th>
+		<th>Tipo Receptor</th>
+		<th>Estado proceso</th>
+		<th>Fecha proceso</th>
+		<th>Estado envío</th>
+		<th>Fecha envío</th>
+		<th>Estado leído</th>
+		<th>Fecha leído</th>
+		<th>Ip leído</th>
+		<th>Nº lecturas</th>
+		<th>Estado rechazo</th>
+		<th>Fecha rechazo</th>
+		<th>Motivo rechazo</th>
+		<th>Estado rebote</th>
+		<th>Fecha rebote</th>
+		<th>Tipo rebote</th>
+		<th>Código rebote</th>
+		<th>Estado desuscrito</th>
+		<th>Fecha desuscrito</th>
+	</tr>
+</table>
 
 <!-- BOTON MATERIAL -->
 <div class="search-btn" align="right">
@@ -148,8 +189,8 @@
 
             <div class="modal-footer">
             	<div class="form-group" align="right" style="margin-right:20px;">
-            		<button class="btn btn-flat" data-dismiss="modal">Cancelar</button>
-					<button class="btn btn-flat btn-material-indigo" id="run_search">Buscar</button>
+            		<button class="btn btn-flat btn-material-indigo" data-dismiss="modal">Cancelar</button>
+					<button class="btn btn-material-indigo" id="run_search">Buscar</button>
 				</div>
             </div>
 
@@ -196,5 +237,7 @@
 
 {% block javascript %}
 	<script src="/static/js/jquery.datetimepicker.js"></script>
+	<script src="/static/js/jquery.dataTables.min.js"></script>
+	<script src="/static/js/dataTables.bootstrap.min.js"></script>
 	<script src="/static/js/panel/custom_search.min.js"></script>
 {% endblock %}

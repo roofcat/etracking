@@ -122,7 +122,10 @@ function ajaxService ( link ) {
 		'url': link,
 		success: function ( data ) {
 			if ( data.data ) {
-				drawTable( data.data );
+				// Dibujar tabla de visualization
+				//drawTable( data.data );
+				// Dibujar tabla de jquery table
+				drawJqueryTable( data.data );
 			};
 			$( '#closeLoadingModal' ).click();
 		},
@@ -410,4 +413,177 @@ function validaRut ( rut ) {
     alert( "Formato rut incorrecto. El formato es 12345678-9" );
     return false;
   };
+};
+
+function drawJqueryTable ( data ) {
+	$( '#tableCards' ).dataTable({
+		"destroy": true,
+		"scrollY": "450px",
+		"scrollX": "100%",
+		"scrollCollapse": true,
+		"data": data,
+		"searching": true,
+		"lengthChange": false,
+		"pageLength": 50,
+		"columns": [
+			{ 
+				'data': 'numero_folio',
+				'title': 'Folio',
+			},
+			{ 
+				'data': 'correo',
+				'title': 'Correo',
+			},
+			{ 
+				'data': 'input_datetime',
+				'title': 'Fecha envío',
+				'render': function ( data, type, row, meta ) {
+					return moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
+				},
+			},
+			{ 
+				'data': 'rut_receptor',
+				'title': 'Rut receptor',
+			},
+			{ 
+				'data': 'nombre_cliente',
+				'title': 'Nombre cliente',
+			},
+			{ 
+				'data': 'rut_emisor',
+				'title': 'Rut emisor',
+			},
+			{ 
+				'data': 'empresa',
+				'title': 'Nombre emisor',
+			},
+			{ 
+				'data': 'tipo_envio',
+				'title': 'Tipo envío',
+			},
+			{ 
+				'data': 'tipo_dte',
+				'title': 'Tipo DTE',
+			},
+			{ 
+				'data': 'resolucion_receptor',
+				'title': 'Resolucion receptor',
+			},
+			{ 
+				'data': 'resolucion_emisor',
+				'title': 'Resolucion emisor',
+			},
+			{ 
+				'data': 'monto',
+				'title': 'Monto',
+				'render': function ( data, type, row, meta ) {
+					return (!data) ? "$0.-" : "$" + data + ".-";
+				},
+			},
+			{ 
+				'data': 'fecha_emision',
+				'title': 'Fecha emisión',
+			},
+			{ 
+				'data': 'fecha_recepcion',
+				'title': 'Fecha recepción',
+			},
+			{ 
+				'data': 'estado_documento',
+				'title': 'Estad documento',
+			},
+			{ 
+				'data': 'tipo_operacion',
+				'title': 'Tipo operación',
+			},
+			{ 
+				'data': 'tipo_receptor',
+				'title': 'Tipo receptor',
+			},
+			{ 
+				'data': 'processed_event',
+				'title': 'Estado proceso',
+			},
+			{ 
+				'data': 'processed_date',
+				'title': 'Fecha proceso',
+			},
+			{ 
+				'data': 'delivered_event',
+				'title': 'Estado envío',
+			},
+			{ 
+				'data': 'delivered_date',
+				'title': 'Fecha envío',
+			},
+			{ 
+				'data': 'opened_event',
+				'title': 'Estado leído',
+			},
+			{ 
+				'data': 'opened_first_date',
+				'title': 'Fecha leído',
+			},
+			{ 
+				'data': 'opened_ip',
+				'title': 'Ip lectura',
+			},
+			{ 
+				'data': 'opened_count',
+				'title': 'Nº lecturas',
+			},
+			{ 
+				'data': 'dropped_event',
+				'title': 'Estado rechazo',
+			},
+			{ 
+				'data': 'dropped_date',
+				'title': 'Fecha rechazo',
+			},
+			{ 
+				'data': 'dropped_reason',
+				'title': 'Motivo rechazo',
+			},
+			{ 
+				'data': 'bounce_event',
+				'title': 'Estado rebote',
+			},
+			{ 
+				'data': 'bounce_date',
+				'title': 'Fecha rebote',
+			},
+			{ 
+				'data': 'bounce_type',
+				'title': 'Tipo rebote',
+			},
+			{ 
+				'data': 'bounce_status',
+				'title': 'Código rebote',
+			},
+			{ 
+				'data': 'unsubscribe_event',
+				'title': 'Estado desuscrito',
+			},
+			{ 
+				'data': 'unsubscribe_date',
+				'title': 'Fecha desuscripción',
+			},
+		],
+		"language": {
+			"emptyTable": "No se encontraron registros.",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "No se encontraron registros.",
+            "infoFiltered": "(Filtrado de _MAX_ registros).",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+            	"previous": "Anterior",
+            	"next": "Siguiente",
+            },
+            "processing": "Proceso en curso.",
+            "search": "Buscar",
+            "zeroRecords": "No se encontraron registros.",
+        },
+	})
+	.removeClass('display')
+	.addClass('table table-hover table-striped table-condensed table-responsive');
 };
