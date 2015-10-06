@@ -16,34 +16,80 @@
 <div>
 	<div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="general">
-			<div class="col-xs-7 col-md-9">
-			<h3>Nuevo usuario</h3>
-			<div class="form-group">
-				<input type="text" class="form-control" name="first_name" id="first_name" autofocus placeholder="Nombres" required>
+			<div>
+				<h3>Perfil de usuario</h3>
+				<div class="form-group form-group-material-indigo">
+					<input type="text" class="form-control floating-label" name="first_name" id="first_name" autofocus placeholder="Nombres" value="{{ data.first_name }}">
+				</div>
+				<div class="form-group form-group-material-indigo">
+					<input type="text" class="form-control floating-label" name="last_name" id="last_name" placeholder="Apellidos" value="{{ data.last_name }}">
+				</div>
+				<div class="form-group form-group-material-indigo">
+					<input type="email" class="form-control floating-label" name="email" id="email" placeholder="Correo Electrónico" disabled="true" value="{{ data.email }}">
+				</div>
+				<div class="form-group form-group-material-indigo">
+					<input type="text" class="form-control floating-label" name="enterprise" id="enterprise" placeholder="Empresa" disabled="true" value="{{ data.enterprise }}">
+				</div>
+				<button class="btn btn-sm btn-material-indigo" type="button">Actualizar datos</button>
 			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellidos" required>
-			</div>
-			<div class="form-group">
-				<input type="email" class="form-control" name="email" id="email" placeholder="Correo Electrónico" required>
-			</div>
-			<div class="form-group">
-				<input type="password" class="form-control" name="password1" id="password1" placeholder="Contraseña" required>
-			</div>
-			<div class="form-group">
-				<input type="password" class="form-control" name="password2" id="password2" placeholder="Repetir contraseña" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" name="enterprise" id="enterprise" placeholder="Empresa" required>
-			</div>
-			<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Crear</button>
-		</div>
 	    </div>
 
 	    <div role="tabpanel" class="tab-pane" id="security">
-			seguridad
+			<div>
+				<h3>Seguridad de usuario</h3>
+				<div class="form-group form-group-material-indigo">
+					<input type="password" class="form-control floating-label" id="old_pass" placeholder="Antigua contraseña">
+				</div>
+				<div class="form-group form-group-material-indigo">
+					<input type="password" class="form-control floating-label" id="new_pass1" placeholder="Nueva contraseña">
+				</div>
+				<div class="form-group form-group-material-indigo">
+					<input type="password" class="form-control floating-label" id="new_pass2" placeholder="Repetir nueva contraseña">
+				</div>
+				<button class="btn btn-sm btn-material-indigo" type="button">Actualizar contraseña</button>
+			</div>
 	    </div>
 
 	</div>
 </div>
+
+<!-- MODAL CARGANDO -->
+<div class="modal" id="loadingModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeLoadingModal" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Actualizando...</h4>
+            </div>
+            <div class="modal-body">
+                <p>por favor espere unos segundos</p>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ERROR -->
+<div class="modal" id="errorModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeErrorModal" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Advertencia!</h4>
+            </div>
+            <div class="modal-body">
+                <p>No deben ir campos vacíos.</p>
+            </div>
+            <div class="modal-footer">
+            	<div class="form-group" align="right" style="margin-right:20px;">
+					<button class="btn btn-flat btn-material-indigo" data-dismiss="modal">Cerrar</button>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+	<script src="/static/js/users/profile.min.js"></script>
 {% endblock %}

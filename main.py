@@ -27,6 +27,8 @@ from app.controllers.user_admin_controller import NewUserAdminHandler
 from app.controllers.user_profile_controller import LoginPanelHandler
 from app.controllers.user_profile_controller import LogoutPanelHandler
 from app.controllers.user_profile_controller import ProfilePanelHandler
+from app.controllers.user_profile_controller import UpdateProfilePanelHandler
+from app.controllers.user_profile_controller import UpdatePasswordProfilePanelHandler
 from app.controllers.panel_controller import DashboardHandler
 from app.controllers.panel_controller import CustomSearchHandler
 
@@ -104,6 +106,10 @@ app = webapp2.WSGIApplication([
     (r'/api/search/rut/(\d+)/(\d+)/(.+)/$', RutReceptorSearchHandler),
     (r'/api/search/fallidos/(\d+)/(\d+)/$', FallidosSearchHandler),
     (r'/api/search/montos/(\d+)/(\d+)/(\d+)/(\d+)/$', MontosSearchHandler),
+    
+    # api actualizacion de datos usuario final
+    (r'/api/profile/user/update/$', UpdateProfilePanelHandler),
+    (r'/api/profile/user/password/$', UpdatePasswordProfilePanelHandler),
 
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),

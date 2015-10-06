@@ -1,6 +1,6 @@
 'use strict';
 
-google.load('visualization', '1.0', {'packages': ['corechart','table', 'controls',], 'language': 'es'});
+//google.load('visualization', '1.0', {'packages': ['corechart','table', 'controls',], 'language': 'es'});
 
 var baseUrl = document.location.href;
 // urls busquedas

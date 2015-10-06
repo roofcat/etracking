@@ -14,5 +14,6 @@ class UserModel(ndb.Model):
     is_admin = ndb.BooleanProperty(default=False)
     is_custom_user = ndb.BooleanProperty(default=True)
 
+    @classmethod
     def get_user(self, email):
     	return UserModel.query(UserModel.email == email).get()

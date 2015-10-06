@@ -22,6 +22,58 @@ class ProfilePanelHandler(BaseHandler):
         self.response.write(template.render(context))
 
 
+class UpdateProfilePanelHandler(BaseHandler):
+
+    def get(self):
+        user = None
+        user = self.session['user']
+        first_name = self.request.get('first_name')
+        last_name = self.request.get('last_name')
+        if first_name and last_name:
+            update_user = UserModel.get_user(user['email'])
+            update_user.first_name = first_name
+            update_user.last_name = last_name
+            update_user.put()
+            session_user = {
+                'first_name': update_user.first_name,
+                'last_name': update_user.last_name,
+                'email': update_user.email,
+                'is_admin': update_user.is_admin,
+                'enterprise': update_user.enterprise,
+                'is_custom_user': update_user.is_custom_user,
+            }
+            self.session['user'] = session_user
+            self.response.write({'response': 'ok'})
+        else:
+            self.response.write({'response': 'fail'})
+
+
+class UpdatePasswordProfilePanelHandler(BaseHandler):
+
+    def get(self):
+        user = None
+        user = self.session['user']
+        first_name = self.request.get('first_name')
+        last_name = self.request.get('last_name')
+        if first_name and last_name:
+            update_user = UserModel.get_user(user['email'])
+            update_user.first_name = first_name
+            update_user.last_name = last_name
+            update_user.put()
+            session_user = {
+                'first_name': update_user.first_name,
+                'last_name': update_user.last_name,
+                'email': update_user.email,
+                'is_admin': update_user.is_admin,
+                'enterprise': update_user.enterprise,
+                'is_custom_user': update_user.is_custom_user,
+            }
+            self.session['user'] = session_user
+            self.response.write({'response': 'ok'})
+        else:
+            self.response.write({'response': 'fail'})
+
+
 class LoginPanelHandler(BaseHandler):
 
     def get(self):
