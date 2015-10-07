@@ -53,9 +53,10 @@ class UpdatePasswordProfilePanelHandler(BaseHandler):
     def get(self):
         user = None
         user = self.session['user']
-        first_name = self.request.get('first_name')
-        last_name = self.request.get('last_name')
-        if first_name and last_name:
+        old_pass = self.request.get('old_pass')
+        new_pass1 = self.request.get('new_pass1')
+        new_pass2 = self.request.get('new_pass2')
+        if old_pass and new_pass1 and new_pass2:
             update_user = UserModel.get_user(user['email'])
             update_user.first_name = first_name
             update_user.last_name = last_name
@@ -72,6 +73,20 @@ class UpdatePasswordProfilePanelHandler(BaseHandler):
             self.response.write({'response': 'ok'})
         else:
             self.response.write({'response': 'fail'})
+
+
+class TestInputWithUserAndPassword(BaseHandler):
+
+    def get(self):
+        logging.info(self.request.headers)
+        logging.info(self.request.body)
+        headers = self.request.headers
+        auth = headers['Authorization']
+        logging.info(auth)
+        auth = re.sub('^Basic ', '', auth)
+        user, password = base64.decodestring(auth).split(':')
+        logging.info(user)
+        logging.info(password)
 
 
 class LoginPanelHandler(BaseHandler):

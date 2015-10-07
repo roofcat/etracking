@@ -40,7 +40,7 @@ $( 'button' ).on( 'click', function () {
 		$( '#errorModal' ).modal( 'show', true );
 		return;
 	};
-	//$( '#loadingModal' ).modal( 'show', true );
+	$( '#loadingModal' ).modal( 'show', true );
 	
 	switch ( tabPosition ) {
 		case '#general':
