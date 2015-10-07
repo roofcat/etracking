@@ -1,7 +1,5 @@
 'use strict';
 
-//google.load('visualization', '1.0', {'packages': ['corechart','table', 'controls',], 'language': 'es'});
-
 var baseUrl = document.location.href;
 // urls busquedas
 var emailUrl = 'api/search/email/';
@@ -10,11 +8,11 @@ var rutUrl = 'api/search/rut/';
 var fallidosUrl = 'api/search/fallidos/';
 var montosUrl = 'api/search/montos/';
 // urls export
-var emailExportUrl = '/export/email/';
-var folioExportUrl = '/export/folio/';
-var rutExportUrl = '/export/rut/';
-var fallidosExportUrl = '/export/fallidos/';
-var montosExportUrl = '/export/montos/';
+var emailExportUrl = 'export/email/';
+var folioExportUrl = 'export/folio/';
+var rutExportUrl = 'export/rut/';
+var fallidosExportUrl = 'export/fallidos/';
+var montosExportUrl = 'export/montos/';
 
 var tabPosition = '#correo';
 
@@ -35,7 +33,6 @@ $( document ).ready( function () {
 	});
 
 	setDefaultDates();
-
 	$( '#menuModal' ).modal( 'show', true );
 	
 });
@@ -63,6 +60,9 @@ $( '#run_search' ).on( 'click', function () {
 
 			var link = baseUrl + emailUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
 			ajaxService( link );
+
+			var csvLink = baseUrl + emailExportUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
+			setupDownloadCsvLink( csvLink );
 			break;
 
 		case '#folio':
@@ -70,6 +70,9 @@ $( '#run_search' ).on( 'click', function () {
 
 			var link = baseUrl + folioUrl + numeroFolio + '/';
 			ajaxService( link );
+
+			var csvLink = baseUrl + folioExportUrl + numeroFolio + '/';
+			setupDownloadCsvLink( csvLink );
 			break;
 
 		case '#rutreceptor':
@@ -80,12 +83,16 @@ $( '#run_search' ).on( 'click', function () {
 			date_from = getDateAsTimestamp( date_from );
 			date_to = getDateAsTimestamp( date_to );
 
-			if ( validaRut( rutReceptor ) ) {
-				console.log("rut valido");
+			if ( !validaRut( rutReceptor ) ) {
+				$( '#closeLoadingModal' ).click();
+				return;
 			};
 
 			var link = baseUrl + rutUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
 			ajaxService( link );
+
+			var csvLink = baseUrl + rutExportUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
+			setupDownloadCsvLink( csvLink );
 			break;
 
 		case '#fallidos':
@@ -97,6 +104,9 @@ $( '#run_search' ).on( 'click', function () {
 
 			var link = baseUrl + fallidosUrl + date_from + '/' + date_to + '/';
 			ajaxService( link );
+
+			var csvLink = baseUrl + fallidosExportUrl + date_from + '/' + date_to + '/';
+			setupDownloadCsvLink( csvLink );
 			break;
 
 		case '#monto':
@@ -112,21 +122,31 @@ $( '#run_search' ).on( 'click', function () {
 
 			var link = baseUrl + montosUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
 			ajaxService( link );
+
+			var csvLink = baseUrl + montosExportUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
+			setupDownloadCsvLink( csvLink );
 			break;
 	};
 });
+
+function setupDownloadCsvLink ( link ) {
+	$( '#btnDownloadCsv' ).attr( 'href', link );
+};
 
 function ajaxService ( link ) {
 	$.ajax({
 		'type': 'GET',
 		'url': link,
 		success: function ( data ) {
-			if ( data.data ) {
-				// Dibujar tabla de visualization
-				//drawTable( data.data );
-				// Dibujar tabla de jquery table
-				drawJqueryTable( data.data );
+			if ( data.data.length ) {
+				$( '#btnDownloadCsv' ).show();
+			} else {
+				$( '#btnDownloadCsv' ).hide();
 			};
+			// Dibujar tabla de visualization
+			//drawTable( data.data );
+			// Dibujar tabla de jquery table
+			drawJqueryTable( data.data );
 			$( '#closeLoadingModal' ).click();
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
@@ -134,110 +154,6 @@ function ajaxService ( link ) {
 			$( '#closeLoadingModal' ).click();
 		},
 	});
-};
-
-function drawTable ( datas ) {
-	var data = new google.visualization.DataTable();
-	data.addColumn( 'string', 'Folio' );
-	data.addColumn( 'string', 'Correo' );
-	data.addColumn( 'string', 'Fecha Envío' );
-	data.addColumn( 'string', 'Rut Receptor' );
-	data.addColumn( 'string', 'Nombre Cliente' );
-	data.addColumn( 'string', 'Rut Emisor' );
-	data.addColumn( 'string', 'Nombre Emisor' );
-	data.addColumn( 'string', 'Tipo Envío' );
-	data.addColumn( 'string', 'Tipo DTE' );
-	data.addColumn( 'string', 'Resolución Receptor' );
-	data.addColumn( 'string', 'Resolución Emisor' );
-	data.addColumn( 'number', 'Monto' );
-	data.addColumn( 'string', 'Fecha Emisión' );
-	data.addColumn( 'string', 'Fecha Recepción' );
-	data.addColumn( 'string', 'Estado Documento' );
-	data.addColumn( 'string', 'Tipo Operación' );
-	data.addColumn( 'string', 'Tipo Receptor' );
-	data.addColumn( 'string', 'Estado proceso' );
-	data.addColumn( 'string', 'Fecha proceso' );
-	data.addColumn( 'string', 'Estado envío' );
-	data.addColumn( 'string', 'Fecha envío' );
-	data.addColumn( 'string', 'Estado leído' );
-	data.addColumn( 'string', 'Fecha leído' );
-	data.addColumn( 'string', 'Ip leído' );
-	data.addColumn( 'string', 'Nº lecturas' );
-	data.addColumn( 'string', 'Estado rechazo' );
-	data.addColumn( 'string', 'Fecha rechazo' );
-	data.addColumn( 'string', 'Motivo rechazo' );
-	data.addColumn( 'string', 'Estado rebote' );
-	data.addColumn( 'string', 'Fecha rebote' );
-	data.addColumn( 'string', 'Tipo rebote' );
-	data.addColumn( 'string', 'Código rebote' );
-	data.addColumn( 'string', 'Estado desuscrito' );
-	data.addColumn( 'string', 'Fecha desuscrito' );
-
-	var rows = new Array();
-
-	for ( var i = 0; i < datas.length; i++ ) {
-		var row = datas[i];
-		rows.push([
-			( !row.numero_folio ) ? '' : row.numero_folio, 
-			( !row.correo ) ? '' : row.correo, 
-			( !row.input_datetime ) ? '' : row.input_datetime, 
-			( !row.rut_receptor ) ? '' : row.rut_receptor, 
-			( !row.nombre_cliente ) ? '' : row.nombre_cliente, 
-			( !row.rut_emisor ) ? '' : row.rut_emisor, 
-			( !row.empresa ) ? '' : row.empresa, 
-			( !row.tipo_envio ) ? '' : row.tipo_envio,
-			( !row.tipo_dte ) ? '' : row.tipo_dte, 
-			( !row.resolucion_receptor ) ? '' : row.resolucion_receptor, 
-			( !row.resolucion_emisor ) ? '' : row.resolucion_emisor,
-			( !row.monto ) ? 0 : parseInt( row.monto, 10 ), 
-			( !row.fecha_emision ) ? '' : row.fecha_emision, 
-			( !row.fecha_recepcion ) ? '' : row.fecha_recepcion, 
-			( !row.estado_documento ) ? '' : row.estado_documento, 
-			( !row.tipo_operacion ) ? '' : row.tipo_operacion, 
-			( !row.tipo_receptor ) ? '' : row.tipo_receptor, 
-			( !row.processed_event ) ? '' : row.processed_event, 
-			( !row.processed_date ) ? '' : row.processed_date, 
-			( !row.delivered_event ) ? '' : row.delivered_event, 
-			( !row.delivered_date ) ? '' : row.delivered_date, 
-			( !row.opened_event ) ? '' : row.opened_event, 
-			( !row.opened_first_date ) ? '' : row.opened_first_date, 
-			( !row.opened_ip ) ? '' : row.opened_ip, 
-			( !row.opened_count ) ? '' : row.opened_count, 
-			( !row.dropped_event ) ? '' : row.dropped_event, 
-			( !row.dropped_date ) ? '' : row.dropped_date, 
-			( !row.dropped_reason ) ? '' : row.dropped_reason, 
-			( !row.bounce_event ) ? '' : row.bounce_event, 
-			( !row.bounce_date ) ? '' : row.bounce_date, 
-			( !row.bounce_type ) ? '' : row.bounce_type,
-			( !row.bounce_status ) ? '' : row.bounce_status, 
-			( !row.unsubscribe_event ) ? '' : row.unsubscribe_event, 
-			( !row.unsubscribe_date ) ? '' : row.unsubscribe_date
-		]);
-	};
-
-	data.addRows( rows );
-
-	var formatCurrency = new google.visualization.NumberFormat({
-		pattern: '$###.###',
-	});
-
-	formatCurrency.format( data, 11 );
-
-	var options = {
-		'showRowNumber': true,
-		'width': '100%',
-		'height': 450,
-		'page': 'enable',
-		'pageSize': 50,
-		'allowHtml': true,
-		'cssClassNames': {
-			'headerCell': 'header-table',
-			'tableCell': 'body-table',
-		},
-	};
-
-	var table = new google.visualization.Table( document.getElementById( 'divCards' ) );
-	table.draw( data, options );
 };
 
 function formValidate () {

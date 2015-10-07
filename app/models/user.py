@@ -16,4 +16,6 @@ class UserModel(ndb.Model):
 
     @classmethod
     def get_user(self, email):
-    	return UserModel.query(UserModel.email == email).get()
+        query = UserModel.query()
+        query = query.filter(UserModel.email == email)
+    	return query.get()

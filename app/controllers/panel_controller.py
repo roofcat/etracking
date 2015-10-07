@@ -49,6 +49,7 @@ class EmailSearchHandler(BaseHandler):
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
+            correo = str(correo).lower()
             data = EmailModel.get_info_by_email(date_from, date_to, correo)
             result = []
             for d in data:
@@ -81,13 +82,13 @@ class FolioSearchHandler(BaseHandler):
 class RutReceptorSearchHandler(BaseHandler):
 
     def get(self, date_from, date_to, rut):
-        if date_from and date_to and correo:
+        if date_from and date_to and rut:
             date_from = int(date_from)
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             rut = str(rut)
-            data = EmailModel.get_emails_by_rut_receptor(rut)
+            data = EmailModel.get_emails_by_rut_receptor(date_from, date_to, rut)
             result = []
             for d in data:
                 result.append(JSONEncoder().default(d))

@@ -141,12 +141,11 @@ class EmailModel(ndb.Model):
     @classmethod
     def search_email(self, correo, numero_folio, tipo_dte):
         """ Retorna el objeto para determinar si existe o no """
-        return EmailModel.query(
-            ndb.AND(
-                EmailModel.correo == correo,
-                EmailModel.numero_folio == numero_folio,
-                EmailModel.tipo_dte == tipo_dte
-            )).get()
+        query = EmailModel.query()
+        query = query.filter(EmailModel.correo == correo)
+        query = query.filter(EmailModel.numero_folio == numero_folio)
+        query = query.filter(EmailModel.tipo_dte == tipo_dte)
+        return query.get()
 
     @ndb.transactional
     def email_add_count(self, data):
@@ -158,25 +157,33 @@ class EmailModel(ndb.Model):
     @classmethod
     def get_info_by_email(self, date_from, date_to, correo):
         query = EmailModel.query()
-        query = query.filter(EmailModel.correo == correo,
-                             EmailModel.input_date >= date_from,
-                             EmailModel.input_date <= date_to)
+        query = query.filter(EmailModel.correo == correo)
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
         query = query.order(-EmailModel.input_date)
         return query.fetch()
 
     @classmethod
     def get_emails_by_folio(self, folio):
-        return EmailModel.query(EmailModel.numero_folio == folio).fetch()
-
-    @classmethod
-    def get_email_lagging(self):
-        query = EmailModel.query(
-            ndb.AND(EmailModel.processed_event == None, EmailModel.dropped_event == None))
+        query = EmailModel.query()
+        query = query.filter(EmailModel.numero_folio == folio)
         return query.fetch()
 
     @classmethod
-    def get_emails_by_rut_receptor(self, rut):
-        return EmailModel.query(EmailModel.rut_receptor == rut).fetch()
+    def get_email_lagging(self):
+        query = EmailModel.query()
+        query = query.filter(EmailModel.processed_event == None)
+        query = query.filter(EmailModel.dropped_event == None)
+        return query.fetch()
+
+    @classmethod
+    def get_emails_by_rut_receptor(self, date_from, date_to, rut):
+        query = EmailModel.query()
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
+        query = query.filter(EmailModel.rut_receptor == rut)
+        query = query.order(-EmailModel.input_date)
+        return query.fetch()
 
     @classmethod
     def get_stats_by_dates(self, from_date, to_date, tipo_receptor):
@@ -221,19 +228,17 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_statistic_by_dates(self, from_date, to_date, tipo_receptor):
-
+        query = EmailModel.query()
         if tipo_receptor == 'all':
-            query = EmailModel.query(EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
         else:
-            query = EmailModel.query(EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date,
-                                     EmailModel.tipo_receptor == tipo_receptor)
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
         total = query.count()
-        processed = query.filter(
-            EmailModel.processed_event == "processed").count()
-        delivered = query.filter(
-            EmailModel.delivered_event == "delivered").count()
+        processed = query.filter(EmailModel.processed_event == "processed").count()
+        delivered = query.filter(EmailModel.delivered_event == "delivered").count()
         opened = query.filter(EmailModel.opened_event == "open").count()
         dropped = query.filter(EmailModel.dropped_event == "dropped").count()
         bounced = query.filter(EmailModel.bounce_event == "bounce").count()
@@ -248,44 +253,42 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_all_emails_by_dates(self, from_date, to_date, tipo_receptor):
-
+        query = EmailModel.query()
         if tipo_receptor == 'all':
-            query = EmailModel.query(EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
         else:
-            query = EmailModel.query(EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date,
-                                     EmailModel.tipo_receptor == tipo_receptor)
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
         return query.fetch()
 
     @classmethod
     def get_all_sended_emails_by_dates(self, from_date, to_date, tipo_receptor):
-
+        query = EmailModel.query()
         if tipo_receptor == 'all':
-            query = EmailModel.query(EmailModel.delivered_event == 'delivered',
-                                     EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.delivered_event == 'delivered')
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
         else:
-            query = EmailModel.query(EmailModel.delivered_event == 'delivered',
-                                     EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date,
-                                     EmailModel.tipo_receptor == tipo_receptor)
+            query = query.filter(EmailModel.delivered_event == 'delivered')
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
         return query.fetch()
 
     @classmethod
     def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor='all'):
-
+        query = EmailModel.query()
         if tipo_receptor == 'all':
-            query = EmailModel.query(ndb.OR(EmailModel.dropped_event == 'dropped',
-                                            EmailModel.bounce_event == 'bounce'),
-                                     EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date)
+            query = query.filter(ndb.OR(EmailModel.dropped_event == 'dropped', EmailModel.bounce_event == 'bounce'))
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
         else:
-            query = EmailModel.query(ndb.OR(EmailModel.dropped_event == 'dropped',
-                                            EmailModel.bounce_event == 'bounce'),
-                                     EmailModel.input_date >= from_date,
-                                     EmailModel.input_date <= to_date,
-                                     EmailModel.tipo_receptor == tipo_receptor)
+            query = query.filter(ndb.OR(EmailModel.dropped_event == 'dropped', EmailModel.bounce_event == 'bounce'))
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
         return query.fetch()
 
     @classmethod

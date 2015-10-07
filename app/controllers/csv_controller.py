@@ -25,7 +25,7 @@ class ExportGeneralEmailHandler(BaseHandler):
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				# Consulta
 				query = EmailModel.get_all_emails_by_dates(date_from, date_to, options)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_genera.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -42,7 +42,7 @@ class ExportSendedEmailHandler(BaseHandler):
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				# Consulta
 				query = EmailModel.get_all_sended_emails_by_dates(date_from, date_to, options)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_enviados.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -59,7 +59,7 @@ class ExportFailureEmailHandler(BaseHandler):
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				# Consulta
 				query = EmailModel.get_all_failure_emails_by_dates(date_from, date_to, options)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_fallidos.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -76,7 +76,7 @@ class ExportSearchByEmailHandler(BaseHandler):
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				email = str(email).lower()
 				query = EmailModel.get_info_by_email(date_from, date_to, email)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_por_email.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -86,9 +86,10 @@ class ExportSearchByFolioHandler(BaseHandler):
 	def get(self, folio):
 		if folio:
 			try:
-				folio = int(folio, base=10)
+				folio = str(folio)
 				query = EmailModel.get_emails_by_folio(folio)
-				create_csv(self, query)
+				logging.info(query)
+				create_csv(self, query, 'reporte_por_folio.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -104,7 +105,7 @@ class ExportSearchByRutHandler(BaseHandler):
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				rut = str(rut).upper()
 				query = EmailModel.get_emails_by_rut_receptor(date_from, date_to, rut)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_por_rut.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -119,7 +120,7 @@ class ExportSearchByFailureHandler(BaseHandler):
 				date_from = datetime.datetime.fromtimestamp(date_from)
 				date_to = datetime.datetime.fromtimestamp(date_to)
 				query = EmailModel.get_all_failure_emails_by_dates(date_from, date_to)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_fallidos.csv')
 			except Exception, e:
 				logging.info(e)
 
@@ -136,12 +137,12 @@ class ExportSearchByMountHandler(BaseHandler):
 				mount_from = int(mount_from, base=10)
 				mount_to = int(mount_to, base=10)
 				data = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
-				create_csv(self, query)
+				create_csv(self, query, 'reporte_por_monto.csv')
 			except Exception, e:
 				logging.info(e)
 
 
-def create_csv(self, data):
+def create_csv(self, data, file_name='reporte.csv'):
 	""" Función que crea un archivo CSV recibiendo como parametro
 		un arreglo de objetos de una query al EmailModel """
 	output = StringIO.StringIO()
@@ -295,7 +296,7 @@ def create_csv(self, data):
 		click_useragent, click_event, click_email, click_date, click_url,]
 		csv_out.writerow(csv_row)
 	self.response.headers['Content-Type'] = 'text/csv'
-	self.response.headers['Content-Disposition'] = 'attachment; filename=reporte.csv'
+	self.response.headers['Content-Disposition'] = 'attachment; filename=' + file_name
 	content = output.getvalue()
 	output.close()
 	self.response.out.write(content)

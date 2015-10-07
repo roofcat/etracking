@@ -90,9 +90,8 @@ app = webapp2.WSGIApplication([
     (r'/export/general/(\d+)/(\d+)/(.+)/$', ExportGeneralEmailHandler),
     (r'/export/sended/(\d+)/(\d+)/(.+)/$', ExportSendedEmailHandler),
     (r'/export/failure/(\d+)/(\d+)/(.+)/$', ExportFailureEmailHandler),
-
     (r'/export/email/(\d+)/(\d+)/(.+)/$', ExportSearchByEmailHandler),
-    (r'/export/folio/(.+)/$', ExportSearchByFolioHandler),
+    (r'/export/folio/(\d+)/$', ExportSearchByFolioHandler),
     (r'/export/rut/(\d+)/(\d+)/(.+)/$', ExportSearchByRutHandler),
     (r'/export/fallidos/(\d+)/(\d+)/$', ExportSearchByFailureHandler),
     (r'/export/montos/(\d+)/(\d+)/(\d+)/(\d+)/$', ExportSearchByMountHandler),
