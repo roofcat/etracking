@@ -342,22 +342,22 @@ function drawJqueryTable ( data ) {
 		"lengthChange": false,
 		"pageLength": 50,
 		"columns": [
-			{ 
+			{
 				'data': 'numero_folio',
 				'title': 'Folio',
 			},
-			{ 
+			{
 				'data': 'correo',
 				'title': 'Correo',
 			},
-			{ 
+			{
 				'data': 'input_datetime',
 				'title': 'Fecha envío',
 				'render': function ( data, type, row, meta ) {
 					return moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
 				},
 			},
-			{ 
+			{
 				'data': 'rut_receptor',
 				'title': 'Rut receptor',
 			},
