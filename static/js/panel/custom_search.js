@@ -371,8 +371,8 @@ function drawJqueryTable ( data ) {
 					if ( row['opened_event'] ) {
 						rowBody += "<span class='label label-success'> </span>&nbsp;";
 						popBody += '<p><span class="label label-success"> </span>&nbsp;';
-						popBody += ' Leído ' + row['opened_count'] + ' vez/veces el ' + row['opened_first_date'] + '<br>';
-						popBody += ' Ip ' + row['opened_ip'] + '</p>';
+						popBody += ' Leído el ' + row['opened_first_date'] + '<br>';
+						popBody += ' IP ' + row['opened_ip'] + ' ' + row['opened_count'] + ' veces.</p>';
 					};
 					if ( row['dropped_event'] ) {
 						rowBody += "<span class='label label-warning'> </span>&nbsp;";
