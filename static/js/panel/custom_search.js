@@ -344,6 +344,34 @@ function drawJqueryTable ( data ) {
 		"columns": [
 			{
 				'data': 'numero_folio',
+				'title': 'Resumen de envío',
+				'render': function ( data, type, row, meta ) {
+					var html = '';
+					html += '<div>';
+					if ( row['processed_event'] ) {
+						html += '<span class="label label-default" title="' + row['processed_event'] + '">Procesado</span>';
+					};
+					if ( row['delivered_event'] ) {
+						html += '<span class="label label-primary" title="' + row['delivered_event'] + '">Enviado</span>';
+					};
+					if ( row['opened_event'] ) {
+						html += '<span class="label label-success" title="' + row['opened_event'] + '">Leído</span>';
+					};
+					if ( row['dropped_event'] ) {
+						html += '<span class="label label-warning" title="' + row['dropped_event'] + '">Rechazado</span>';
+					};
+					if ( row['bounce_event'] ) {
+						html += '<span class="label label-danger" title="' + row['bounce_event'] + '">Rebotado</span>';
+					};
+					if ( row['unsubscribe_event'] ) {
+						html += '<span class="label label-info" title="' + row['unsubscribe_event'] + '">Desuscrito</span>';
+					};
+					html += '</div>';
+					return html;
+				},
+			},
+			{
+				'data': 'numero_folio',
 				'title': 'Folio',
 			},
 			{
@@ -354,7 +382,7 @@ function drawJqueryTable ( data ) {
 				'data': 'input_datetime',
 				'title': 'Fecha envío',
 				'render': function ( data, type, row, meta ) {
-					return moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
+					return ( !data ) ? "" : moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
 				},
 			},
 			{
@@ -393,20 +421,26 @@ function drawJqueryTable ( data ) {
 				'data': 'monto',
 				'title': 'Monto',
 				'render': function ( data, type, row, meta ) {
-					return (!data) ? "$0.-" : "$" + data + ".-";
+					return ( !data ) ? "$0.-" : "$" + data + ".-";
 				},
 			},
 			{ 
 				'data': 'fecha_emision',
 				'title': 'Fecha emisión',
+				'render': function ( data, type, row, meta ) {
+					return ( !data ) ? "" : moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
+				},
 			},
 			{ 
 				'data': 'fecha_recepcion',
 				'title': 'Fecha recepción',
+				'render': function ( data, type, row, meta ) {
+					return ( !data ) ? "" : moment( data ).format( 'DD-MM-YYYY H:mm:ss' );
+				},
 			},
 			{ 
 				'data': 'estado_documento',
-				'title': 'Estad documento',
+				'title': 'Estado documento',
 			},
 			{ 
 				'data': 'tipo_operacion',
@@ -415,74 +449,6 @@ function drawJqueryTable ( data ) {
 			{ 
 				'data': 'tipo_receptor',
 				'title': 'Tipo receptor',
-			},
-			{ 
-				'data': 'processed_event',
-				'title': 'Estado proceso',
-			},
-			{ 
-				'data': 'processed_date',
-				'title': 'Fecha proceso',
-			},
-			{ 
-				'data': 'delivered_event',
-				'title': 'Estado envío',
-			},
-			{ 
-				'data': 'delivered_date',
-				'title': 'Fecha envío',
-			},
-			{ 
-				'data': 'opened_event',
-				'title': 'Estado leído',
-			},
-			{ 
-				'data': 'opened_first_date',
-				'title': 'Fecha leído',
-			},
-			{ 
-				'data': 'opened_ip',
-				'title': 'Ip lectura',
-			},
-			{ 
-				'data': 'opened_count',
-				'title': 'Nº lecturas',
-			},
-			{ 
-				'data': 'dropped_event',
-				'title': 'Estado rechazo',
-			},
-			{ 
-				'data': 'dropped_date',
-				'title': 'Fecha rechazo',
-			},
-			{ 
-				'data': 'dropped_reason',
-				'title': 'Motivo rechazo',
-			},
-			{ 
-				'data': 'bounce_event',
-				'title': 'Estado rebote',
-			},
-			{ 
-				'data': 'bounce_date',
-				'title': 'Fecha rebote',
-			},
-			{ 
-				'data': 'bounce_type',
-				'title': 'Tipo rebote',
-			},
-			{ 
-				'data': 'bounce_status',
-				'title': 'Código rebote',
-			},
-			{ 
-				'data': 'unsubscribe_event',
-				'title': 'Estado desuscrito',
-			},
-			{ 
-				'data': 'unsubscribe_date',
-				'title': 'Fecha desuscripción',
 			},
 		],
 		"language": {
