@@ -354,7 +354,6 @@ function drawJqueryTable ( data ) {
 				'data': 'numero_folio',
 				'title': 'Resumen de envío',
 				'render': function ( data, type, row, meta ) {
-					var popTitle = '<h3 style="font-size:11px;color:#000;">Estado de envíos</h3>';
 					var popBody = '<div style="font-size:11px;">';
 					var rowBody = "";
 
@@ -392,8 +391,9 @@ function drawJqueryTable ( data ) {
 						popBody += ' Desuscrito el ' + row['dropped_date'] + '</p>';
 					};
 					popBody += '</div>';
-					var html = "<div id='divPopOver' data-animation='true' data-trigger='hover' data-html='true' data-placement='right' data-toggle='popover' data-trigger='focus' data-title='" 
-								+ popTitle + "' data-content='" + popBody + "'>" + rowBody + "</div>";
+					var html = "<div id='divPopOver' rel='popover' data-animation='true' data-trigger='hover' " + 
+								" data-html='true' data-placement='right' data-container='body' " + 
+								"data-toggle='popover' data-content='" + popBody + "'>" + rowBody + "</div>";
 					return html;
 				},
 			},
