@@ -14,6 +14,8 @@ var rutExportUrl = 'export/rut/';
 var fallidosExportUrl = 'export/fallidos/';
 var montosExportUrl = 'export/montos/';
 
+var attachUrl = 'storage/attach/';
+
 var tabPosition = '#correo';
 
 $( document ).ready( function () {
@@ -394,6 +396,19 @@ function drawJqueryTable ( data ) {
 					var html = "<div id='divPopOver' rel='popover' data-animation='true' data-trigger='hover' " + 
 								" data-html='true' data-placement='right' data-container='body' " + 
 								"data-toggle='popover' data-content='" + popBody + "'>" + rowBody + "</div>";
+					return html;
+				},
+			},
+			{
+				'data': 'attachs',
+				'title': 'Adjuntos',
+				'render': function ( data, type, row, meta ) {
+					var html = '<div style="font-size:11px;">';
+					for ( var i in data ) {
+						var attach = data[i];
+						html += '<a href="' + baseUrl + attachUrl + attach + '/" title="Ver archivo adjunto" target="_blank"><span class="mdi-editor-attach-file"></span></a>';
+					};
+					html += '</div>';
 					return html;
 				},
 			},

@@ -33,6 +33,10 @@ from app.controllers.panel_controller import DashboardHandler
 from app.controllers.panel_controller import CustomSearchHandler
 
 
+# Imports para adjuntos
+from app.controllers.attach_controller import FindAttachHandler
+
+
 # imports para reportes csv
 from app.controllers.csv_controller import ExportGeneralEmailHandler
 from app.controllers.csv_controller import ExportSendedEmailHandler
@@ -69,6 +73,7 @@ from app.controllers.test import Test2Handler
 from app.controllers.test import Test3Handler
 from app.controllers.test import Test4Handler
 from app.controllers.test import Test5Handler
+from app.controllers.test import TestViewFileHandler
 from app.controllers.test import TestInputWithUserAndPassword
 
 
@@ -110,6 +115,8 @@ app = webapp2.WSGIApplication([
     (r'/api/profile/user/update/$', UpdateProfilePanelHandler),
     (r'/api/profile/user/password/$', UpdatePasswordProfilePanelHandler),
 
+    (r'/storage/attach/(.+)/', FindAttachHandler),
+
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),
     
@@ -130,12 +137,13 @@ app = webapp2.WSGIApplication([
     (r'^/input/$', InputEmailHandler),
     (r'^/inputqueue', InputEmailQueueHandler),
     (r'^/webhook/$', SendrigWebhookHandler),
-    (r'/test1', TestHandler),
-    (r'/test2', Test2Handler),
-    (r'/test3', Test3Handler),
-    (r'/test4', Test4Handler),
-    (r'/test5', Test5Handler),
-    (r'/testauth', TestInputWithUserAndPassword),
+    # (r'/test1', TestHandler),
+    # (r'/test2', Test2Handler),
+    # (r'/test3', Test3Handler),
+    # (r'/test4', Test4Handler),
+    # (r'/test5', Test5Handler),
+    # (r'/test-file/(.+)/$', TestViewFileHandler),
+    # (r'/testauth', TestInputWithUserAndPassword),
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)
 

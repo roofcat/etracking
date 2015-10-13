@@ -8,14 +8,31 @@ import logging
 import base64
 import re
 import datetime
+import mimetypes
+from google.appengine.ext import ndb
 
 
 from app.models.email import EmailModel
 from app.models.email import AttachModel
 from app.models.email import JSONEncoder
-
-
 from config.jinja_environment import JINJA_ENVIRONMENT
+
+
+class TestViewFileHandler(webapp2.RequestHandler):
+
+    def get(self, file_id):
+        if file_id:
+            logging.info(file_id)
+            file_id = str(file_id)
+            attach = ndb.Key(urlsafe=file_id).get()
+            logging.info(attach.nombre)
+            logging.info(attach.archivo)
+            logging.info(mimetypes.guess_type(attach.nombre)[0])
+            self.response.headers['Content-Type'] = mimetypes.guess_type(attach.nombre)[0]
+            self.response.write(attach.archivo)
+        else:
+            self.response.write("nada")
+
 
 
 class TestHandler(webapp2.RequestHandler):
