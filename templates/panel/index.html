@@ -17,6 +17,14 @@
 				<h4>Resumen solicitados</h4>
 				<div class="panel panel-success">
 					<div class="panel-body">
+						<div align="right">
+							<span id="spanTooltip" rel="popover" data-animation="true" data-toggle="popover" 
+								data-html="true" data-trigger="hover" data-placement="bottom" 
+								data-container="body" class="mdi-alert-error" style="color:#2196F3;"
+								data-content="<p>Este gráfico indica los porcentajes de correos enviados y fallidos
+								del universo de correos facturados.</p>">
+							</span>
+						</div>
 						<div class="pie-chart" id="divGeneralStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeGeneral"><label>Sin datos en este período</label></p>
 						<div align="right" style="margin-top:-50px;">
@@ -30,6 +38,14 @@
 				<h4>Resumen enviados</h4>
 				<div class="panel panel-success">
 					<div class="panel-body">
+						<div align="right">
+							<span id="spanTooltip" rel="popover" data-animation="true" data-toggle="popover" 
+								data-html="true" data-trigger="hover" data-placement="bottom" 
+								data-container="body" class="mdi-alert-error" style="color:#2196F3;"
+								data-content="<p>Este gráfico indica del universo de correos enviados
+								los porcentajes de correos leídos y no leídos.</p>">
+							</span>
+						</div>
 						<div class="pie-chart" id="divSendedStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeOpened"><label>Sin datos en este período</label></p>
 						<div align="right" style="margin-top:-50px;">
@@ -43,6 +59,17 @@
 				<h4>Resumen fallidos</h4>
 				<div class="panel panel-success">
 					<div class="panel-body">
+						<div align="right">
+							<span id="spanTooltip" rel="popover" data-animation="true" data-toggle="popover" 
+								data-html="true" data-trigger="hover" data-placement="bottom" 
+								data-container="body" class="mdi-alert-error" style="color:#2196F3;"
+								data-content="<p>Este gráfico indica del universo de correos fallidos:<br>
+								<b>Correos Rechazados:</b> Son aquellos que podrían ser detectados como spam, cliente sesuscrito,
+								dominio inexistente.
+								<b>Correos Rebotados:</b> Son aquellos que podrían ser detectados como cuenta inexistente, cuenta sobre el límite.
+								</p>">
+							</span>
+						</div>
 						<div class="pie-chart" id="divFailureStatusPieChart" align="center"></div>
 						<p class="legend-status" id="divResumeFailure"><label>Sin datos en este período</label></p>
 						<div align="right" style="margin-top:-50px;">

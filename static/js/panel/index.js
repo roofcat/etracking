@@ -47,6 +47,14 @@ $( 'input:text' ).on( 'change', function () {
 	putDownloadLink();
 });
 
+$( 'div' ).on( 'mouseover', '#spanTooltip', function () {
+	$( this ).popover( 'show' );
+});
+
+$( 'div' ).on( 'mouseout', '#spanTooltip', function () {
+	$( this ).popover( 'hide' );
+});
+
 function putDownloadLink () {
 	var date_from = $( '#date_from' ).val();
 	var date_to = $( '#date_to' ).val();
