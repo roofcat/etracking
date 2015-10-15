@@ -158,11 +158,19 @@ function setLegends ( data ) {
 };
 
 function getPercentage2( val1, val2 ) {
-	return parseFloat( ( val1 * 100 ) / ( val1 + val2 ) ).toFixed( 1 );
+	if ( val1 === 0 && val2 === 0 ) {
+		return 0;
+	} else {
+		return parseFloat( ( val1 * 100 ) / ( val1 + val2 ) ).toFixed( 1 );
+	};
 };
 
 function getPercentage3( val1, val2, val3 ) {
-	return parseFloat( ( val1 * 100 ) / ( val1 + val2 + val3 ) ).toFixed( 1 );
+	if ( va1 === 0 && val2 === 0 && val3 === 0 ) {
+		return 0;
+	} else {
+		return parseFloat( ( val1 * 100 ) / ( val1 + val2 + val3 ) ).toFixed( 1 );
+	};
 };
 
 function drawLineGraph ( datas ) {
