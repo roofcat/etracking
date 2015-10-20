@@ -172,7 +172,7 @@ def create_csv(self, data, file_name='reporte.csv'):
 			logging.info(row)
 			input_datetime = str(row.input_datetime)
 			if row.empresa:
-				empresa = row.empresa
+				empresa = unicode(row.empresa).encode('utf-8')
 			else:
 				empresa = ''
 			if row.rut_receptor:
@@ -232,11 +232,11 @@ def create_csv(self, data, file_name='reporte.csv'):
 			else:
 				nombre_cliente = ''
 			if row.correo:
-				correo = row.correo
+				correo = unicode(row.correo).encode('utf-8')
 			else:
 				correo = ''
 			if row.asunto:
-				asunto = row.asunto
+				asunto = unicode(row.asunto).encode('utf-8')
 			else:
 				asunto = ''
 			processed_date = row.processed_date

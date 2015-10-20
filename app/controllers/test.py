@@ -9,6 +9,7 @@ import base64
 import re
 import datetime
 import mimetypes
+import tablib
 from google.appengine.ext import ndb
 
 
@@ -16,6 +17,28 @@ from app.models.email import EmailModel
 from app.models.email import AttachModel
 from app.models.email import JSONEncoder
 from config.jinja_environment import JINJA_ENVIRONMENT
+
+
+class TabLibHandler(webapp2.RequestHandler):
+
+    def get(self):
+        listado = [
+            {
+                'Nombre': 'Christian',
+                'Apellido': 'Rojas',
+            },
+            {
+                'Nombre': 'Diego',
+                'Apellido': 'Navarrete',
+            },
+        ]
+        data = tablib
+        data.headers = ['Nombre', 'Apellido']
+        data = data.Dataset(listado)
+        data = data.xlsx
+        #self.response.out.write(data.xlsx)
+        #self.response.headers['Content-Type'] = mimetypes.guess_type(data)[0]
+        self.response.write(data)
 
 
 class QueriesHandler(webapp2.RequestHandler):

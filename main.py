@@ -75,6 +75,7 @@ from app.controllers.test import Test4Handler
 from app.controllers.test import Test5Handler
 from app.controllers.test import TestViewFileHandler
 from app.controllers.test import TestInputWithUserAndPassword
+from app.controllers.test import TabLibHandler
 from app.controllers.test import QueriesHandler
 
 
@@ -139,6 +140,7 @@ app = webapp2.WSGIApplication([
     (r'^/inputqueue', InputEmailQueueHandler),
     (r'^/webhook/$', SendrigWebhookHandler),
     (r'/test1', TestHandler),
+    (r'/xlsx', TabLibHandler),
     # (r'/test2', Test2Handler),
     # (r'/test3', Test3Handler),
     # (r'/test4', Test4Handler),
