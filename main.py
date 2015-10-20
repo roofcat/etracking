@@ -75,6 +75,7 @@ from app.controllers.test import Test4Handler
 from app.controllers.test import Test5Handler
 from app.controllers.test import TestViewFileHandler
 from app.controllers.test import TestInputWithUserAndPassword
+from app.controllers.test import QueriesHandler
 
 
 # Decorador para oauth2
@@ -137,13 +138,14 @@ app = webapp2.WSGIApplication([
     (r'^/input/$', InputEmailHandler),
     (r'^/inputqueue', InputEmailQueueHandler),
     (r'^/webhook/$', SendrigWebhookHandler),
-    # (r'/test1', TestHandler),
+    (r'/test1', TestHandler),
     # (r'/test2', Test2Handler),
     # (r'/test3', Test3Handler),
     # (r'/test4', Test4Handler),
     # (r'/test5', Test5Handler),
     # (r'/test-file/(.+)/$', TestViewFileHandler),
     # (r'/testauth', TestInputWithUserAndPassword),
+    (r'/testqueries', QueriesHandler),
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)
 

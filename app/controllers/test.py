@@ -18,6 +18,27 @@ from app.models.email import JSONEncoder
 from config.jinja_environment import JINJA_ENVIRONMENT
 
 
+class QueriesHandler(webapp2.RequestHandler):
+
+    def get(self):
+        query_opts = {}
+        query_opts['batch_size'] = 500
+        from_date = 1443668400
+        to_date = 1444964400
+        from_date = int(from_date)
+        date_to = int(to_date)
+        from_date = datetime.datetime.fromtimestamp(from_date)
+        to_date = datetime.datetime.fromtimestamp(to_date)
+        query = EmailModel.query()
+        query = query.filter(ndb.OR(EmailModel.dropped_event == 'dropped', EmailModel.bounce_event == 'bounce'))
+        query = query.filter(EmailModel.input_date >= from_date)
+        query = query.filter(EmailModel.input_date <= to_date)
+        query = query.fetch_async(limit=None, **query_opts)
+        logging.info(query)
+        for q in query:
+            self.response.write(q)
+
+
 class TestViewFileHandler(webapp2.RequestHandler):
 
     def get(self, file_id):
@@ -36,6 +57,32 @@ class TestViewFileHandler(webapp2.RequestHandler):
 
 
 class TestHandler(webapp2.RequestHandler):
+
+    def get(self):
+        date_from = 1444618800
+        date_to = 1445223600
+        date_from = datetime.datetime.fromtimestamp(date_from)
+        date_to = datetime.datetime.fromtimestamp(date_to)
+        query = EmailModel.query()
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
+        processed = query.filter(EmailModel.processed_event == "processed")
+        delivered = query.filter(EmailModel.delivered_event == "delivered")
+        opened = query.filter(EmailModel.opened_event == "open")
+        dropped = query.filter(EmailModel.dropped_event == "dropped")
+        bounced = query.filter(EmailModel.bounce_event == "bounce")
+        context = {
+            'processed': processed,
+            'delivered': delivered,
+            'opened': opened,
+            'dropped': dropped,
+            'bounced': bounced,
+        }
+        #self.response.write(json.dumps(context))
+        self.response.write(processed.__dict__)
+
+
+class Test0Handler(webapp2.RequestHandler):
 
     def get(self):
         total_count = EmailModel.query().count()

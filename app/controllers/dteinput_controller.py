@@ -53,8 +53,7 @@ class InputEmailHandler(webapp2.RequestHandler):
         if (correo and asunto and html and numero_folio and tipo_dte):
             # Proceso de creación del objeto email
             my_email = EmailModel()
-            email_result = my_email.search_email(
-                correo, numero_folio, tipo_dte)
+            email_result = my_email.search_email(correo, numero_folio, tipo_dte)
             if email_result == None:
                 #try:
                 my_email.nombre_cliente = nombre_cliente
