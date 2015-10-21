@@ -10,6 +10,7 @@ import re
 import datetime
 import mimetypes
 import tablib
+import StringIO
 from google.appengine.ext import ndb
 
 
@@ -22,6 +23,7 @@ from config.jinja_environment import JINJA_ENVIRONMENT
 class TabLibHandler(webapp2.RequestHandler):
 
     def get(self):
+        file_name = 'miexcel.xlsx'
         listado = [
             {
                 'Nombre': 'Christian',
@@ -34,10 +36,11 @@ class TabLibHandler(webapp2.RequestHandler):
         ]
         data = tablib
         data.headers = ['Nombre', 'Apellido']
-        data = data.Dataset(listado)
+        data = data.dict(listado)
         data = data.xlsx
         #self.response.out.write(data.xlsx)
-        #self.response.headers['Content-Type'] = mimetypes.guess_type(data)[0]
+        self.response.headers['Content-Type'] = 'application/xlsx'
+        self.response.headers['Content-Disposition'] = 'attachment; filename=' + file_name
         self.response.write(data)
 
 
