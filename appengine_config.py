@@ -5,4 +5,4 @@ defecto la plataforma de Google App Engine
 from google.appengine.ext import vendor
 
 
-vendor.add('libs')
+vendor.add('vendor')

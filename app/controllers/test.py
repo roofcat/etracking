@@ -25,20 +25,13 @@ class TabLibHandler(webapp2.RequestHandler):
     def get(self):
         file_name = 'miexcel.xlsx'
         listado = [
-            {
-                'Nombre': 'Christian',
-                'Apellido': 'Rojas',
-            },
-            {
-                'Nombre': 'Diego',
-                'Apellido': 'Navarrete',
-            },
+            ('Christian', 'Rojas',),
+            ('Diego', 'Navarrete',),
         ]
         data = tablib
         data.headers = ['Nombre', 'Apellido']
-        data = data.dict(listado)
-        data = data.xlsx
-        #self.response.out.write(data.xlsx)
+        data.dict = listado
+        data = data.formats.xlsx
         self.response.headers['Content-Type'] = 'application/xlsx'
         self.response.headers['Content-Disposition'] = 'attachment; filename=' + file_name
         self.response.write(data)
