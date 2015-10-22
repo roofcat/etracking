@@ -61,3 +61,14 @@ class EmailClient(object):
         # imprimiendo respuesta
         logging.info(status)
         logging.info(msg)
+
+    def send_user_email(self, correo):
+        # valores de envío
+        self.message.add_to(correo['email'])
+        self.message.add_to_name(correo['user_name'])
+        self.message.set_subject(correo['subject'])
+        self.message.set_html(correo['html'])
+        status, msg = self.sg.send(self.message)
+        # imprimiendo respuesta
+        logging.info(status)
+        logging.info(msg)

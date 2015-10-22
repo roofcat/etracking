@@ -264,7 +264,7 @@ class EmailModel(ndb.Model):
         return query.fetch()
 
     @classmethod
-    def get_all_sended_emails_by_dates(self, from_date, to_date, tipo_receptor):
+    def get_all_sended_emails_by_dates(self, from_date, to_date, tipo_receptor='all'):
         query = EmailModel.query()
         if tipo_receptor == 'all':
             query = query.filter(EmailModel.delivered_event == 'delivered')

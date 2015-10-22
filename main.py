@@ -35,17 +35,19 @@ from app.controllers.panel_controller import CustomSearchHandler
 
 # Imports para adjuntos
 from app.controllers.attach_controller import FindAttachHandler
+from app.controllers.attach_controller import FindReportHandler
 
 
 # imports para reportes csv
-from app.controllers.csv_controller import ExportGeneralEmailHandler
-from app.controllers.csv_controller import ExportSendedEmailHandler
-from app.controllers.csv_controller import ExportFailureEmailHandler
-from app.controllers.csv_controller import ExportSearchByEmailHandler
-from app.controllers.csv_controller import ExportSearchByFolioHandler
-from app.controllers.csv_controller import ExportSearchByRutHandler
-from app.controllers.csv_controller import ExportSearchByFailureHandler
-from app.controllers.csv_controller import ExportSearchByMountHandler
+from app.controllers.export_controller import QueueExportHandler
+from app.controllers.export_controller import ExportGeneralEmailHandler
+from app.controllers.export_controller import ExportSendedEmailHandler
+from app.controllers.export_controller import ExportFailureEmailHandler
+from app.controllers.export_controller import ExportSearchByEmailHandler
+from app.controllers.export_controller import ExportSearchByFolioHandler
+from app.controllers.export_controller import ExportSearchByRutHandler
+from app.controllers.export_controller import ExportSearchByFailureHandler
+from app.controllers.export_controller import ExportSearchByMountHandler
 
 
 # import para uso de apis
@@ -118,6 +120,7 @@ app = webapp2.WSGIApplication([
     (r'/api/profile/user/password/$', UpdatePasswordProfilePanelHandler),
 
     (r'/storage/attach/(.+)/', FindAttachHandler),
+    (r'/storage/report/(.+)/', FindReportHandler),
 
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),
@@ -134,13 +137,16 @@ app = webapp2.WSGIApplication([
     (r'^/admin/users/list/$', ListUserAdminHandler),
     (r'^/admin/users/new/$', NewUserAdminHandler),
 
+    # Rutas de colas de tareas
+    (r'^/inputqueue', InputEmailQueueHandler),
+    (r'^/exportqueue', QueueExportHandler),
+
     # Eliminar token para el admin azurian
     (r'^/revoke/$', RevokeHandler),
     (r'^/input/$', InputEmailHandler),
-    (r'^/inputqueue', InputEmailQueueHandler),
     (r'^/webhook/$', SendrigWebhookHandler),
     (r'/test1', TestHandler),
-    (r'/xlsx', TabLibHandler),
+    # (r'/xlsx', TabLibHandler),
     # (r'/test2', Test2Handler),
     # (r'/test3', Test3Handler),
     # (r'/test4', Test4Handler),

@@ -3,5 +3,7 @@ total_storage_limit: 1G
 queue:
 - name: InputQueue
   rate: 60/s
+- name: ReportQueue
+  rate: 60/s
 - name: WebhookQueue
   rate: 60/s

@@ -8,7 +8,6 @@ import datetime
 
 
 from google.appengine.api import taskqueue
-from google.appengine.ext import blobstore
 
 
 from app.models.email import EmailModel
