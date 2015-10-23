@@ -13,10 +13,9 @@ var folioExportUrl = 'export/folio/';
 var rutExportUrl = 'export/rut/';
 var fallidosExportUrl = 'export/fallidos/';
 var montosExportUrl = 'export/montos/';
-
 var attachUrl = 'storage/attach/';
-
 var tabPosition = '#correo';
+var exportLink = '';
 
 $( document ).ready( function () {
 
@@ -63,8 +62,7 @@ $( '#run_search' ).on( 'click', function () {
 			var link = baseUrl + emailUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
 			ajaxService( link );
 
-			var csvLink = baseUrl + emailExportUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
-			setupDownloadCsvLink( csvLink );
+			exportLink = baseUrl + emailExportUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
 			break;
 
 		case '#folio':
@@ -73,8 +71,7 @@ $( '#run_search' ).on( 'click', function () {
 			var link = baseUrl + folioUrl + numeroFolio + '/';
 			ajaxService( link );
 
-			var csvLink = baseUrl + folioExportUrl + numeroFolio + '/';
-			setupDownloadCsvLink( csvLink );
+			exportLink = baseUrl + folioExportUrl + numeroFolio + '/';
 			break;
 
 		case '#rutreceptor':
@@ -93,8 +90,7 @@ $( '#run_search' ).on( 'click', function () {
 			var link = baseUrl + rutUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
 			ajaxService( link );
 
-			var csvLink = baseUrl + rutExportUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
-			setupDownloadCsvLink( csvLink );
+			exportLink = baseUrl + rutExportUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
 			break;
 
 		case '#fallidos':
@@ -107,8 +103,7 @@ $( '#run_search' ).on( 'click', function () {
 			var link = baseUrl + fallidosUrl + date_from + '/' + date_to + '/';
 			ajaxService( link );
 
-			var csvLink = baseUrl + fallidosExportUrl + date_from + '/' + date_to + '/';
-			setupDownloadCsvLink( csvLink );
+			exportLink = baseUrl + fallidosExportUrl + date_from + '/' + date_to + '/';
 			break;
 
 		case '#monto':
@@ -125,14 +120,37 @@ $( '#run_search' ).on( 'click', function () {
 			var link = baseUrl + montosUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
 			ajaxService( link );
 
-			var csvLink = baseUrl + montosExportUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
-			setupDownloadCsvLink( csvLink );
+			exportLink = baseUrl + montosExportUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
 			break;
 	};
 });
 
-function setupDownloadCsvLink ( link ) {
-	$( '#btnDownloadCsv' ).attr( 'href', link );
+$( '#btnGenerateReport' ).on( 'click', function () {
+	var btn = $( this );
+	btn.removeClass( 'mdi-content-send' );
+	btn.addClass( 'mdi-action-cached' );
+	btn.attr( 'disabled', true );
+	sendUrlToReportQueue ( linkGeneral, btn );
+});
+
+function sendUrlToReportQueue ( link, btn ) {
+	$.ajax({
+		url: link,
+		type: 'GET',
+		dataType: 'json',
+		success: function ( data ) {
+			btn.removeClass( 'mdi-action-cached' );
+			btn.addClass( 'mdi-content-send' );
+			btn.attr( 'disabled', false );
+			console.log( data );
+		},
+		error: function ( jqXHR, textStatus, errorThrown ) {
+			btn.empty()
+			btn.html( 'Generar Excel' );
+			btn.attr( 'disabled', false );
+			console.log( errorThrown );
+		},
+	});
 };
 
 function ajaxService ( link ) {
@@ -141,9 +159,9 @@ function ajaxService ( link ) {
 		'url': link,
 		success: function ( data ) {
 			if ( data.data.length ) {
-				$( '#btnDownloadCsv' ).show();
+				$( '#btnGenerateReport' ).show();
 			} else {
-				$( '#btnDownloadCsv' ).hide();
+				$( '#btnGenerateReport' ).hide();
 			};
 			// Dibujar tabla de visualization
 			//drawTable( data.data );
