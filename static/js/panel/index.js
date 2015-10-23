@@ -8,6 +8,9 @@ var urlGeneralExport = 'export/general/';
 var urlSendedExport = 'export/sended/';
 var urlFailureExport = 'export/failure/';
 var jsonData;
+var linkGeneral = '';
+var linkSended = '';
+var linkFailure = '';
 
 $( document ).ready( function () {
 	// Seteo de fecha actual
@@ -62,13 +65,58 @@ function putDownloadLink () {
 	date_from = getDateAsTimestamp( date_from );
 	date_to = getDateAsTimestamp( date_to );
 	
-	var linkGeneral = baseUrl + urlGeneralExport + date_from + '/' + date_to + '/' + options + '/';
-	var linkSended = baseUrl + urlSendedExport + date_from + '/' + date_to + '/' + options + '/';
-	var linkFailure = baseUrl + urlFailureExport + date_from + '/' + date_to + '/' + options + '/';
+	linkGeneral = baseUrl + urlGeneralExport + date_from + '/' + date_to + '/' + options + '/';
+	linkSended = baseUrl + urlSendedExport + date_from + '/' + date_to + '/' + options + '/';
+	linkFailure = baseUrl + urlFailureExport + date_from + '/' + date_to + '/' + options + '/';
+};
 
-	$( '#btnGeneralExport' ).attr('href', linkGeneral );
-	$( '#btnSendedExport' ).attr('href', linkSended );
-	$( '#btnFailedExport' ).attr('href', linkFailure );
+$( 'button' ).on( 'click', function () {
+	var btn = $( this );
+	var btnId = $( this ).attr( 'id' );
+	if ( btnId ) {
+		switch ( btnId ) {
+			case 'btnGeneralExport':
+				btn.empty();
+				btn.html( 'Generando...' );
+				btn.attr( 'disabled', true );
+				sendUrlToReportQueue ( linkGeneral, btn );
+				break;
+			case 'btnSendedExport':
+				btn.empty();
+				btn.html( 'Generando...' );
+				btn.attr( 'disabled', true );
+				sendUrlToReportQueue ( linkSended, btn );
+				break;
+			case 'btnFailedExport':
+				btn.empty();
+				btn.html( 'Generando...' );
+				btn.attr( 'disabled', true );
+				sendUrlToReportQueue ( linkFailure, btn );
+				break;
+		};
+	} else {
+		return;
+	};
+});
+
+function sendUrlToReportQueue ( link, btn ) {
+	$.ajax({
+		url: link,
+		type: 'GET',
+		dataType: 'json',
+		success: function ( data ) {
+			btn.empty()
+			btn.html( 'Generar Excel' );
+			btn.attr( 'disabled', false );
+			console.log( data );
+		},
+		error: function ( jqXHR, textStatus, errorThrown ) {
+			btn.empty()
+			btn.html( 'Generar Excel' );
+			btn.attr( 'disabled', false );
+			console.log( errorThrown );
+		},
+	});
 };
 
 $( '#run_search' ).on( 'click', function () {

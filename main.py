@@ -61,6 +61,7 @@ from app.controllers.panel_controller import MontosSearchHandler
 
 # import tareas cron
 from app.controllers.cron_controller import SendLaggingCronHandler
+from app.controllers.cron_controller import CleanExportHandler
 
 
 # manejo de errores
@@ -104,7 +105,11 @@ app = webapp2.WSGIApplication([
     (r'/export/rut/(\d+)/(\d+)/(.+)/$', ExportSearchByRutHandler),
     (r'/export/fallidos/(\d+)/(\d+)/$', ExportSearchByFailureHandler),
     (r'/export/montos/(\d+)/(\d+)/(\d+)/(\d+)/$', ExportSearchByMountHandler),
-    
+
+    # api entrada
+    (r'/api/input/$', InputEmailHandler),
+    (r'/api/webhook/$', SendrigWebhookHandler),
+
     # api estadisticas
     (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),
 
@@ -119,32 +124,32 @@ app = webapp2.WSGIApplication([
     (r'/api/profile/user/update/$', UpdateProfilePanelHandler),
     (r'/api/profile/user/password/$', UpdatePasswordProfilePanelHandler),
 
+    # Link a archivos del datastore
     (r'/storage/attach/(.+)/', FindAttachHandler),
     (r'/storage/report/(.+)/', FindReportHandler),
 
     # tareas cron
     (r'/cron/sendlagging/$', SendLaggingCronHandler),
+    (r'/cron/cleanexport/$', CleanExportHandler),
     
     # autenticacion
     (r'/login/$', LoginPanelHandler),
-    (r'/logout/$', LogoutPanelHandler),
+    (r'/logout/$', CleanExportHandler),
 
     # panel admin azurian
-    (r'^/admin/$', AdminHandler),
-    (r'^/admin/statistics/$', IndexStatisticHandler),
-    (r'^/admin/statistics/stats/$', GraphStatisticHandler),
-    (r'^/admin/users/$', UserAdminHandler),
-    (r'^/admin/users/list/$', ListUserAdminHandler),
-    (r'^/admin/users/new/$', NewUserAdminHandler),
+    (r'/admin/$', AdminHandler),
+    (r'/admin/statistics/$', IndexStatisticHandler),
+    (r'/admin/statistics/stats/$', GraphStatisticHandler),
+    (r'/admin/users/$', UserAdminHandler),
+    (r'/admin/users/list/$', ListUserAdminHandler),
+    (r'/admin/users/new/$', NewUserAdminHandler),
 
     # Rutas de colas de tareas
-    (r'^/inputqueue', InputEmailQueueHandler),
-    (r'^/exportqueue', QueueExportHandler),
+    (r'/inputqueue', InputEmailQueueHandler),
+    (r'/exportqueue', QueueExportHandler),
 
     # Eliminar token para el admin azurian
-    (r'^/revoke/$', RevokeHandler),
-    (r'^/input/$', InputEmailHandler),
-    (r'^/webhook/$', SendrigWebhookHandler),
+    (r'/revoke/$', RevokeHandler),
     (r'/test1', TestHandler),
     # (r'/xlsx', TabLibHandler),
     # (r'/test2', Test2Handler),

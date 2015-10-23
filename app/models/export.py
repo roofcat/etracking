@@ -11,4 +11,3 @@ class ExportModel(ndb.Model):
 	export_file = ndb.BlobProperty()
 	url = ndb.StringProperty(indexed=True)
 	user = ndb.StringProperty(indexed=True)
-	sended = ndb.BooleanProperty(default=False)
