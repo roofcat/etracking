@@ -27,11 +27,11 @@ from lib.tablib_export import create_tablib
 
 
 class QueueExportHandler(webapp2.RequestHandler):
-    """ Clase manejadora de las colas de tareas
-            para generar los documentos para reportes 
-            y enviarlos como link al correo del usuario
-    """
-
+	""" Clase manejadora de las colas de tareas
+	    para generar los documentos para reportes 
+	    y enviarlos como link al correo del usuario
+	"""
+	
 	def post(self):
 		export_type = self.request.get('export_type')
 		if export_type == 'export_general_email':
@@ -227,9 +227,9 @@ class ExportFailureEmailHandler(BaseHandler):
 
 class ExportSearchByEmailHandler(BaseHandler):
 
-    def get(self, date_from, date_to, email):
-        if date_from and date_to and email:
-        	user = self.session['user']
+	def get(self, date_from, date_to, email):
+		if date_from and date_to and email:
+			user = self.session['user']
 			context = {
 				'date_from': int(date_from, base=10),
 				'date_to': int(date_to, base=10),
@@ -249,9 +249,9 @@ class ExportSearchByEmailHandler(BaseHandler):
 
 class ExportSearchByFolioHandler(BaseHandler):
 
-    def get(self, folio):
-        if folio:
-        	user = self.session['user']
+	def get(self, folio):
+		if folio:
+			user = self.session['user']
 			context = {
 				'folio': str(folio),
 				'user_email': user['email'],
@@ -291,9 +291,9 @@ class ExportSearchByRutHandler(BaseHandler):
 
 class ExportSearchByFailureHandler(BaseHandler):
 
-    def get(self, date_from, date_to):
-        if date_from and date_to:
-        	user = self.session['user']
+	def get(self, date_from, date_to):
+		if date_from and date_to:
+			user = self.session['user']
 			context = {
 				'date_from': int(date_from, base=10),
 				'date_to': int(date_to, base=10),
