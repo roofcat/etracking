@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
+""" Este controlador sirve para recibir los webhook
+    generados por SendGrid para los correos enviados
+    utilizando la API Rest del Tracking.
+"""
+
 
 import logging
 import webapp2
@@ -11,7 +16,7 @@ import datetime
 from app.models.email import EmailModel
 
 
-class SendrigWebhookHandler(webapp2.RequestHandler):
+class SendgridWebhookApiRestHandler(webapp2.RequestHandler):
 
     def post(self):
         """ Metodo que recibe los eventos generados al intentar enviar correos a SendGrid

@@ -9,7 +9,8 @@ import webapp2_extras
 # imports para servicios rest DTE
 from app.controllers.dteinput_controller import InputEmailHandler
 from app.controllers.dteinput_controller import InputEmailQueueHandler
-from app.controllers.webhook_controller import SendrigWebhookHandler
+from app.controllers.webhook_rest_controller import SendgridWebhookApiRestHandler
+from app.controllers.webhook_api_controller import SendgridWebhookAPIHandler
 
 
 # imports para admin
@@ -108,7 +109,8 @@ app = webapp2.WSGIApplication([
 
     # api entrada
     (r'/api/input/$', InputEmailHandler),
-    (r'/api/webhook/$', SendrigWebhookHandler),
+    (r'/api/webhook-rest/$', SendgridWebhookApiRestHandler),
+    (r'/api/webhook-api/$', SendgridWebhookAPIHandler),
 
     # api estadisticas
     (r'/api/statistics/globalstats/(\d+)/(\d+)/(.+)/$', StatisticPanelHandler),
