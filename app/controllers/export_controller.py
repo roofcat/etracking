@@ -5,14 +5,13 @@
 import datetime
 import logging
 import json
+
+
 import webapp2
-
-
 from google.appengine.api import taskqueue
 
 
 from app_controller import BaseHandler
-from app.mailers.mail_client import EmailClient
 from app.models.email import EmailModel
 from app.models.export import ExportModel
 from app.models.user import UserModel
@@ -23,6 +22,7 @@ from config.global_config import REPORT_SUBJECT_MAIL
 from config.global_config import REPORT_HTML_MAIL
 
 
+from app.lib.mail_client import EmailClient
 from lib.tablib_export import create_tablib
 
 

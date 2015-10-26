@@ -2,17 +2,17 @@
 #!/usr/bin/env python
 
 
-import webapp2
 import logging
 import datetime
 
 
+import webapp2
 from google.appengine.api import taskqueue
 
 
 from app.models.email import EmailModel
 from app.models.email import AttachModel
-from app.mailers.mail_client import EmailClient
+from app.lib.mail_client import EmailClient
 
 
 class InputEmailHandler(webapp2.RequestHandler):
