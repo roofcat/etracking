@@ -12,7 +12,7 @@ from google.appengine.api import taskqueue
 
 from app.models.email import EmailModel
 from app.models.email import AttachModel
-from app.lib.mail_client import EmailClient
+from lib.mail_client import EmailClient
 
 
 class InputEmailHandler(webapp2.RequestHandler):

@@ -10,6 +10,7 @@ from google.appengine.ext import ndb
 
 
 from app_controller import BaseHandler
+from config.jinja_environment import JINJA_ENVIRONMENT
 
 
 class FindAttachHandler(BaseHandler):
@@ -22,11 +23,14 @@ class FindAttachHandler(BaseHandler):
             try:
                 file_id = str(file_id)
                 attach = ndb.Key(urlsafe=file_id).get()
-                self.response.headers['Content-Type'] = mimetypes.guess_type(attach.nombre)[0]
-                self.response.headers['Content-Disposition'] = 'attachment; filename=' + attach.nombre
-                self.response.write(attach.archivo)
+                if attach:
+                    self.response.headers['Content-Type'] = mimetypes.guess_type(attach.nombre)[0]
+                    self.response.headers['Content-Disposition'] = 'attachment; filename=' + attach.nombre
+                    self.response.write(attach.archivo)
             except Exception, e:
                 logging.error(e)
+                template = JINJA_ENVIRONMENT.get_template('attach/attach_notexist.html')
+                self.response.write(template.render())
         else:
             self.error(404)
 
@@ -42,10 +46,13 @@ class FindReportHandler(webapp2.RequestHandler):
             try:
                 file_id = str(file_id)
                 report = ndb.Key(urlsafe=file_id).get()
-                self.response.headers['Content-Type'] = 'application/xlsx'
-                self.response.headers['Content-Disposition'] = 'attachment; filename=' + str(report.name)
-                self.response.write(report.export_file)
+                if report:
+                    self.response.headers['Content-Type'] = 'application/xlsx'
+                    self.response.headers['Content-Disposition'] = 'attachment; filename=' + str(report.name)
+                    self.response.write(report.export_file)
             except Exception, e:
                 logging.error(e)
+                template = JINJA_ENVIRONMENT.get_template('attach/attach_notexist.html')
+                self.response.write(template.render())
         else:
             self.error(404)

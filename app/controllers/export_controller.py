@@ -22,7 +22,7 @@ from config.global_config import REPORT_SUBJECT_MAIL
 from config.global_config import REPORT_HTML_MAIL
 
 
-from app.lib.mail_client import EmailClient
+from lib.mail_client import EmailClient
 from lib.tablib_export import create_tablib
 
 

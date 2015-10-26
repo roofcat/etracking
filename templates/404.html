@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/static/css/cover.css">
-	<title>404</title>
-</head>
-<body>
-	<div class="container">
-		<h1>404</h1>
-		<p>Lo sentimos, la dirección solicitada no existe.</p>
-	</div>
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% extends 'base_error.html' %}
+
+{% block title %}404{% endblock %}
+
+{% block content %}
+	<h1>404</h1>
+	<p>Lo sentimos, la dirección solicitada no existe.</p>
+{% endblock %}
