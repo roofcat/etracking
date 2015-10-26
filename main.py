@@ -72,14 +72,7 @@ from app.controllers.errorhandler_controller import handle_500
 
 
 # imports para pruebas
-from app.controllers.test import TestHandler
-from app.controllers.test import Test2Handler
-from app.controllers.test import Test3Handler
-from app.controllers.test import Test4Handler
-from app.controllers.test import Test5Handler
-from app.controllers.test import TestViewFileHandler
-from app.controllers.test import TestInputWithUserAndPassword
-from app.controllers.test import TabLibHandler
+from app.controllers.test import RenderIndexTestHandler
 from app.controllers.test import QueriesHandler
 
 
@@ -152,15 +145,12 @@ app = webapp2.WSGIApplication([
 
     # Eliminar token para el admin azurian
     (r'/revoke/$', RevokeHandler),
-    (r'/test1', TestHandler),
-    # (r'/xlsx', TabLibHandler),
-    # (r'/test2', Test2Handler),
-    # (r'/test3', Test3Handler),
-    # (r'/test4', Test4Handler),
-    # (r'/test5', Test5Handler),
-    # (r'/test-file/(.+)/$', TestViewFileHandler),
-    # (r'/testauth', TestInputWithUserAndPassword),
-    (r'/testqueries', QueriesHandler),
+
+    # Pruebas y experimentos xd
+    (r'/test/$', RenderIndexTestHandler),
+    (r'/testcursor/', QueriesHandler),
+
+    # rutas OAuth2 Google
     (decorator.callback_path, decorator.callback_handler()),
 ], config=config, debug=True)
 
