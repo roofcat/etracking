@@ -130,7 +130,7 @@ $( '#btnGenerateReport' ).on( 'click', function () {
 	btn.removeClass( 'mdi-content-send' );
 	btn.addClass( 'mdi-action-cached' );
 	btn.attr( 'disabled', true );
-	sendUrlToReportQueue ( linkGeneral, btn );
+	sendUrlToReportQueue ( exportLink, btn );
 });
 
 function sendUrlToReportQueue ( link, btn ) {
@@ -145,8 +145,8 @@ function sendUrlToReportQueue ( link, btn ) {
 			console.log( data );
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
-			btn.empty()
-			btn.html( 'Generar Excel' );
+			btn.removeClass( 'mdi-action-cached' );
+			btn.addClass( 'mdi-content-send' );
 			btn.attr( 'disabled', false );
 			console.log( errorThrown );
 		},
