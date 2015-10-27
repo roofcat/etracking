@@ -1,10 +1,6 @@
-*.pyc
-*.pyo
 *py[cod]
-
 app/*py[cod]
 app/controllers/*py[cod]
-app/mailers/*py[cod]
 app/models/*py[cod]
 config/*py[cod]
 lib/*py[cod]
