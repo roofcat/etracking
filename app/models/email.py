@@ -296,22 +296,15 @@ class EmailModel(ndb.Model):
         query_from = EmailModel.query()
         query_from = query_from.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
         query_from_keys = query_from.fetch(None, keys_only=True)
-        logging.info("paso query 1")
-        logging.info(query_from.count())
         
         query_to = EmailModel.query()
         query_to = query_to.filter(EmailModel.monto >= mount_from, EmailModel.monto <= mount_to)
         query_to_keys = query_to.fetch(None, keys_only=True)
-        logging.info("paso query 2")
-        logging.info(query_to.count())
 
         valid_query_keys = list(set(query_from_keys) & set(query_to_keys))
-        logging.info("largo query")
-        logging.info(len(valid_query_keys))
         result = []
         if valid_query_keys:
             query = ndb.get_multi(valid_query_keys)
-            logging.info(query)
             return query
         else:
             return []
