@@ -25,7 +25,7 @@ class FindAttachHandler(BaseHandler):
                 attach = ndb.Key(urlsafe=file_id).get()
                 if attach:
                     self.response.headers['Content-Type'] = mimetypes.guess_type(attach.nombre)[0]
-                    self.response.headers['Content-Disposition'] = 'attachment; filename=' + attach.nombre
+                    self.response.headers['Content-Disposition'] = 'attachment; filename=' + str(attach.nombre)
                     self.response.write(attach.archivo)
             except Exception, e:
                 logging.error(e)

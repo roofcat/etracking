@@ -2,9 +2,10 @@
 
 var API_URL = 'https://azurian-rastreo.appspot.com/testcursor/';
 var next_cursor = '';
+var table;
 
 $(document).ready( function () {
-	ajaxService( API_URL + next_cursor );
+	ajaxService( API_URL );
 });
 
 function ajaxService ( url ) {
@@ -17,24 +18,40 @@ function ajaxService ( url ) {
 		},
 		success: function ( data ) {
 			console.log( data );
-			drawJqueryTable( data['data'] );
+			drawJqueryTable( data );
 		},
 		error: function ( jqXHR, textStatus, errorThrown ) {
 			console.log( errorThrown );
 		},
 	});
-	
+};
+
+function ajaxServiceCallback ( url ) {
+	$.ajax({
+		url: url,
+		type: 'GET',
+		dataType: 'JSON',
+		data: {
+			'cursor_param': next_cursor,
+		},
+		success: function ( data ) {
+			return data;
+		},
+		error: function ( jqXHR, textStatus, errorThrown ) {
+			console.log( errorThrown );
+		},
+	});
 };
 
 function drawJqueryTable ( data ) {
-	$( '#tableCards' ).dataTable({
+	table = $( '#tableCards' ).dataTable({
 		//"processing": true,
 		//"serverSide": true,
 		"destroy": true,
 		"scrollY": "450px",
 		"scrollX": "100%",
 		"scrollCollapse": true,
-		"data": data,
+		"data": data['data'],
 		"searching": true,
 		"lengthChange": false,
 		"pageLength": 50,
@@ -197,4 +214,10 @@ function drawJqueryTable ( data ) {
 	})
 	.removeClass('display')
 	.addClass('table table-hover table-striped table-condensed table-responsive');
+	/*
+	if ( data['more'] ) {
+		next_cursor = data['next_urlsafe'];
+		ajaxServiceCallback( API_URL );
+	};
+	*/
 };

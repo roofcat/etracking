@@ -151,7 +151,7 @@ class EmailModel(ndb.Model):
     def email_add_count(self, data):
         """ Incrementa el campo de lecturas efectuadas 
             por el receptor del correo """
-        data.opened_count = data.opened_count + 1
+        data.opened_count += 1
         data.put()
 
     @classmethod
@@ -253,6 +253,18 @@ class EmailModel(ndb.Model):
 
     @classmethod
     def get_all_emails_by_dates(self, from_date, to_date, tipo_receptor):
+        query = EmailModel.query()
+        if tipo_receptor == 'all':
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+        else:
+            query = query.filter(EmailModel.input_date >= from_date)
+            query = query.filter(EmailModel.input_date <= to_date)
+            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
+        return query.fetch()
+
+    @classmethod
+    def get_all_emails_by_dates_async(self, from_date, to_date, tipo_receptor):
         query = EmailModel.query()
         if tipo_receptor == 'all':
             query = query.filter(EmailModel.input_date >= from_date)

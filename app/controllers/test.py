@@ -34,7 +34,8 @@ class QueriesHandler(webapp2.RequestHandler):
 
     def get(self):
         curs = Cursor(urlsafe=self.request.get('cursor_param'))
-        emails, next_curs, more = EmailModel.query().fetch_page(100, start_cursor=curs)
+        query = EmailModel.query()
+        emails, next_curs, more = query.fetch_page(50, start_cursor=curs)
         emails_array = []
         next_urlsafe = ''
 
@@ -44,6 +45,7 @@ class QueriesHandler(webapp2.RequestHandler):
         if more and next_curs:
             next_urlsafe = next_curs.urlsafe()
         context = {
+            'more': more,
             'next': next_urlsafe,
             'data': emails_array,
         }

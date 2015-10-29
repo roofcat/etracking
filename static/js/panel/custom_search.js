@@ -371,50 +371,49 @@ function drawJqueryTable ( data ) {
 		"pageLength": 50,
 		"columns": [
 			{
-				'data': 'numero_folio',
 				'title': 'Resumen de envío',
 				'render': function ( data, type, row, meta ) {
 					var popBody = '<div style="font-size:11px;">';
-					var rowBody = "";
+					var rowBody = '';
 
 					if ( row['processed_event'] ) {
-						rowBody += "<span class='label label-default'> </span>&nbsp;";
+						rowBody += '<span class="label label-default"> </span>&nbsp;';
 						popBody += '<p><span class="label label-default"> </span>&nbsp;';
 						popBody += ' Procesado el ' + row['processed_date'] + '</p>';
 					};
 					if ( row['delivered_event'] ) {
-						rowBody += "<span class='label label-primary'> </span>&nbsp;";
+						rowBody += '<span class="label label-primary"> </span>&nbsp;';
 						popBody += '<p><span class="label label-primary"> </span>&nbsp;';
 						popBody += ' Enviado el ' + row['delivered_date'] + '</p>';
 					};
 					if ( row['opened_event'] ) {
-						rowBody += "<span class='label label-success'> </span>&nbsp;";
+						rowBody += '<span class="label label-success"> </span>&nbsp;';
 						popBody += '<p><span class="label label-success"> </span>&nbsp;';
 						popBody += ' Leído el ' + row['opened_first_date'] + '<br>';
 						popBody += ' IP ' + row['opened_ip'] + ' ' + row['opened_count'] + ' veces.</p>';
 					};
 					if ( row['dropped_event'] ) {
-						rowBody += "<span class='label label-warning'> </span>&nbsp;";
+						rowBody += '<span class="label label-warning"> </span>&nbsp;';
 						popBody += '<p><span class="label label-warning"> </span>&nbsp;';
 						popBody += ' Rechazado el ' + row['dropped_date'] + '<br> ';
 						popBody += ' Motivo: ' + row['dropped_reason'] + '</p>';
 					};
 					if ( row['bounce_event'] ) {
-						rowBody += "<span class='label label-danger'> </span>&nbsp;";
+						rowBody += '<span class="label label-danger"> </span>&nbsp;';
 						popBody += '<p><span class="label label-danger"> </span>&nbsp;';
 						popBody += ' Rebotado el ' + row['bounce_date'] + '<br> ';
 						popBody += ' Motivo: ' + row['bounce_reason'] + '</p>';
 					};
 					if ( row['unsubscribe_event'] ) {
-						rowBody += "<span class='label label-info'> </span>&nbsp;";
+						rowBody += '<span class="label label-info"> </span>&nbsp;';
 						popBody += '<p><span class="label label-info"> </span>&nbsp;';
 						popBody += ' Desuscrito el ' + row['dropped_date'] + '</p>';
 					};
 					popBody += '</div>';
-					var html = "<div id='divPopOver' rel='popover' data-animation='true' data-trigger='hover' " + 
-								" data-html='true' data-placement='right' data-container='body' " + 
-								"data-toggle='popover' data-content='" + popBody + "'>" + rowBody + "</div>";
-					return html;
+					return "<div id='divPopOver' rel='popover' data-animation='true' " +
+							" data-trigger='hover' data-html='true' data-placement='right' " +
+							" data-container='body' data-toggle='popover' data-content='" + 
+							popBody + "'>" + rowBody + "</div>";
 				},
 			},
 			{

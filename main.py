@@ -129,7 +129,7 @@ app = webapp2.WSGIApplication([
     
     # autenticacion
     (r'/login/$', LoginPanelHandler),
-    (r'/logout/$', CleanExportHandler),
+    (r'/logout/$', LogoutPanelHandler),
 
     # panel admin azurian
     (r'/admin/$', AdminHandler),
