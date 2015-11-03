@@ -410,12 +410,13 @@ function drawJqueryTable ( data ) {
 						popBody += ' Desuscrito el ' + row['dropped_date'] + '</p>';
 					};
 					popBody += '</div>';
-					
+
 					var html = "";
 					html += "<div id='divPopOver' rel='popover' data-animation='true' ";
 					html += " data-trigger='hover' data-html='true' data-placement='right' ";
-					html += " data-container='body' data-toggle='popover' data-content='";
-					html += popBody + "'>" + rowBody + "</div>";
+					html += " data-container='body' data-toggle='popover' ";
+					html += "data-content='"+ popBody + "'>" + rowBody + "</div>";
+					// 1038
 					return html;
 				},
 			},

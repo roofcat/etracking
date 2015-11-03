@@ -16,7 +16,7 @@ handlers:
   script: main.app
   login: admin
 - url: .*
-  script: main.app
+  script: config.routes.app
 
 libraries:
 - name: webapp2

@@ -33,6 +33,36 @@ class RenderIndexTestHandler(webapp2.RequestHandler):
 class QueriesHandler(webapp2.RequestHandler):
 
     def get(self):
+        PAGE_LENGTH = 50
+        logging.info(self.request.body)
+        start = self.request.get('start')
+        length = self.request.get('length')
+        draw = self.request.get('draw')
+        if draw:
+            draw = int(draw, base=10)
+        else:
+            draw = 1
+        offset = PAGE_LENGTH * draw
+        logging.info(offset)
+        query = EmailModel.query()
+        query = query.order(-EmailModel.input_date)
+        recordsTotal = query.count()
+        query = query.fetch(PAGE_LENGTH, offset=offset)
+        context = {
+            'draw': draw,
+            'recordsTotal': recordsTotal,
+            'recordsFiltered': PAGE_LENGTH,
+            'error': '',
+            'data': JSONEncoder().default(query),
+        }
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(context))
+
+
+class Queries2Handler(webapp2.RequestHandler):
+
+    def get(self):
+        logging.info(self.request.body)
         curs = Cursor(urlsafe=self.request.get('cursor_param'))
         query = EmailModel.query()
         emails, next_curs, more = query.fetch_page(50, start_cursor=curs)

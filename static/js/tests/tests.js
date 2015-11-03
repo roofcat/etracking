@@ -2,10 +2,9 @@
 
 var API_URL = 'https://azurian-rastreo.appspot.com/testcursor/';
 var next_cursor = '';
-var table;
 
 $(document).ready( function () {
-	ajaxService( API_URL );
+	drawJqueryTable();
 });
 
 function ajaxService ( url ) {
@@ -26,32 +25,22 @@ function ajaxService ( url ) {
 	});
 };
 
-function ajaxServiceCallback ( url ) {
-	$.ajax({
-		url: url,
-		type: 'GET',
-		dataType: 'JSON',
-		data: {
-			'cursor_param': next_cursor,
-		},
-		success: function ( data ) {
-			return data;
-		},
-		error: function ( jqXHR, textStatus, errorThrown ) {
-			console.log( errorThrown );
-		},
-	});
-};
-
-function drawJqueryTable ( data ) {
-	table = $( '#tableCards' ).dataTable({
-		//"processing": true,
-		//"serverSide": true,
+function drawJqueryTable () {
+	$( '#tableCards' ).dataTable({
+		"processing": true,
+		"serverSide": true,
 		"destroy": true,
+		"dom": "trtip",
 		"scrollY": "450px",
 		"scrollX": "100%",
 		"scrollCollapse": true,
-		"data": data['data'],
+		"ajax": {
+			"url": API_URL,
+			"data": {
+				"individual": true,
+				"organizarion": true,
+			},
+		},
 		"searching": true,
 		"lengthChange": false,
 		"pageLength": 50,
@@ -62,7 +51,6 @@ function drawJqueryTable ( data ) {
 				'render': function ( data, type, row, meta ) {
 					var popBody = '<div style="font-size:11px;">';
 					var rowBody = "";
-
 					if ( row['processed_event'] ) {
 						rowBody += "<span class='label label-default'> </span>&nbsp;";
 						popBody += '<p><span class="label label-default"> </span>&nbsp;';
@@ -214,10 +202,4 @@ function drawJqueryTable ( data ) {
 	})
 	.removeClass('display')
 	.addClass('table table-hover table-striped table-condensed table-responsive');
-	/*
-	if ( data['more'] ) {
-		next_cursor = data['next_urlsafe'];
-		ajaxServiceCallback( API_URL );
-	};
-	*/
 };

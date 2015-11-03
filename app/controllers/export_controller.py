@@ -119,6 +119,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			mount_to = self.request.get('mount_to')
 			mount_from = int(mount_from, base=10)
 			mount_to = int(mount_to, base=10)
+			user_email = self.request.get('user_email')
 			file_name = self.request.get('file_name')
 			date_from = self.request.get('date_from')
 			date_to = self.request.get('date_to')
@@ -132,6 +133,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 		doc_export = create_tablib(data)
 		# Buscar el objeto usuario
 		user = UserModel.get_user(user_email)
+		logging.info(user)
 		# Creación de objeto reporte
 		report = ExportModel()
 		report.name = file_name
