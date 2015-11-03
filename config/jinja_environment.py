@@ -10,5 +10,3 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True,
     extensions=['jinja2.ext.autoescape']
 )
-
-print JINJA_ENVIRONMENT.loader.__dict__
