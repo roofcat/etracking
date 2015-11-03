@@ -31,30 +31,44 @@ class RenderIndexTestHandler(webapp2.RequestHandler):
 
 
 class QueriesHandler(webapp2.RequestHandler):
+    """ Probando paginación """
 
     def get(self):
         PAGE_LENGTH = 50
         logging.info(self.request.body)
-        start = self.request.get('start')
-        length = self.request.get('length')
-        draw = self.request.get('draw')
-        if draw:
-            draw = int(draw, base=10)
+        secho = self.request.get('sEcho')
+        logging.info(secho)
+        display_start = self.request.get('iDisplayStart')
+        logging.info(display_start)
+        display_length = self.request.get('iDisplayLength')
+        logging.info(display_length)
+        sort_col = self.request.get('iSortCol_0')
+        logging.info(sort_col)
+        sort_dir = self.request.get('iSortDir_0')
+        logging.info(sort_dir)
+        search = self.request.get('sSearch')
+        logging.info(search)
+        if display_start:
+            display_start = int(display_start, base=10)
         else:
-            draw = 1
-        offset = PAGE_LENGTH * draw
+            display_start = 1
+        if display_length:
+            display_length = int(display_length, base=10)
+        offset = PAGE_LENGTH * display_start
         logging.info(offset)
         query = EmailModel.query()
         query = query.order(-EmailModel.input_date)
         recordsTotal = query.count()
         query = query.fetch(PAGE_LENGTH, offset=offset)
+        data = []
+        for q in query:
+            data.append(JSONEncoder().default(q))
         context = {
-            'draw': draw,
-            'recordsTotal': recordsTotal,
-            'recordsFiltered': PAGE_LENGTH,
-            'error': '',
-            'data': JSONEncoder().default(query),
+            'aaData': data,
+            'iTotalDisplayRecords': display_length,
+            'iTotalRecords': recordsTotal,
         }
+        logging.info(context)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(context))
 

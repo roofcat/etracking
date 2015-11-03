@@ -1,52 +1,27 @@
 'use strict';
 
 var API_URL = 'https://azurian-rastreo.appspot.com/testcursor/';
-var next_cursor = '';
 
 $(document).ready( function () {
 	drawJqueryTable();
 });
 
-function ajaxService ( url ) {
-	$.ajax({
-		url: url,
-		type: 'GET',
-		dataType: 'JSON',
-		data: {
-			'cursor_param': next_cursor,
-		},
-		success: function ( data ) {
-			console.log( data );
-			drawJqueryTable( data );
-		},
-		error: function ( jqXHR, textStatus, errorThrown ) {
-			console.log( errorThrown );
-		},
-	});
-};
-
 function drawJqueryTable () {
 	$( '#tableCards' ).dataTable({
 		"processing": true,
-		"serverSide": true,
-		"destroy": true,
-		"dom": "trtip",
-		"scrollY": "450px",
-		"scrollX": "100%",
+		//"ajax": API_URL,
+		"ajaxSource": API_URL,
+		//"lengthChange": false,
+		//"pageLength": 50,
+		//"paging": true,
 		"scrollCollapse": true,
-		"ajax": {
-			"url": API_URL,
-			"data": {
-				"individual": true,
-				"organizarion": true,
-			},
-		},
-		"searching": true,
-		"lengthChange": false,
-		"pageLength": 50,
+		"scrollX": "100%",
+		"scrollY": "450px",
+		//"searching": true,
+		"serverSide": true,
+		//"destroy": true,
 		"columns": [
 			{
-				'data': 'numero_folio',
 				'title': 'Resumen de envío',
 				'render': function ( data, type, row, meta ) {
 					var popBody = '<div style="font-size:11px;">';
@@ -195,7 +170,7 @@ function drawJqueryTable () {
             	"previous": "Anterior",
             	"next": "Siguiente",
             },
-            "processing": "Proceso en curso.",
+            "processing": "Cargando, espere...",
             "search": "Buscar",
             "zeroRecords": "No se encontraron registros.",
         },
