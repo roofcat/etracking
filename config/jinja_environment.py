@@ -6,6 +6,9 @@ import os
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.abspath('templates')),
+    loader=jinja2.FileSystemLoader(os.path.abspath('app/views')),
     autoescape=True,
-    extensions=['jinja2.ext.autoescape'])
+    extensions=['jinja2.ext.autoescape']
+)
+
+print JINJA_ENVIRONMENT.loader.__dict__
