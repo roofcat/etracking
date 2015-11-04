@@ -7,19 +7,18 @@ $(document).ready( function () {
 });
 
 function drawJqueryTable () {
-	$( '#tableCards' ).dataTable({
-		"processing": true,
-		//"ajax": API_URL,
+	var table = $( '#tableCards' ).dataTable({
 		"ajaxSource": API_URL,
-		//"lengthChange": false,
-		//"pageLength": 50,
-		//"paging": true,
+		"destroy": true,
+		"lengthChange": false,
+		"pageLength": 50,
+		"paging": true,
+		"processing": true,
 		"scrollCollapse": true,
 		"scrollX": "100%",
 		"scrollY": "450px",
-		//"searching": true,
+		"searching": false,
 		"serverSide": true,
-		//"destroy": true,
 		"columns": [
 			{
 				'title': 'Resumen de envío',
@@ -174,7 +173,7 @@ function drawJqueryTable () {
             "search": "Buscar",
             "zeroRecords": "No se encontraron registros.",
         },
-	})
-	.removeClass('display')
-	.addClass('table table-hover table-striped table-condensed table-responsive');
+	});
+	table.removeClass('display');
+	table.addClass('table table-hover table-striped table-condensed table-responsive');
 };

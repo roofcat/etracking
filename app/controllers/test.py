@@ -35,40 +35,42 @@ class QueriesHandler(webapp2.RequestHandler):
 
     def get(self):
         PAGE_LENGTH = 50
-        logging.info(self.request.body)
-        secho = self.request.get('sEcho')
-        logging.info(secho)
-        display_start = self.request.get('iDisplayStart')
-        logging.info(display_start)
-        display_length = self.request.get('iDisplayLength')
-        logging.info(display_length)
-        sort_col = self.request.get('iSortCol_0')
-        logging.info(sort_col)
-        sort_dir = self.request.get('iSortDir_0')
-        logging.info(sort_dir)
-        search = self.request.get('sSearch')
-        logging.info(search)
-        if display_start:
-            display_start = int(display_start, base=10)
-        else:
-            display_start = 1
-        if display_length:
-            display_length = int(display_length, base=10)
-        offset = PAGE_LENGTH * display_start
-        logging.info(offset)
+        sEcho = self.request.get('sEcho')
+        sEcho = int(sEcho, base=10)
+        logging.info(sEcho)
+        iDisplayStart = self.request.get('iDisplayStart')
+        iDisplayStart = int(iDisplayStart, base=10)
+        logging.info('iDisplayStart')
+        logging.info(iDisplayStart)
+        iDisplayLength = self.request.get('iDisplayLength')
+        iDisplayLength = int(iDisplayLength, base=10)
+        logging.info('iDisplayLength')
+        logging.info(iDisplayLength)
+        iSortCol_0 = self.request.get('iSortCol_0')
+        logging.info(iSortCol_0)
+        iSortingCols = self.request.get('iSortingCols')
+        logging.info(iSortingCols)
+        sSearch = self.request.get('sSearch')
+        logging.info(sSearch)
+        aColumns = self.request.get('aColumns')
+        logging.info(aColumns)
         query = EmailModel.query()
-        query = query.order(-EmailModel.input_date)
-        recordsTotal = query.count()
-        query = query.fetch(PAGE_LENGTH, offset=offset)
-        data = []
-        for q in query:
-            data.append(JSONEncoder().default(q))
+        query = query.order(-EmailModel.input_datetime)
+        iTotalRecords = query.count()
+        query = query.fetch(iDisplayLength, offset=iDisplayStart)
+        iTotalDisplayRecords = len(query)
+        logging.info("iTotalDisplayRecords")
+        logging.info(iTotalDisplayRecords)
         context = {
-            'aaData': data,
-            'iTotalDisplayRecords': display_length,
-            'iTotalRecords': recordsTotal,
+            'sEcho': sEcho,
+            'aaData': JSONEncoder().default(query),
+            #'iTotalDisplayRecords': iTotalDisplayRecords,
+            'iTotalDisplayRecords': iTotalRecords,
+            'iTotalRecords': iTotalRecords,
         }
-        logging.info(context)
+        logging.info(context['sEcho'])
+        logging.info(context['iTotalDisplayRecords'])
+        logging.info(context['iTotalRecords'])
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(context))
 
