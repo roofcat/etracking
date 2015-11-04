@@ -11,73 +11,86 @@ indexes:
 - kind: EmailModel
   properties:
   - name: processed_event
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: delivered_event
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: opened_event
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: dropped_event
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: bounce_event
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: tipo_receptor
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: processed_event
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: delivered_event
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: opened_event
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: monto
-  - name: input_date
   - name: tipo_receptor
+  - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: monto
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: dropped_event
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: bounce_event
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
@@ -89,10 +102,17 @@ indexes:
   properties:
   - name: empresa
   - name: input_date
+    direction: desc
 
 - kind: EmailModel
   properties:
   - name: rut_receptor
+  - name: input_date
+    direction: desc
+
+- kind: EmailModel
+  properties:
+  - name: numero_folio
   - name: input_date
     direction: desc
 

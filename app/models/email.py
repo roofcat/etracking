@@ -174,10 +174,21 @@ class EmailModel(ndb.Model):
         }
 
     @classmethod
-    def get_emails_by_folio(self, folio):
+    def get_emails_by_folio(self, folio, **opts):
         query = EmailModel.query()
         query = query.filter(EmailModel.numero_folio == folio)
-        return query.fetch()
+        query = query.order(-EmailModel.input_date)
+        query_total = query.count()
+        query = query.fetch(opts['display_length'], offset=opts['display_start'])
+        if query:
+            query_length = len(query)
+        else:
+            query_length = 0
+        return {
+            'query_total': query_total,
+            'query_length': query_length,
+            'data': query,
+        }
 
     @classmethod
     def get_email_lagging(self):
@@ -187,13 +198,23 @@ class EmailModel(ndb.Model):
         return query.fetch()
 
     @classmethod
-    def get_emails_by_rut_receptor(self, date_from, date_to, rut):
+    def get_emails_by_rut_receptor(self, date_from, date_to, rut, **opts):
         query = EmailModel.query()
         query = query.filter(EmailModel.input_date >= date_from)
         query = query.filter(EmailModel.input_date <= date_to)
         query = query.filter(EmailModel.rut_receptor == rut)
         query = query.order(-EmailModel.input_date)
-        return query.fetch()
+        query_total = query.count()
+        query = query.fetch(opts['display_length'], offset=opts['display_start'])
+        if query:
+            query_length = len(query)
+        else:
+            query_length = 0
+        return {
+            'query_total': query_total,
+            'query_length': query_length,
+            'data': query,
+        }
 
     @classmethod
     def get_stats_by_dates(self, from_date, to_date, tipo_receptor):
@@ -300,7 +321,7 @@ class EmailModel(ndb.Model):
         return query.fetch()
 
     @classmethod
-    def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor='all'):
+    def get_all_failure_emails_by_dates(self, from_date, to_date, tipo_receptor='all', **opts):
         query = EmailModel.query()
         if tipo_receptor == 'all':
             query = query.filter(ndb.OR(EmailModel.dropped_event == 'dropped', EmailModel.bounce_event == 'bounce'))
@@ -311,22 +332,55 @@ class EmailModel(ndb.Model):
             query = query.filter(EmailModel.input_date >= from_date)
             query = query.filter(EmailModel.input_date <= to_date)
             query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
-        return query.fetch()
+        query = query.order(-EmailModel.input_date)
+        query_total = query.count()
+        query = query.fetch(opts['display_length'], offset=opts['display_start'])
+        if query:
+            query_length = len(query)
+        else:
+            query_length = 0
+        return {
+            'query_total': query_total,
+            'query_length': query_length,
+            'data': query,
+        }
 
     @classmethod
-    def get_emails_by_mount(self, date_from, date_to, mount_from, mount_to, tipo_receptor='all'):
+    def get_emails_by_mount(self, date_from, date_to, mount_from, mount_to, tipo_receptor='all', **opts):
         query_from = EmailModel.query()
         query_from = query_from.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
         query_from_keys = query_from.fetch(None, keys_only=True)
+        logging.info("query_from_keys")
+        logging.info(len(query_from_keys))
         
         query_to = EmailModel.query()
         query_to = query_to.filter(EmailModel.monto >= mount_from, EmailModel.monto <= mount_to)
         query_to_keys = query_to.fetch(None, keys_only=True)
+        logging.info("query_to_keys")
+        logging.info(len(query_to_keys))
 
         valid_query_keys = list(set(query_from_keys) & set(query_to_keys))
-        result = []
+        logging.info("valid_query_keys")
+        logging.info(len(valid_query_keys))
         if valid_query_keys:
             query = ndb.get_multi(valid_query_keys)
-            return query
+            logging.info("query")
+            #logging.info(query)
+            #query = query.fetch(opts['display_length'], offset=opts['display_start'])
+            if query:
+                query_length = len(query)
+                logging.info("query_length")
+                logging.info(query_length)
+            else:
+                query_length = 0
+            return {
+                'query_total': query_length,
+                'query_length': query_length,
+                'data': query
+            }
         else:
-            return []
+            return {
+                'query_total': 0,
+                'query_length': 0,
+                'data': []
+            }

@@ -346,6 +346,7 @@ function drawJqueryTable ( urlSource ) {
 		"ajaxSource": urlSource,
 		"destroy": true,
 		"lengthChange": false,
+		"ordering": false,
 		"pageLength": 50,
 		"paging": true,
 		"processing": true,

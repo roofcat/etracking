@@ -42,23 +42,18 @@ class EmailSearchHandler(BaseHandler):
             # parametros de datatables
             sEcho = self.request.get('sEcho')
             sEcho = int(sEcho, base=10)
-            logging.info(sEcho)
             iDisplayStart = self.request.get('iDisplayStart')
             iDisplayStart = int(iDisplayStart, base=10)
-            logging.info('iDisplayStart')
-            logging.info(iDisplayStart)
             iDisplayLength = self.request.get('iDisplayLength')
             iDisplayLength = int(iDisplayLength, base=10)
-            logging.info('iDisplayLength')
-            logging.info(iDisplayLength)
             # hacer la consulta
-            data = EmailModel.get_info_by_email(date_from, date_to, correo, 
-	                display_start=iDisplayStart, display_length=iDisplayLength)
+            query = EmailModel.get_info_by_email(date_from, date_to, correo,
+                                                 display_start=iDisplayStart, display_length=iDisplayLength)
             context = {
                 'sEcho': sEcho,
-                'data': JSONEncoder().default(data['data']),
-                'iTotalDisplayRecords': data['query_total'],
-                'iTotalRecords': data['query_total'],
+                'data': JSONEncoder().default(query['data']),
+                'iTotalDisplayRecords': query['query_total'],
+                'iTotalRecords': query['query_total'],
             }
             self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
@@ -72,11 +67,22 @@ class FolioSearchHandler(BaseHandler):
     def get(self, folio):
         if folio:
             folio = str(folio)
-            data = EmailModel.get_emails_by_folio(folio)
-            result = []
-            for d in data:
-                result.append(JSONEncoder().default(d))
-            context = {'message': 'ok', 'data': result, }
+            # parametros de datatables
+            sEcho = self.request.get('sEcho')
+            sEcho = int(sEcho, base=10)
+            iDisplayStart = self.request.get('iDisplayStart')
+            iDisplayStart = int(iDisplayStart, base=10)
+            iDisplayLength = self.request.get('iDisplayLength')
+            iDisplayLength = int(iDisplayLength, base=10)
+            # hacer la consulta
+            query = EmailModel.get_emails_by_folio(folio, 
+                display_start=iDisplayStart, display_length=iDisplayLength)
+            context = {
+                'sEcho': sEcho,
+                'data': JSONEncoder().default(query['data']),
+                'iTotalDisplayRecords': query['query_total'],
+                'iTotalRecords': query['query_total'],
+            }
             self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
         else:
@@ -93,12 +99,23 @@ class RutReceptorSearchHandler(BaseHandler):
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             rut = str(rut)
-            data = EmailModel.get_emails_by_rut_receptor(
-                date_from, date_to, rut)
-            result = []
-            for d in data:
-                result.append(JSONEncoder().default(d))
-            context = {'message': 'ok', 'data': result, }
+            # parametros de datatables
+            sEcho = self.request.get('sEcho')
+            sEcho = int(sEcho, base=10)
+            iDisplayStart = self.request.get('iDisplayStart')
+            iDisplayStart = int(iDisplayStart, base=10)
+            iDisplayLength = self.request.get('iDisplayLength')
+            iDisplayLength = int(iDisplayLength, base=10)
+            # hacer la consulta
+            query = EmailModel.get_emails_by_rut_receptor(
+                date_from, date_to, rut,
+                display_start=iDisplayStart, display_length=iDisplayLength)
+            context = {
+                'sEcho': sEcho,
+                'data': JSONEncoder().default(query['data']),
+                'iTotalDisplayRecords': query['query_total'],
+                'iTotalRecords': query['query_total'],
+            }
             self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
         else:
@@ -114,12 +131,23 @@ class FallidosSearchHandler(BaseHandler):
             date_to = int(date_to)
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
-            data = EmailModel.get_all_failure_emails_by_dates(
-                date_from, date_to)
-            result = []
-            for d in data:
-                result.append(JSONEncoder().default(d))
-            context = {'message': 'ok', 'data': result, }
+            # parametros de datatables
+            sEcho = self.request.get('sEcho')
+            sEcho = int(sEcho, base=10)
+            iDisplayStart = self.request.get('iDisplayStart')
+            iDisplayStart = int(iDisplayStart, base=10)
+            iDisplayLength = self.request.get('iDisplayLength')
+            iDisplayLength = int(iDisplayLength, base=10)
+            # hacer la consulta
+            query = EmailModel.get_all_failure_emails_by_dates(
+                date_from, date_to, 
+                display_start=iDisplayStart, display_length=iDisplayLength)
+            context = {
+                'sEcho': sEcho,
+                'data': JSONEncoder().default(query['data']),
+                'iTotalDisplayRecords': query['query_total'],
+                'iTotalRecords': query['query_total'],
+            }
             self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
         else:
@@ -137,12 +165,23 @@ class MontosSearchHandler(BaseHandler):
             date_to = datetime.datetime.fromtimestamp(date_to)
             mount_from = int(mount_from, base=10)
             mount_to = int(mount_to, base=10)
-            data = EmailModel.get_emails_by_mount(
-                date_from, date_to, mount_from, mount_to)
-            result = []
-            for d in data:
-                result.append(JSONEncoder().default(d))
-            context = {'message': 'ok', 'data': result, }
+            # parametros de datatables
+            sEcho = self.request.get('sEcho')
+            sEcho = int(sEcho, base=10)
+            iDisplayStart = self.request.get('iDisplayStart')
+            iDisplayStart = int(iDisplayStart, base=10)
+            iDisplayLength = self.request.get('iDisplayLength')
+            iDisplayLength = int(iDisplayLength, base=10)
+            # hacer la consulta
+            query = EmailModel.get_emails_by_mount(
+                date_from, date_to, mount_from, mount_to,
+                display_start=iDisplayStart, display_length=iDisplayLength)
+            context = {
+                'sEcho': sEcho,
+                'data': JSONEncoder().default(query['data']),
+                'iTotalDisplayRecords': query['query_total'],
+                'iTotalRecords': query['query_total'],
+            }
             self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
         else:
