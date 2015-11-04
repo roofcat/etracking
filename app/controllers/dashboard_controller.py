@@ -24,7 +24,7 @@ class DashboardHandler(BaseHandler):
             self.redirect('/login/')
         if user:
             context = {'data': user, }
-            template = JINJA_ENVIRONMENT.get_template('panel/index.html')
+            template = JINJA_ENVIRONMENT.get_template('dashboard/index.html')
             self.response.write(template.render(context))
 
 

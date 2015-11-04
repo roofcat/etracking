@@ -34,7 +34,6 @@ class QueriesHandler(webapp2.RequestHandler):
     """ Probando paginación """
 
     def get(self):
-        PAGE_LENGTH = 50
         sEcho = self.request.get('sEcho')
         sEcho = int(sEcho, base=10)
         logging.info(sEcho)

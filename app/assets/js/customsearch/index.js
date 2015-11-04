@@ -60,7 +60,8 @@ $( '#run_search' ).on( 'click', function () {
 			correoDestinatario = encodeURIComponent( correoDestinatario );
 
 			var link = baseUrl + emailUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
-			ajaxService( link );
+			$( '#closeLoadingModal' ).click();
+			drawJqueryTable( link );
 
 			exportLink = baseUrl + emailExportUrl + date_from + '/' + date_to + '/' + correoDestinatario + '/';
 			break;
@@ -69,7 +70,8 @@ $( '#run_search' ).on( 'click', function () {
 			var numeroFolio = $( '#numeroFolio' ).val();
 
 			var link = baseUrl + folioUrl + numeroFolio + '/';
-			ajaxService( link );
+			$( '#closeLoadingModal' ).click();
+			drawJqueryTable( link );
 
 			exportLink = baseUrl + folioExportUrl + numeroFolio + '/';
 			break;
@@ -88,7 +90,8 @@ $( '#run_search' ).on( 'click', function () {
 			};
 
 			var link = baseUrl + rutUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
-			ajaxService( link );
+			$( '#closeLoadingModal' ).click();
+			drawJqueryTable( link );
 
 			exportLink = baseUrl + rutExportUrl + date_from + '/' + date_to + '/' + rutReceptor + '/';
 			break;
@@ -101,7 +104,8 @@ $( '#run_search' ).on( 'click', function () {
 			date_to = getDateAsTimestamp( date_to );
 
 			var link = baseUrl + fallidosUrl + date_from + '/' + date_to + '/';
-			ajaxService( link );
+			$( '#closeLoadingModal' ).click();
+			drawJqueryTable( link );
 
 			exportLink = baseUrl + fallidosExportUrl + date_from + '/' + date_to + '/';
 			break;
@@ -118,7 +122,8 @@ $( '#run_search' ).on( 'click', function () {
 			mount_to = parseInt( mount_to, 10 );
 
 			var link = baseUrl + montosUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
-			ajaxService( link );
+			$( '#closeLoadingModal' ).click();
+			drawJqueryTable( link );
 
 			exportLink = baseUrl + montosExportUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
 			break;
@@ -149,29 +154,6 @@ function sendUrlToReportQueue ( link, btn ) {
 			btn.addClass( 'mdi-content-send' );
 			btn.attr( 'disabled', false );
 			console.log( errorThrown );
-		},
-	});
-};
-
-function ajaxService ( link ) {
-	$.ajax({
-		'type': 'GET',
-		'url': link,
-		success: function ( data ) {
-			if ( data.data.length ) {
-				$( '#btnGenerateReport' ).show();
-			} else {
-				$( '#btnGenerateReport' ).hide();
-			};
-			// Dibujar tabla de visualization
-			//drawTable( data.data );
-			// Dibujar tabla de jquery table
-			drawJqueryTable( data.data );
-			$( '#closeLoadingModal' ).click();
-		},
-		error: function ( jqXHR, textStatus, errorThrown ) {
-			console.log( errorThrown );
-			$( '#closeLoadingModal' ).click();
 		},
 	});
 };
@@ -359,16 +341,19 @@ $( 'div' ).on( 'mouseout', '#divPopOver', function () {
 	$( this ).popover( 'hide' );
 });
 
-function drawJqueryTable ( data ) {
-	$( '#tableCards' ).dataTable({
+function drawJqueryTable ( urlSource ) {
+	var table = $( '#tableCards' ).dataTable({
+		"ajaxSource": urlSource,
 		"destroy": true,
-		"scrollY": "450px",
-		"scrollX": "100%",
-		"scrollCollapse": true,
-		"data": data,
-		"searching": true,
 		"lengthChange": false,
 		"pageLength": 50,
+		"paging": true,
+		"processing": true,
+		"scrollCollapse": true,
+		"scrollX": "100%",
+		"scrollY": "450px",
+		"searching": false,
+		"serverSide": true,
 		"columns": [
 			{
 				'title': 'Resumen de envío',
@@ -528,7 +513,7 @@ function drawJqueryTable ( data ) {
             "search": "Buscar",
             "zeroRecords": "No se encontraron registros.",
         },
-	})
-	.removeClass('display')
-	.addClass('table table-hover table-striped table-condensed table-responsive');
+	});
+	table.removeClass('display');
+	table.addClass('table table-hover table-striped table-condensed table-responsive');
 };

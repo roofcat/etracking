@@ -155,13 +155,23 @@ class EmailModel(ndb.Model):
         data.put()
 
     @classmethod
-    def get_info_by_email(self, date_from, date_to, correo):
+    def get_info_by_email(self, date_from, date_to, correo, **opts):
         query = EmailModel.query()
         query = query.filter(EmailModel.correo == correo)
         query = query.filter(EmailModel.input_date >= date_from)
         query = query.filter(EmailModel.input_date <= date_to)
         query = query.order(-EmailModel.input_date)
-        return query.fetch()
+        query_total = query.count()
+        query = query.fetch(opts['display_length'], offset=opts['display_start'])
+        if query:
+            query_length = len(query)
+        else:
+            query_length = 0
+        return {
+            'query_total': query_total,
+            'query_length': query_length,
+            'data': query,
+        }
 
     @classmethod
     def get_emails_by_folio(self, folio):
