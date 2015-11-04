@@ -30,8 +30,8 @@ from app.controllers.user_profile_controller import LogoutPanelHandler
 from app.controllers.user_profile_controller import ProfilePanelHandler
 from app.controllers.user_profile_controller import UpdateProfilePanelHandler
 from app.controllers.user_profile_controller import UpdatePasswordProfilePanelHandler
-from app.controllers.panel_controller import DashboardHandler
-from app.controllers.panel_controller import CustomSearchHandler
+from app.controllers.dashboard_controller import DashboardHandler
+from app.controllers.custom_search_controller import CustomSearchHandler
 
 
 # Imports para adjuntos
@@ -52,12 +52,12 @@ from app.controllers.export_controller import ExportSearchByMountHandler
 
 
 # import para uso de apis
-from app.controllers.panel_controller import StatisticPanelHandler
-from app.controllers.panel_controller import EmailSearchHandler
-from app.controllers.panel_controller import FolioSearchHandler
-from app.controllers.panel_controller import RutReceptorSearchHandler
-from app.controllers.panel_controller import FallidosSearchHandler
-from app.controllers.panel_controller import MontosSearchHandler
+from app.controllers.dashboard_controller import StatisticPanelHandler
+from app.controllers.custom_search_controller import EmailSearchHandler
+from app.controllers.custom_search_controller import FolioSearchHandler
+from app.controllers.custom_search_controller import RutReceptorSearchHandler
+from app.controllers.custom_search_controller import FallidosSearchHandler
+from app.controllers.custom_search_controller import MontosSearchHandler
 
 
 # import tareas cron
