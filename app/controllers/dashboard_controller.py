@@ -14,6 +14,7 @@ from config.jinja_environment import JINJA_ENVIRONMENT
 
 
 class DashboardHandler(BaseHandler):
+    """ Controlador que trae el html principal del dashboard """
 
     def get(self):
         user = None
@@ -22,12 +23,13 @@ class DashboardHandler(BaseHandler):
         except:
             self.redirect('/login/')
         if user:
-            context = { 'data': user, }
+            context = {'data': user, }
             template = JINJA_ENVIRONMENT.get_template('panel/index.html')
             self.response.write(template.render(context))
 
 
 class StatisticPanelHandler(BaseHandler):
+    """ Controlador que sirve via ajax las consultar para llenar los graficos """
 
     def get(self, date_from, date_to, options):
 
@@ -37,8 +39,10 @@ class StatisticPanelHandler(BaseHandler):
             date_from = datetime.datetime.fromtimestamp(date_from)
             date_to = datetime.datetime.fromtimestamp(date_to)
             # busqueda de datos
-            data = EmailModel.get_statistic_by_dates(date_from, date_to, options)
-            results = EmailModel.get_stats_by_dates(date_from, date_to, options)
+            data = EmailModel.get_statistic_by_dates(
+                date_from, date_to, options)
+            results = EmailModel.get_stats_by_dates(
+                date_from, date_to, options)
             context = {
                 'date_from': str(date_from),
                 'date_to': str(date_to),

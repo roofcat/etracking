@@ -14,6 +14,7 @@ from config.jinja_environment import JINJA_ENVIRONMENT
 
 
 class CustomSearchHandler(BaseHandler):
+	""" Ctrlr que trae el html de las busquedas personalizadas """
     
     def get(self):
         user = None
