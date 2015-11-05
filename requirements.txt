@@ -1,3 +1,7 @@
+# conjunto de paquetes necesario para el tracking
+# se deben instalar en la carpeta vendor
+# para instalar ejecutar pip install -U -t vendor -r requirements.txt
+
 google-api-python-client
 httplib2
 oauth2client
