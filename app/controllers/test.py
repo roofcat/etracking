@@ -30,7 +30,32 @@ class RenderIndexTestHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 
-class QueriesHandler(webapp2.RequestHandler):
+class QueryDashTestHandler(webapp2.RequestHandler):
+
+    def get(self):
+        date_from, date_to = 1443668400, 1446692400
+        date_from = datetime.datetime.fromtimestamp(date_from)
+        date_to = datetime.datetime.fromtimestamp(date_to)
+        # arreglo para armar el objeto de respuesta
+        data_result = [
+            ["Fecha", "Solicitudes", "Procesados", "Enviados",
+                "Abiertos", "Rechazados", "Rebotados"]
+        ]
+        query = EmailModel.query(projection=[EmailModel.input_date], 
+                                group_by=[EmailModel.input_date])
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
+        total_count = query.count()
+        total_query = query.fetch()
+        context = {
+            "total_count": total_count,
+            "total_query": JSONEncoder().default(total_query),
+        }
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(context))
+
+
+class QueriesPaginacionHandler(webapp2.RequestHandler):
     """ Probando paginación """
 
     def get(self):
@@ -74,7 +99,7 @@ class QueriesHandler(webapp2.RequestHandler):
         self.response.write(json.dumps(context))
 
 
-class Queries2Handler(webapp2.RequestHandler):
+class QueriesCursorHandler(webapp2.RequestHandler):
 
     def get(self):
         logging.info(self.request.body)

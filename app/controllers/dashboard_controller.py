@@ -49,4 +49,5 @@ class StatisticPanelHandler(BaseHandler):
                 'statistic': data,
                 'results': results,
             }
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.write(json.dumps(context))
