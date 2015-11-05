@@ -350,31 +350,27 @@ class EmailModel(ndb.Model):
         query_from = EmailModel.query()
         query_from = query_from.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
         query_from_keys = query_from.fetch(None, keys_only=True)
-        logging.info("query_from_keys")
-        logging.info(len(query_from_keys))
         
         query_to = EmailModel.query()
         query_to = query_to.filter(EmailModel.monto >= mount_from, EmailModel.monto <= mount_to)
         query_to_keys = query_to.fetch(None, keys_only=True)
-        logging.info("query_to_keys")
-        logging.info(len(query_to_keys))
 
+        # se procede con la union de 2 listas
         valid_query_keys = list(set(query_from_keys) & set(query_to_keys))
-        logging.info("valid_query_keys")
-        logging.info(len(valid_query_keys))
+
         if valid_query_keys:
             query = ndb.get_multi(valid_query_keys)
-            logging.info("query")
-            #logging.info(query)
-            #query = query.fetch(opts['display_length'], offset=opts['display_start'])
-            if query:
-                query_length = len(query)
-                logging.info("query_length")
-                logging.info(query_length)
+            query_total = len(query)
+            # filtrado del array completo con un desde hasta
+            array_from = opts['display_start']
+            array_to = opts['display_length']
+            if array_from == 0:
+                query = query[array_from:array_to]
             else:
-                query_length = 0
+                query = query[array_from:array_from + array_to]
+            query_length = len(query)
             return {
-                'query_total': query_length,
+                'query_total': query_total,
                 'query_length': query_length,
                 'data': query
             }
