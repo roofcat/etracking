@@ -279,28 +279,25 @@ class EmailModel(ndb.Model):
         }
 
     @classmethod
-    def get_all_emails_by_dates(self, date_from, date_to, tipo_receptor):
+    def get_all_emails_by_dates(self, date_from, date_to, tipo_receptor='all'):
         query = EmailModel.query()
-        if tipo_receptor == 'all':
-            query = query.filter(EmailModel.input_date >= date_from)
-            query = query.filter(EmailModel.input_date <= date_to)
-        else:
-            query = query.filter(EmailModel.input_date >= date_from)
-            query = query.filter(EmailModel.input_date <= date_to)
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
+        if tipo_receptor != 'all':
             query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
+        query = query.order(-EmailModel.input_date)
         return query.fetch()
 
     @classmethod
-    def get_all_emails_by_dates_async(self, date_from, date_to, tipo_receptor):
+    def get_all_emails_by_dates_async(self, date_from, date_to, tipo_receptor='all'):
         query = EmailModel.query()
-        if tipo_receptor == 'all':
-            query = query.filter(EmailModel.input_date >= date_from)
-            query = query.filter(EmailModel.input_date <= date_to)
-        else:
-            query = query.filter(EmailModel.input_date >= date_from)
-            query = query.filter(EmailModel.input_date <= date_to)
+        query = query.filter(EmailModel.input_date >= date_from)
+        query = query.filter(EmailModel.input_date <= date_to)
+        if tipo_receptor != 'all':
             query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
-        return query.fetch()
+        query = query.order(-EmailModel.input_date)
+        future = query.fetch_async(limit=None, batch_size=500)
+        return future
 
     @classmethod
     def get_all_sended_emails_by_dates(self, date_from, date_to, tipo_receptor='all'):

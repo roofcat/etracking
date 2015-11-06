@@ -24,6 +24,7 @@ from config.global_config import REPORT_HTML_MAIL
 
 from lib.mail_client import EmailClient
 from lib.tablib_export import create_tablib
+from lib.tablib_export import create_tablib_async
 
 
 class QueueExportHandler(webapp2.RequestHandler):
@@ -45,7 +46,8 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_all_emails_by_dates(date_from, date_to, options)
+			#data = EmailModel.get_all_emails_by_dates(date_from, date_to, options)
+			data = EmailModel.get_all_emails_by_dates_async(date_from, date_to, options)
 		elif export_type == 'export_sended_email':
 			options = self.request.get('options')
 			user_email = self.request.get('user_email')
@@ -130,7 +132,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			# Consulta
 			data = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
 		# Creación del documento
-		doc_export = create_tablib(data)
+		doc_export = create_tablib_async(data)
 		# Buscar el objeto usuario
 		user = UserModel.get_user(user_email)
 		logging.info(user)
