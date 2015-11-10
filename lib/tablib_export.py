@@ -25,8 +25,6 @@ def create_tablib(data):
         'unsubscribe', 'click_ip', 'click_purchase', 'click_navegador', 'click_event', 
         'click_email', 'fecha_click', 'click_url'
     )
-    logging.info("type(data)")
-    logging.info(type(data))
     for row in data:
         input_datetime = row.input_datetime
         if row.empresa:
@@ -239,7 +237,7 @@ def create_tablib(data):
     en background ya que recibe un objeto "Future" de ndb datastore
     y es un iterable
 """
-@ndb.tasklet
+#@ndb.tasklet
 def create_tablib_async(data):
     my_tab = tablib.Dataset()
     my_tab.headers = (
@@ -254,7 +252,13 @@ def create_tablib_async(data):
         'unsubscribe', 'click_ip', 'click_purchase', 'click_navegador', 'click_event', 
         'click_email', 'fecha_click', 'click_url'
     )
-    rows = data.get_result()
+    # evaluar si el objeto data es una
+    # lista o un Future
+    if isinstance(data, list):
+        rows = data
+    elif isinstance(data, ndb.Future):
+        rows = data.get_result()
+    # recorrer data
     for row in rows:
         input_datetime = row.input_datetime
         if row.empresa:
@@ -458,7 +462,6 @@ def create_tablib_async(data):
             click_useragent, click_event, click_email, click_date, click_url
         )
         my_tab.append(xlsx_row)
+    logging.info("tipo my_tab")
+    logging.info(type(my_tab))
     return my_tab
-    # self.response.headers['Content-Type'] = 'application/xlsx'
-    # self.response.headers['Content-Disposition'] = 'attachment; filename=my_excel.xlsx'
-    # self.response.write(my_tab.xlsx)

@@ -62,12 +62,14 @@ class EmailClient(object):
         logging.info(status)
         logging.info(msg)
 
-    def send_user_email(self, correo):
+    def send_mail_to_user_attach(self, correo):
         # valores de envío
         self.message.add_to(correo['email'])
         self.message.add_to_name(correo['user_name'])
         self.message.set_subject(correo['subject'])
         self.message.set_html(correo['html'])
+        if correo['attach']:
+            self.message.add_attachment_stream(correo['attach']['name'], correo['attach']['file'])
         status, msg = self.sg.send(self.message)
         # imprimiendo respuesta
         logging.info(status)

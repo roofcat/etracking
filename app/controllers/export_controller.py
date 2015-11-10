@@ -3,12 +3,13 @@
 
 
 import datetime
-import logging
 import json
+import logging
 
 
-import webapp2
 from google.appengine.api import taskqueue
+from google.appengine.ext import ndb
+import webapp2
 
 
 from app_controller import BaseHandler
@@ -18,8 +19,8 @@ from app.models.user import UserModel
 
 
 from config.global_config import REPORT_EXPORT_URL
-from config.global_config import REPORT_SUBJECT_MAIL
 from config.global_config import REPORT_HTML_MAIL
+from config.global_config import REPORT_SUBJECT_MAIL
 
 
 from lib.mail_client import EmailClient
@@ -46,7 +47,6 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			#data = EmailModel.get_all_emails_by_dates(date_from, date_to, options)
 			data = EmailModel.get_all_emails_by_dates_async(date_from, date_to, options)
 		elif export_type == 'export_sended_email':
 			options = self.request.get('options')
@@ -59,7 +59,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_all_sended_emails_by_dates(date_from, date_to, options)
+			data = EmailModel.get_all_sended_emails_by_dates_async(date_from, date_to, options)
 		elif export_type == 'export_failure_email':
 			options = self.request.get('options')
 			user_email = self.request.get('user_email')
@@ -71,7 +71,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_all_failure_emails_by_dates(date_from, date_to, options)
+			data = EmailModel.get_all_failure_emails_by_dates_async(date_from, date_to, options)
 		elif export_type == 'export_search_by_email':
 			email = self.request.get('email')
 			email = str(email).lower()
@@ -84,14 +84,14 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_info_by_email(date_from, date_to, email)
+			data = EmailModel.get_info_by_email_async(date_from, date_to, email)
 		elif export_type == 'export_search_by_folio':
 			folio = self.request.get('folio')
 			folio = str(folio).lower()
 			user_email = self.request.get('user_email')
 			file_name = self.request.get('file_name')
 			# Consulta
-			data = EmailModel.get_emails_by_folio(folio)
+			data = EmailModel.get_emails_by_folio_async(folio)
 		elif export_type == 'export_search_by_rut':
 			rut = self.request.get('rut')
 			rut = str(rut).upper()
@@ -104,7 +104,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_emails_by_rut_receptor(date_from, date_to, rut)
+			data = EmailModel.get_emails_by_rut_receptor_async(date_from, date_to, rut)
 		elif export_type == 'export_search_by_failure':
 			user_email = self.request.get('user_email')
 			file_name = self.request.get('file_name')
@@ -115,7 +115,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_all_failure_emails_by_dates(date_from, date_to)
+			data = EmailModel.get_all_failure_emails_by_dates_async(date_from, date_to)
 		elif export_type == 'export_search_by_mount':
 			mount_from = self.request.get('mount_from')
 			mount_to = self.request.get('mount_to')
@@ -130,30 +130,25 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to)
+			data = EmailModel.get_emails_by_mount_async(date_from, date_to, mount_from)
 		# Creación del documento
 		doc_export = create_tablib_async(data)
 		# Buscar el objeto usuario
 		user = UserModel.get_user(user_email)
 		logging.info(user)
-		# Creación de objeto reporte
-		report = ExportModel()
-		report.name = file_name
-		report.export_file = doc_export.xlsx
-		report.user = user.email
-		report.put()
-		# actualizar campo
-		report.url = REPORT_EXPORT_URL.format(url_safe=report.key.urlsafe())
-		report.put()
 		# Proceso de correo
 		mail = EmailClient()
 		mail_report = {
 			'email': user.email,
 			'user_name': user.first_name,
 			'subject': REPORT_SUBJECT_MAIL,
-			'html': REPORT_HTML_MAIL.format(user_name=user.first_name, report_link=report.url),
+			'html': REPORT_HTML_MAIL.format(user_name=user.first_name),
+			'attach': {
+				'name': file_name,
+				'file': doc_export.xlsx,
+			},
 		}
-		mail.send_user_email(mail_report)
+		mail.send_mail_to_user_attach(mail_report)
 
 
 """ Serie de clases controladoras que reciben parametros

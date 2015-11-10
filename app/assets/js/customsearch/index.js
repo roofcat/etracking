@@ -128,6 +128,7 @@ $( '#run_search' ).on( 'click', function () {
 			exportLink = baseUrl + montosExportUrl + date_from + '/' + date_to + '/' + mount_from + '/' + mount_to + '/';
 			break;
 	};
+	$( '#btnGenerateReport' ).show();
 });
 
 $( '#btnGenerateReport' ).on( 'click', function () {

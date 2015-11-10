@@ -8,9 +8,10 @@ REPORT_HTML_MAIL = """
 <meta charset="UTF-8">
 <p>
 Estimado/a {user_name}: <br> 
-Se ha generado el reporte en formato excel puedes acceder a el mediante el siguiente link: <br>
-<a style="text-decoration:none;color:#3F51B5;" href="{report_link}" target="_blank">
-Click para ir al documento</a> <br>
-<b>NOTA:</b> Sólo podrás acceder a este link dentro de este día en curso.
+Azurian Tracking te ha enviado un reporte adjunto en excel que solicitaste. <br>
 </p>
+<footer>
+<b>Azurian Tracking</b>
+</footer>
+<br>
 """

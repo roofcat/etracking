@@ -9,5 +9,4 @@ class ExportModel(ndb.Model):
 	input_date = ndb.DateProperty(auto_now_add=True, indexed=True)
 	name = ndb.StringProperty(indexed=True)
 	export_file = ndb.BlobProperty()
-	url = ndb.StringProperty(indexed=True)
 	user = ndb.StringProperty(indexed=True)
