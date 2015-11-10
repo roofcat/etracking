@@ -173,7 +173,8 @@ class MontosSearchHandler(BaseHandler):
             iDisplayLength = self.request.get('iDisplayLength')
             iDisplayLength = int(iDisplayLength, base=10)
             # hacer la consulta
-            query = EmailModel.get_emails_by_mount(date_from, date_to, mount_from, mount_to,
+            query = EmailModel.get_emails_by_mount(
+                date_from, date_to, mount_from, mount_to,
                 display_start=iDisplayStart, display_length=iDisplayLength)
             context = {
                 'sEcho': sEcho,

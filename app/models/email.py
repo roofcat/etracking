@@ -381,16 +381,19 @@ class EmailModel(ndb.Model):
     @classmethod
     def get_emails_by_mount(self, date_from, date_to, mount_from, mount_to, tipo_receptor='all', **opts):
         query_from = EmailModel.query()
-        query_from = query_from.filter(EmailModel.input_date >= date_from, EmailModel.input_date <= date_to)
+        query_from = query_from.filter(EmailModel.input_date >= date_from)
+        query_from = query_from.filter(EmailModel.input_date <= date_to)
+        query_from = query_from.order(-EmailModel.input_date)
         query_from_keys = query_from.fetch(None, keys_only=True)
         
         query_to = EmailModel.query()
-        query_to = query_to.filter(EmailModel.monto >= mount_from, EmailModel.monto <= mount_to)
+        query_to = query_to.filter(EmailModel.monto >= mount_from)
+        query_to = query_to.filter(EmailModel.monto <= mount_to)
         query_to_keys = query_to.fetch(None, keys_only=True)
 
         # se procede con la union de 2 listas
         valid_query_keys = list(set(query_from_keys) & set(query_to_keys))
-
+        logging.info(len(valid_query_keys))
         if valid_query_keys:
             query = ndb.get_multi(valid_query_keys)
             query_total = len(query)
@@ -415,12 +418,23 @@ class EmailModel(ndb.Model):
             }
 
     @classmethod
-    def get_emails_by_mount_async(self, date_from, date_to, mount_from, tipo_receptor='all'):
-        query = EmailModel.query()
-        query = query.filter(EmailModel.input_date >= date_from)
-        query = query.filter(EmailModel.input_date <= date_to)
-        query = query.filter(EmailModel.monto >= mount_from)
-        if tipo_receptor != 'all':
-            query = query.filter(EmailModel.tipo_receptor == tipo_receptor)
-        query = query.order(-EmailModel.input_date)
-        return query.fetch_async(limit=20000, batch_size=500)
+    def get_emails_by_mount_async(self, date_from, date_to, mount_from, mount_to, tipo_receptor='all'):
+        query_from = EmailModel.query()
+        query_from = query_from.filter(EmailModel.input_date >= date_from)
+        query_from = query_from.filter(EmailModel.input_date <= date_to)
+        query_from = query_from.order(-EmailModel.input_date)
+        query_from_keys = query_from.fetch(None, keys_only=True)
+        
+        query_to = EmailModel.query()
+        query_to = query_to.filter(EmailModel.monto >= mount_from)
+        query_to = query_to.filter(EmailModel.monto <= mount_to)
+        query_to_keys = query_to.fetch(None, keys_only=True)
+
+        # se procede con la union de 2 listas
+        valid_query_keys = list(set(query_from_keys) & set(query_to_keys))
+        logging.info(len(valid_query_keys))
+        if valid_query_keys:
+            query = ndb.get_multi(valid_query_keys)
+            return query[0:20000]
+        else:
+            return []

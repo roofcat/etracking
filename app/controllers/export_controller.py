@@ -130,7 +130,7 @@ class QueueExportHandler(webapp2.RequestHandler):
 			date_from = datetime.datetime.fromtimestamp(date_from)
 			date_to = datetime.datetime.fromtimestamp(date_to)
 			# Consulta
-			data = EmailModel.get_emails_by_mount_async(date_from, date_to, mount_from)
+			data = EmailModel.get_emails_by_mount_async(date_from, date_to, mount_from, mount_to)
 		# Creación del documento
 		doc_export = create_tablib_async(data)
 		# Buscar el objeto usuario
