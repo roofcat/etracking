@@ -352,3 +352,11 @@ function setDefaultDates () {
 	var date_from = $( '#date_from' ).val( moment().subtract( 7, 'days' ).format( 'DD/MM/YYYY' ) );
 	var date_to = $( '#date_to' ).val( moment().format( 'DD/MM/YYYY' ) );
 };
+
+$( 'button' ).on( "mouseover", function () {
+	$( this ).popover( 'show' );
+});
+
+$( 'button' ).on( "mouseout", function () {
+	$( this ).popover( 'hide' );
+});

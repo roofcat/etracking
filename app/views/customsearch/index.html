@@ -3,7 +3,6 @@
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://cdn.datatables.net/r/bs/jqc-1.11.3,dt-1.10.9/datatables.min.css"/>
 	<link rel="stylesheet" href="/assets/css/jquery.datetimepicker.css">
-	<!--<link rel="stylesheet" href="/assets/css/jquery.dataTables.min.css">-->
 	<link rel="stylesheet" href="/assets/css/dataTables.bootstrap.min.css">
 {% endblock %}
 
@@ -36,15 +35,20 @@
 </table>
 
 <!-- BOTON MATERIAL EXPORT -->
-<div class="csv-download-btn">
-	<button class="btn btn-fab btn-raised btn-material-deep-orange mdi-content-send" style="display:none;" id="btnGenerateReport" type="button" title="Generar reporte en excel y enviarmelo por correo.">
+<div class="csv-download-btn" id="btnPop" rel="popover" data-animation="true" data-trigger="hover" 
+	data-html="true" data-placement="left" data-container="body" data-toggle="popover" 
+	data-content="<p>Generar Excel y enviármelo como correo electrónico adjunto. 
+	<b>Nota:</b> máximo 20 mil celdas.</p>">
+	<button class="btn btn-fab btn-raised btn-material-blue mdi-content-send" style="display:none;" id="btnGenerateReport" type="button">
 		<div class="ripple-wrapper"></div>
 	</button>
 </div>
 
 <!-- BOTON MATERIAL MENU -->
-<div class="search-btn" align="right">
-	<button class="btn btn-fab btn-raised btn-material-red mdi-action-search" id="showMenu" type="button" title="Menú de búsqueda">
+<div class="search-btn" align="right" id="btnPop" rel="popover" data-animation="true" data-trigger="hover" 
+	data-html="true" data-placement="left" data-container="body" data-toggle="popover" 
+	data-content="<p>Click para abrir panel de filtro por fechas de período.</p>">
+	<button class="btn btn-fab btn-raised btn-material-red mdi-action-search" id="showMenu" type="button">
 		<div class="ripple-wrapper"></div>
 	</button>
 </div>
