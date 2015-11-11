@@ -35,20 +35,22 @@
 </table>
 
 <!-- BOTON MATERIAL EXPORT -->
-<div class="csv-download-btn" id="btnPop" rel="popover" data-animation="true" data-trigger="hover" 
+<div class="csv-download-btn">
+	<button class="btn btn-fab btn-raised btn-material-blue mdi-content-send" style="display:none;" 
+	id="btnGenerateReport" type="button" rel="popover" data-animation="true" data-trigger="hover" 
 	data-html="true" data-placement="left" data-container="body" data-toggle="popover" 
 	data-content="<p>Generar Excel y enviármelo como correo electrónico adjunto. 
 	<b>Nota:</b> máximo 20 mil celdas.</p>">
-	<button class="btn btn-fab btn-raised btn-material-blue mdi-content-send" style="display:none;" id="btnGenerateReport" type="button">
 		<div class="ripple-wrapper"></div>
 	</button>
 </div>
 
 <!-- BOTON MATERIAL MENU -->
-<div class="search-btn" align="right" id="btnPop" rel="popover" data-animation="true" data-trigger="hover" 
+<div class="search-btn" align="right">
+	<button class="btn btn-fab btn-raised btn-material-red mdi-action-search" id="showMenu" 
+	type="button" rel="popover" data-animation="true" data-trigger="hover" 
 	data-html="true" data-placement="left" data-container="body" data-toggle="popover" 
 	data-content="<p>Click para abrir panel de filtro por fechas de período.</p>">
-	<button class="btn btn-fab btn-raised btn-material-red mdi-action-search" id="showMenu" type="button">
 		<div class="ripple-wrapper"></div>
 	</button>
 </div>

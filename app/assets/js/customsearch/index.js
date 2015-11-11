@@ -334,11 +334,11 @@ function validaRut ( rut ) {
   };
 };
 
-$( 'div' ).on( "mouseover", '#btnPop', function () {
+$( 'button' ).on( "mouseover", function () {
 	$( this ).popover( 'show' );
 });
 
-$( 'div' ).on( "mouseout", '#btnPop', function () {
+$( 'button' ).on( "mouseout", function () {
 	$( this ).popover( 'hide' );
 });
 
