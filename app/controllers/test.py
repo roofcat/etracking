@@ -23,68 +23,10 @@ from app.models.email import JSONEncoder
 from config.jinja_environment import JINJA_ENVIRONMENT
 
 
-class RenderIndexTestHandler(webapp2.RequestHandler):
+class TestQueriesHandler(webapp2.RequestHandler):
 
     def get(self):
-        template = JINJA_ENVIRONMENT.get_template("test/index.html")
-        self.response.write(template.render())
-
-
-class QueryDashTestHandler(webapp2.RequestHandler):
-
-    def get(self):
-        date_from, date_to = 1443668400, 1446692400
-        date_from = datetime.datetime.fromtimestamp(date_from)
-        date_to = datetime.datetime.fromtimestamp(date_to)
-        context = {
-            'data': [],
-        }
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.write(json.dumps(context))
-
-
-class QueriesPaginacionHandler(webapp2.RequestHandler):
-    """ Probando paginación """
-
-    def get(self):
-        sEcho = self.request.get('sEcho')
-        sEcho = int(sEcho, base=10)
-        logging.info(sEcho)
-        iDisplayStart = self.request.get('iDisplayStart')
-        iDisplayStart = int(iDisplayStart, base=10)
-        logging.info('iDisplayStart')
-        logging.info(iDisplayStart)
-        iDisplayLength = self.request.get('iDisplayLength')
-        iDisplayLength = int(iDisplayLength, base=10)
-        logging.info('iDisplayLength')
-        logging.info(iDisplayLength)
-        iSortCol_0 = self.request.get('iSortCol_0')
-        logging.info(iSortCol_0)
-        iSortingCols = self.request.get('iSortingCols')
-        logging.info(iSortingCols)
-        sSearch = self.request.get('sSearch')
-        logging.info(sSearch)
-        aColumns = self.request.get('aColumns')
-        logging.info(aColumns)
-        query = EmailModel.query()
-        query = query.order(-EmailModel.input_datetime)
-        iTotalRecords = query.count()
-        query = query.fetch(iDisplayLength, offset=iDisplayStart)
-        iTotalDisplayRecords = len(query)
-        logging.info("iTotalDisplayRecords")
-        logging.info(iTotalDisplayRecords)
-        context = {
-            'sEcho': sEcho,
-            'aaData': JSONEncoder().default(query),
-            #'iTotalDisplayRecords': iTotalDisplayRecords,
-            'iTotalDisplayRecords': iTotalRecords,
-            'iTotalRecords': iTotalRecords,
-        }
-        logging.info(context['sEcho'])
-        logging.info(context['iTotalDisplayRecords'])
-        logging.info(context['iTotalRecords'])
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.write(json.dumps(context))
+        pass
 
 
 class QueriesCursorHandler(webapp2.RequestHandler):

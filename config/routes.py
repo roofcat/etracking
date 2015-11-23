@@ -72,9 +72,7 @@ from app.controllers.errorhandler_controller import handle_500
 
 
 # imports para pruebas
-from app.controllers.test import RenderIndexTestHandler
-from app.controllers.test import QueriesPaginacionHandler
-from app.controllers.test import QueryDashTestHandler
+from app.controllers.test import TestQueriesHandler
 
 
 # Decorador para oauth2
@@ -148,9 +146,7 @@ app = webapp2.WSGIApplication([
     (r'/revoke/$', RevokeHandler),
 
     # Pruebas y experimentos xd
-    (r'/test/$', RenderIndexTestHandler),
-    (r'/testcursor/', QueriesPaginacionHandler),
-    (r'/testdash/', QueryDashTestHandler),
+    (r'/test-queries/', TestQueriesHandler),
 
     # rutas OAuth2 Google
     (decorator.callback_path, decorator.callback_handler()),
